@@ -1,0 +1,1007 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Kvaser.KvrLib</name>
+    </assembly>
+    <members>
+        <member name="F:Kvaser.KvrLib.KvrLibDLL.MAX_STRING_SIZE">
+            <summary>Maximum size of strings.</summary>
+        </member>
+        <member name="F:Kvaser.KvrLib.KvrLibDLL.MAX_SECURITY_STRING_LENGTH">
+            <summary>Maximum size of security strings .</summary>
+        </member>
+        <member name="F:Kvaser.KvrLib.KvrLibDLL.MAX_LIST_SIZE">
+            <summary>Maximum size of device lists .</summary>
+        </member>
+        <member name="F:Kvaser.KvrLib.KvrLibDLL.MAX_ERR_BUFFER_SIZE">
+            <summary>Maximum size of err msg.</summary>
+        </member>
+        <member name="F:Kvaser.KvrLib.KvrLibDLL.MAX_XML_BUFFER_SIZE">
+            <summary>Maximum size of xml config.</summary>
+        </member>
+        <member name="F:Kvaser.KvrLib.KvrLibDLL.MAX_ADDRESS_LIST_SIZE">
+            <summary>Maximum size of address list.</summary>
+        </member>
+        <member name="M:Kvaser.KvrLib.KvrLibDLL.#cctor">
+            <summary>
+            Static constructor, sets DLL search path to the SDK folder.
+            </summary>
+        </member>
+        <member name="T:Kvaser.KvrLib.KvrLibDLL.kvrAddress">
+            <summary> Device address.</summary>
+        </member>
+        <member name="F:Kvaser.KvrLib.KvrLibDLL.kvrAddress.ADDRESS_SIZE">
+            <summary>Address size</summary>
+        </member>
+        <member name="T:Kvaser.KvrLib.KvrLibDLL.kvrCipherInfoElement">
+            <summary>
+              Capability of a WLAN AP. These are values from the standard 802.11 beacon.
+             <para>&#160;</para>
+              To convert the security information into a more human readable form,
+              use <see cref="M:Kvaser.KvrLib.KvrLibDLL.kvrWlanGetSecurityText(System.Byte[],System.UInt32,System.UInt32,System.UInt32,Kvaser.KvrLib.KvrLibDLL.kvrCipherInfoElement@,Kvaser.KvrLib.KvrLibDLL.kvrCipherInfoElement@)"/>.
+            </summary>
+        </member>
+        <member name="T:Kvaser.KvrLib.KvrLibDLL.kvrDeviceInfo">
+            <summary>
+              Holds information about a discovered device.
+             <para>&#160;</para>
+              The information in here is returned when a device is discovered.
+              For a WLAN connected device, device_address and client_address are IP
+              addresses, and base_station_id is the ethernet MAC address of the AP.
+             <para>&#160;</para>
+              Depending on the "availability" flag, not all fields may be used. If
+              "availability" includes the flag <see cref="F:Kvaser.KvrLib.Kvrlib.Availability.STORED"/> the following
+              fields are set: ean_hi, ean_lo, ser_no, device_address, request_connection,
+              name and accessibility_pwd.
+             <para>&#160;</para>
+              If the field "availability" includes the flag
+              <see cref="F:Kvaser.KvrLib.Kvrlib.Availability.FOUND_BY_SCAN"/>, the following fields are set: fw_major_ver,
+              fw_minor_ver, fw_build_ver, usage, accessibility, host_name and
+              client_address.
+            </summary>
+        </member>
+        <member name="F:Kvaser.KvrLib.KvrLibDLL.kvrDeviceInfo.ean_hi">
+            Size of struct, used for compatibility.
+        </member>
+        <member name="F:Kvaser.KvrLib.KvrLibDLL.kvrDeviceInfo.ean_lo">
+            High part of EAN.
+        </member>
+        <member name="F:Kvaser.KvrLib.KvrLibDLL.kvrDeviceInfo.ser_no">
+            Low part of EAN.
+        </member>
+        <member name="F:Kvaser.KvrLib.KvrLibDLL.kvrDeviceInfo.fw_major_ver">
+            Serial number.
+        </member>
+        <member name="F:Kvaser.KvrLib.KvrLibDLL.kvrDeviceInfo.fw_minor_ver">
+            Major firmware version.
+        </member>
+        <member name="F:Kvaser.KvrLib.KvrLibDLL.kvrDeviceInfo.fw_build_ver">
+            Minor firmware version.
+        </member>
+        <member name="F:Kvaser.KvrLib.KvrLibDLL.kvrDeviceInfo.name">
+            Firmware build version.
+        </member>
+        <member name="F:Kvaser.KvrLib.KvrLibDLL.kvrDeviceInfo.host_name">
+            User-defined name.
+        </member>
+        <member name="F:Kvaser.KvrLib.KvrLibDLL.kvrDeviceInfo.usage">
+            DNS hostname or empty.
+        </member>
+        <member name="F:Kvaser.KvrLib.KvrLibDLL.kvrDeviceInfo.accessibility">
+            kvrDeviceUsage_xxx.
+        </member>
+        <member name="F:Kvaser.KvrLib.KvrLibDLL.kvrDeviceInfo.accessibility_pwd">
+            kvrAccessibility_xxx.
+        </member>
+        <member name="F:Kvaser.KvrLib.KvrLibDLL.kvrDeviceInfo.device_address">
+            Accessibility password or empty.
+        </member>
+        <member name="F:Kvaser.KvrLib.KvrLibDLL.kvrDeviceInfo.client_address">
+            Address of remote device.
+        </member>
+        <member name="F:Kvaser.KvrLib.KvrLibDLL.kvrDeviceInfo.base_station_id">
+            Address of connected client, if any.
+        </member>
+        <member name="F:Kvaser.KvrLib.KvrLibDLL.kvrDeviceInfo.request_connection">
+            Unique ID of base station, if any.
+        </member>
+        <member name="F:Kvaser.KvrLib.KvrLibDLL.kvrDeviceInfo.availability">
+            Activate or deactivate a request for connection to a specified device.
+            Activation means that the device will be connected to when it appears in the future.
+        </member>
+        <member name="F:Kvaser.KvrLib.KvrLibDLL.kvrDeviceInfo.encryption_key">
+            The device availability. One or more <see cref="T:Kvaser.KvrLib.Kvrlib.Availability"/> flags.
+        </member>
+        <member name="F:Kvaser.KvrLib.KvrLibDLL.kvrDeviceInfo.reserved1">
+            Encryption key.
+        </member>
+        <member name="F:Kvaser.KvrLib.KvrLibDLL.kvrDeviceInfo.MAX_NAME_SIZE">
+            <summary>Maximum size of name buffers.</summary>
+        </member>
+        <member name="F:Kvaser.KvrLib.KvrLibDLL.kvrDeviceInfo.MAX_ENCRYPTION_KEY_SIZE">
+            <summary>Maximum size of encryption key.</summary>
+        </member>
+        <member name="F:Kvaser.KvrLib.KvrLibDLL.kvrDeviceInfo.MAX_PASSWORD_SIZE">
+            <summary>Maximum size of password buffers.</summary>
+        </member>
+        <member name="T:Kvaser.KvrLib.Kvrlib">
+            <summary>
+            Library for interacting with remote devices. (Currently Windows only)
+            </summary>
+        </member>
+        <member name="M:Kvaser.KvrLib.Kvrlib.AddressFromString(Kvaser.KvrLib.Kvrlib.AddressType,Kvaser.KvrLib.Kvrlib.Address@,System.String)">
+             <summary>Convert a string into a <see cref="T:Kvaser.KvrLib.Kvrlib.Address"/>.
+             <para>&#160;</para>
+             Examples:
+             <para>&#160;</para>
+             •MAC address
+             address_string: "90:E6:BA:3C:32:12"
+             type: <see cref="F:Kvaser.KvrLib.Kvrlib.AddressType.MAC"/>
+             <para>&#160;</para>
+             •IP v.4
+             address_string: "192.168.1.142"
+             type: <see cref="F:Kvaser.KvrLib.Kvrlib.AddressType.IPV4"/>
+             <para>&#160;</para>
+             •IP v.4 with port
+             address_string: "192.168.1.142:8080"
+             type: <see cref="F:Kvaser.KvrLib.Kvrlib.AddressType.IPV4_PORT"/>
+            </summary>
+             <param name="address_type"><see cref="T:Kvaser.KvrLib.Kvrlib.AddressType"/> to convert into. </param>
+             <param name="address">Returned address.</param>
+             <param name="address_string">String to convert.</param>
+             <returns><see cref="F:Kvaser.KvrLib.Kvrlib.Status.OK"/> if success, any other <see cref="T:Kvaser.KvrLib.Kvrlib.Status"/> on failure.</returns>
+        </member>
+        <member name="M:Kvaser.KvrLib.Kvrlib.ConfigActiveProfileGet(System.Int32,System.Int32@)">
+            <summary>Get active profile.</summary>
+            <param name="can_channel_no">CAN channel number </param>
+            <param name="profile_number">Profile number</param>
+            <returns><see cref="F:Kvaser.KvrLib.Kvrlib.Status.OK"/> if success, any other <see cref="T:Kvaser.KvrLib.Kvrlib.Status"/> on failure.</returns>
+        </member>
+        <member name="M:Kvaser.KvrLib.Kvrlib.ConfigActiveProfileSet(System.Int32,System.Int32)">
+            <summary>Set active profile.</summary>
+            <param name="can_channel_no">CAN channel number </param>
+            <param name="profile_number">Profile number</param>
+            <returns><see cref="F:Kvaser.KvrLib.Kvrlib.Status.OK"/> if success, any other <see cref="T:Kvaser.KvrLib.Kvrlib.Status"/> on failure.</returns>
+        </member>
+        <member name="M:Kvaser.KvrLib.Kvrlib.ConfigClear(Kvaser.KvrLib.Kvrlib.ConfigHnd)">
+            <summary>Clear the device configuration area. This will also clear any previously set device password.
+            The handle must be opened <see cref="F:Kvaser.KvrLib.Kvrlib.ConfigMode.ERASE"/> and closed with <see cref="M:Kvaser.KvrLib.Kvrlib.ConfigClose(Kvaser.KvrLib.Kvrlib.ConfigHnd)"/>.
+            </summary>
+            <param name="ch">A configuration handle.</param>
+            <returns><see cref="F:Kvaser.KvrLib.Kvrlib.Status.OK"/> if success, any other <see cref="T:Kvaser.KvrLib.Kvrlib.Status"/> on failure.</returns>
+        </member>
+        <member name="M:Kvaser.KvrLib.Kvrlib.ConfigClose(Kvaser.KvrLib.Kvrlib.ConfigHnd)">
+            <summary>Closes the device's configuration area without programming it. Programming is done with <see cref="M:Kvaser.KvrLib.Kvrlib.ConfigSet(Kvaser.KvrLib.Kvrlib.ConfigHnd,System.String)"/>.
+            <para>&#160;</para>
+            When using <see cref="F:Kvaser.KvrLib.Kvrlib.ConfigMode.RW"/> or <see cref="F:Kvaser.KvrLib.Kvrlib.ConfigMode.ERASE"/>, a pause of ~2 seconds is needed after <see cref="M:Kvaser.KvrLib.Kvrlib.ConfigClose(Kvaser.KvrLib.Kvrlib.ConfigHnd)"/>,
+            to allow CANlib time to discard the device</summary>
+            <param name="ch">A configuration handle.</param>
+        </member>
+        <member name="M:Kvaser.KvrLib.Kvrlib.ConfigGet(Kvaser.KvrLib.Kvrlib.ConfigHnd,System.String@)">
+            <summary>Reads the device configuration. On successful return, the string will contain a valid string with the configuration in XML format.
+            The handle must be opened <see cref="F:Kvaser.KvrLib.Kvrlib.ConfigMode.R"/> or <see cref="F:Kvaser.KvrLib.Kvrlib.ConfigMode.RW"/> and closed with <see cref="M:Kvaser.KvrLib.Kvrlib.ConfigClose(Kvaser.KvrLib.Kvrlib.ConfigHnd)"/>.</summary>
+            <param name="ch">A configuration handle.</param>
+            <param name="xml_buffer">Received configuration as string. </param>
+            <returns><see cref="F:Kvaser.KvrLib.Kvrlib.Status.OK"/> if success, any other <see cref="T:Kvaser.KvrLib.Kvrlib.Status"/> on failure.</returns>
+        </member>
+        <member name="M:Kvaser.KvrLib.Kvrlib.ConfigInfoGet(System.Int32,System.Int32,System.String@)">
+            <summary>Reads a simplified version of A device configuration PROFILE. On successful return, the buffer will contain a valid string of this in XML format.
+            Since the function takes a CAN channel rather than a <see cref="T:Kvaser.KvrLib.Kvrlib.ConfigHnd"/>, it is not necessary to know the configuration password.
+            Note that the partial XML data returned is not enough to reconfigure a device.</summary>
+            <param name="can_channel_no">CAN channel number </param>
+            <param name="profile_no">Profile number</param>
+            <param name="xml_buffer">Received config info as string</param>
+            <returns><see cref="F:Kvaser.KvrLib.Kvrlib.Status.OK"/> if success, any other <see cref="T:Kvaser.KvrLib.Kvrlib.Status"/> on failure.</returns>
+        </member>
+        <member name="M:Kvaser.KvrLib.Kvrlib.ConfigNoProfilesGet(System.Int32,System.Int32@)">
+            <summary>Get the maximum number of profile(s) the device can store.</summary>
+            <param name="can_channel_no">CAN channel number </param>
+            <param name="no_profiles">Number of profiles</param>
+            <returns><see cref="F:Kvaser.KvrLib.Kvrlib.Status.OK"/> if success, any other <see cref="T:Kvaser.KvrLib.Kvrlib.Status"/> on failure.</returns>
+        </member>
+        <member name="M:Kvaser.KvrLib.Kvrlib.ConfigOpen(System.Int32,Kvaser.KvrLib.Kvrlib.ConfigMode,System.String,Kvaser.KvrLib.Kvrlib.ConfigHnd@)">
+             <summary>Open a configuration handle to the device. It should later be closed with <see cref="M:Kvaser.KvrLib.Kvrlib.ConfigClose(Kvaser.KvrLib.Kvrlib.ConfigHnd)"/>.
+              This configuration handle is used both for changing the device configuration, reading status information, e.g. <see cref="M:Kvaser.KvrLib.Kvrlib.NetworkGetConnectionStatus(Kvaser.KvrLib.Kvrlib.ConfigHnd,Kvaser.KvrLib.Kvrlib.NetworkState@,System.Int32@,System.Int32@,System.Int32@,System.Int32@,System.Int32@)"/>,
+              and issuing some other commands such as e.g. <see cref="M:Kvaser.KvrLib.Kvrlib.NetworkConnectionTest(Kvaser.KvrLib.Kvrlib.ConfigHnd,System.Int32)"/> and <see cref="M:Kvaser.KvrLib.Kvrlib.WlanStartScan(Kvaser.KvrLib.Kvrlib.ConfigHnd,System.Int32,Kvaser.KvrLib.Kvrlib.Bss,Kvaser.KvrLib.Kvrlib.RegulatoryDomain)"/>.
+              <para>&#160;</para>
+              To change the configuration, you need to open the configuration with <see cref="F:Kvaser.KvrLib.Kvrlib.ConfigMode.RW"/> before calling <see cref="M:Kvaser.KvrLib.Kvrlib.ConfigSet(Kvaser.KvrLib.Kvrlib.ConfigHnd,System.String)"/>.
+              To read the configuration, you can open the configuration with either <see cref="F:Kvaser.KvrLib.Kvrlib.ConfigMode.RW"/> or <see cref="F:Kvaser.KvrLib.Kvrlib.ConfigMode.R"/> before calling <see cref="M:Kvaser.KvrLib.Kvrlib.ConfigGet(Kvaser.KvrLib.Kvrlib.ConfigHnd,System.String@)"/>.
+              <para>&#160;</para>
+              Setting a password is done through the configuration(with <see cref="M:Kvaser.KvrLib.Kvrlib.ConfigSet(Kvaser.KvrLib.Kvrlib.ConfigHnd,System.String)"/>). Resetting a password can be done by erasing the whole configuration with  <see cref="M:Kvaser.KvrLib.Kvrlib.ConfigClear(Kvaser.KvrLib.Kvrlib.ConfigHnd)"/>,
+              while first opening the configuration with <see cref="F:Kvaser.KvrLib.Kvrlib.ConfigMode.ERASE"/> and supplying an empty password.
+              <para>&#160;</para>
+              Before calling any other function, you must open the configuration with <see cref="F:Kvaser.KvrLib.Kvrlib.ConfigMode.R"/> .
+            </summary>
+             <param name="can_channel_no">CAN channel number.</param>
+             <param name="mode">Can be set to one of <see cref="T:Kvaser.KvrLib.Kvrlib.ConfigMode"/></param>
+             <param name="password">The password as a string. Use an empty string, i.e. "", if no password is required. </param>
+             <param name="ch">A configuration handle</param>
+             <returns><see cref="F:Kvaser.KvrLib.Kvrlib.Status.OK"/> if success, any other <see cref="T:Kvaser.KvrLib.Kvrlib.Status"/> on failure.</returns>
+        </member>
+        <member name="M:Kvaser.KvrLib.Kvrlib.ConfigOpenEx(System.Int32,Kvaser.KvrLib.Kvrlib.ConfigMode,System.String,Kvaser.KvrLib.Kvrlib.ConfigHnd@,System.Int32)">
+             <summary>Open a configuration handle to the device. It should later be closed with <see cref="M:Kvaser.KvrLib.Kvrlib.ConfigClose(Kvaser.KvrLib.Kvrlib.ConfigHnd)"/>.
+              This configuration handle is used both for changing the device configuration, reading status information, e.g. <see cref="M:Kvaser.KvrLib.Kvrlib.NetworkGetConnectionStatus(Kvaser.KvrLib.Kvrlib.ConfigHnd,Kvaser.KvrLib.Kvrlib.NetworkState@,System.Int32@,System.Int32@,System.Int32@,System.Int32@,System.Int32@)"/>,
+              and issuing some other commands such as e.g. <see cref="M:Kvaser.KvrLib.Kvrlib.NetworkConnectionTest(Kvaser.KvrLib.Kvrlib.ConfigHnd,System.Int32)"/> and <see cref="M:Kvaser.KvrLib.Kvrlib.WlanStartScan(Kvaser.KvrLib.Kvrlib.ConfigHnd,System.Int32,Kvaser.KvrLib.Kvrlib.Bss,Kvaser.KvrLib.Kvrlib.RegulatoryDomain)"/>.
+              <para>&#160;</para>
+              To change the configuration, you need to open the configuration with <see cref="F:Kvaser.KvrLib.Kvrlib.ConfigMode.RW"/> before calling <see cref="M:Kvaser.KvrLib.Kvrlib.ConfigSet(Kvaser.KvrLib.Kvrlib.ConfigHnd,System.String)"/>.
+              To read the configuration, you can open the configuration with either <see cref="F:Kvaser.KvrLib.Kvrlib.ConfigMode.RW"/> or <see cref="F:Kvaser.KvrLib.Kvrlib.ConfigMode.R"/> before calling <see cref="M:Kvaser.KvrLib.Kvrlib.ConfigGet(Kvaser.KvrLib.Kvrlib.ConfigHnd,System.String@)"/>.
+              <para>&#160;</para>
+              Setting a password is done through the configuration(with <see cref="M:Kvaser.KvrLib.Kvrlib.ConfigSet(Kvaser.KvrLib.Kvrlib.ConfigHnd,System.String)"/>). Resetting a password can be done by erasing the whole configuration with  <see cref="M:Kvaser.KvrLib.Kvrlib.ConfigClear(Kvaser.KvrLib.Kvrlib.ConfigHnd)"/>,
+              while first opening the configuration with <see cref="F:Kvaser.KvrLib.Kvrlib.ConfigMode.ERASE"/> and supplying an empty password.
+              <para>&#160;</para>
+              Before calling any other function, you must open the configuration with <see cref="F:Kvaser.KvrLib.Kvrlib.ConfigMode.R"/> .
+              <para>&#160;</para>
+              The profile number is used to open a specific profile.
+            </summary>
+             <param name="can_channel_no">CAN channel number.</param>
+             <param name="mode">Can be set to one of <see cref="T:Kvaser.KvrLib.Kvrlib.ConfigMode"/></param>
+             <param name="password">The password as a string. Use an empty string, i.e. "", if no password is required. </param>
+             <param name="ch">A configuration handle</param>
+             <param name="profile_no">Profile number</param>
+             <returns><see cref="F:Kvaser.KvrLib.Kvrlib.Status.OK"/> if success, any other <see cref="T:Kvaser.KvrLib.Kvrlib.Status"/> on failure.</returns>
+        </member>
+        <member name="M:Kvaser.KvrLib.Kvrlib.ConfigSet(Kvaser.KvrLib.Kvrlib.ConfigHnd,System.String)">
+            <summary>Set the device configuration. The area is erased before it is programmed.
+            The handle must be opened <see cref="F:Kvaser.KvrLib.Kvrlib.ConfigMode.RW"/> and closed with <see cref="M:Kvaser.KvrLib.Kvrlib.ConfigClose(Kvaser.KvrLib.Kvrlib.ConfigHnd)"/> afterward.
+            If the XML input creates any errors, <see cref="F:Kvaser.KvrLib.Kvrlib.Status.PARAMETER"/> will be returned.</summary>
+            <param name="ch">A configuration handle.</param>
+            <param name="xml_buffer">A string containing a valid XML config.</param>
+            <returns><see cref="F:Kvaser.KvrLib.Kvrlib.Status.OK"/> if success, any other <see cref="T:Kvaser.KvrLib.Kvrlib.Status"/> on failure.</returns>
+        </member>
+        <member name="M:Kvaser.KvrLib.Kvrlib.ConfigVerifyXml(System.String,System.String@)">
+            <summary>Verify that the xml buffer complies with both the DTD and internal restrictions.
+            If the XML input creates any errors and err_buffer is to small to hold the resulting error message,
+            <see cref="F:Kvaser.KvrLib.Kvrlib.Status.BUFFER_TOO_SMALL"/> will be returned and err_buffer will hold a truncated error message.
+            If the err_buffer is big enough, <see cref="F:Kvaser.KvrLib.Kvrlib.Status.XML_VALIDATION"/> will be returned.</summary>
+            <param name="xml_buffer">A string containing an XML configuration.</param>
+            <param name="err_buffer">A string that will hold any error messages.</param>
+            <returns><see cref="F:Kvaser.KvrLib.Kvrlib.Status.OK"/> if success, any other <see cref="T:Kvaser.KvrLib.Kvrlib.Status"/> on failure.</returns>
+        </member>
+        <member name="M:Kvaser.KvrLib.Kvrlib.DeviceGetServiceStatus(Kvaser.KvrLib.Kvrlib.DeviceInfo,Kvaser.KvrLib.Kvrlib.ServiceState@,Kvaser.KvrLib.Kvrlib.StartInfo@)">
+            <summary>Returns local connection status of the selected device.</summary>
+            <param name="device_info">The device to request the status information from. </param>
+            <param name="state">The service state as a <see cref="T:Kvaser.KvrLib.Kvrlib.ServiceState"/></param>
+            <param name="start_info">The start information as a <see cref="T:Kvaser.KvrLib.Kvrlib.StartInfo"/></param>
+            <returns><see cref="F:Kvaser.KvrLib.Kvrlib.Status.OK"/> if success, any other <see cref="T:Kvaser.KvrLib.Kvrlib.Status"/> on failure.</returns>
+        </member>
+        <member name="M:Kvaser.KvrLib.Kvrlib.DeviceGetServiceStatusText(Kvaser.KvrLib.Kvrlib.DeviceInfo,System.String@)">
+            <summary>Returns local connection status of the selected device as ASCII text.</summary>
+            <param name="device_info">The device to request the status information from. </param>
+            <param name="status_text">The service status as a string. </param>
+            <returns><see cref="F:Kvaser.KvrLib.Kvrlib.Status.OK"/> if success, any other <see cref="T:Kvaser.KvrLib.Kvrlib.Status"/> on failure.</returns>
+        </member>
+        <member name="M:Kvaser.KvrLib.Kvrlib.DiscoveryClearDevicesAtExit(System.Boolean)">
+            <summary>Turn automatic clearing of the stored devices on/off.</summary>
+            <param name="onoff">Turn auto-clear on/off. TRUE: Stored devices will be cleared automatically when the application exits, even if the application terminates abnormally.
+                                                        FALSE: Stored devices will be stored until removed.</param>
+            <returns><see cref="F:Kvaser.KvrLib.Kvrlib.Status.OK"/> if success, any other <see cref="T:Kvaser.KvrLib.Kvrlib.Status"/> on failure.</returns>
+        </member>
+        <member name="M:Kvaser.KvrLib.Kvrlib.DiscoveryClose(Kvaser.KvrLib.Kvrlib.DiscoveryHnd)">
+            <summary>Closes the discovery handle opened with <see cref="M:Kvaser.KvrLib.Kvrlib.DiscoveryOpen(Kvaser.KvrLib.Kvrlib.DiscoveryHnd@)"/>.</summary>
+            <param name="dh">Discovery handle.</param>
+            <returns><see cref="F:Kvaser.KvrLib.Kvrlib.Status.OK"/> if success, any other <see cref="T:Kvaser.KvrLib.Kvrlib.Status"/> on failure.</returns>
+        </member>
+        <member name="M:Kvaser.KvrLib.Kvrlib.DiscoveryGetDefaultAddresses(Kvaser.KvrLib.Kvrlib.Address[]@,Kvaser.KvrLib.Kvrlib.AddressTypeFlag)">
+            <summary>Read out the list of default broadcast addresses. If address_type_flags is set to <see cref="F:Kvaser.KvrLib.Kvrlib.AddressTypeFlag.ALL"/> the returned list will
+            contain all found addresses (both broadcast addresses and earlier stored addresses).</summary>
+            <param name="address_list">An array of addresses.</param>
+            <param name="address_type_flags">Which <see cref="T:Kvaser.KvrLib.Kvrlib.AddressTypeFlag"/> types of addresses to return</param>
+            <returns><see cref="F:Kvaser.KvrLib.Kvrlib.Status.OK"/> if success, any other <see cref="T:Kvaser.KvrLib.Kvrlib.Status"/> on failure.</returns>
+        </member>
+        <member name="M:Kvaser.KvrLib.Kvrlib.DiscoveryGetResults(Kvaser.KvrLib.Kvrlib.DiscoveryHnd,Kvaser.KvrLib.Kvrlib.DeviceInfo@)">
+            <summary>Call this after calling <see cref="M:Kvaser.KvrLib.Kvrlib.DiscoveryStart(Kvaser.KvrLib.Kvrlib.DiscoveryHnd,System.Int32,System.Int32)"/>. The first call will return the first result, second call will return the second etc.
+            Will return found devices until <see cref="F:Kvaser.KvrLib.Kvrlib.Status.BLANK"/> is returned.</summary>
+            <param name="dh">Discovery handle.</param>
+            <param name="device_info">Device info.</param>
+            <returns><see cref="F:Kvaser.KvrLib.Kvrlib.Status.OK"/> if success, any other <see cref="T:Kvaser.KvrLib.Kvrlib.Status"/> on failure.</returns>
+        </member>
+        <member name="M:Kvaser.KvrLib.Kvrlib.DiscoveryOpen(Kvaser.KvrLib.Kvrlib.DiscoveryHnd@)">
+            <summary>Create a handle for device discovery. Close with <see cref="M:Kvaser.KvrLib.Kvrlib.DiscoveryClose(Kvaser.KvrLib.Kvrlib.DiscoveryHnd)"/>.</summary>
+            <param name="dh">Discovery handle.</param>
+            <returns><see cref="F:Kvaser.KvrLib.Kvrlib.Status.OK"/> if success, any other <see cref="T:Kvaser.KvrLib.Kvrlib.Status"/> on failure.</returns>
+        </member>
+        <member name="M:Kvaser.KvrLib.Kvrlib.DiscoverySetAddresses(Kvaser.KvrLib.Kvrlib.DiscoveryHnd,Kvaser.KvrLib.Kvrlib.Address[])">
+            <summary>Set a list of addresses to use for discovery (overwrites any existing addresses).
+             Calling kvrDiscoverySetAddresses with address_list_size = 0 will cause <see cref="M:Kvaser.KvrLib.Kvrlib.DiscoveryStart(Kvaser.KvrLib.Kvrlib.DiscoveryHnd,System.Int32,System.Int32)"/>
+             to only return stored devices(no network traffic).</summary>
+            <param name="dh">Discovery handle.</param>
+            <param name="address_list">An array of <see cref="T:Kvaser.KvrLib.Kvrlib.Address"/>. </param>
+            <returns><see cref="F:Kvaser.KvrLib.Kvrlib.Status.OK"/> if success, any other <see cref="T:Kvaser.KvrLib.Kvrlib.Status"/> on failure.</returns>
+        </member>
+        <member name="M:Kvaser.KvrLib.Kvrlib.DiscoverySetEncryptionKey(Kvaser.KvrLib.Kvrlib.DeviceInfo,System.String)">
+            <summary>Sets the encryption key to use when encrypting communication.</summary>
+            <param name="device_info">The device to set the password for. </param>
+            <param name="key">The key as a string.</param>
+            <returns><see cref="F:Kvaser.KvrLib.Kvrlib.Status.OK"/> if success, any other <see cref="T:Kvaser.KvrLib.Kvrlib.Status"/> on failure.</returns>
+        </member>
+        <member name="M:Kvaser.KvrLib.Kvrlib.DiscoverySetPassword(Kvaser.KvrLib.Kvrlib.DeviceInfo,System.String)">
+            <summary>Sets the accessibility password to use when connecting to a device.</summary>
+            <param name="device_info">The device to set the password for. </param>
+            <param name="password">The password as a string.</param>
+            <returns><see cref="F:Kvaser.KvrLib.Kvrlib.Status.OK"/> if success, any other <see cref="T:Kvaser.KvrLib.Kvrlib.Status"/> on failure.</returns>
+        </member>
+        <member name="M:Kvaser.KvrLib.Kvrlib.DiscoveryStart(Kvaser.KvrLib.Kvrlib.DiscoveryHnd,System.Int32,System.Int32)">
+            <summary>Start discovering devices on the addresses previously specified with <see cref="M:Kvaser.KvrLib.Kvrlib.DiscoverySetAddresses(Kvaser.KvrLib.Kvrlib.DiscoveryHnd,Kvaser.KvrLib.Kvrlib.Address[])"/>. A delay of delay_ms ms is inferred between each device address request.
+            After the last device address is probed, one more delay of timeout_ms is added before returning.
+            <para>&#160;</para>
+            This means that the function will return in (about) [address_list_size] * delay_ms + timeout_ms ms
+            <para>&#160;</para>
+            The results can be retrieved using <see cref="M:Kvaser.KvrLib.Kvrlib.DiscoveryGetResults(Kvaser.KvrLib.Kvrlib.DiscoveryHnd,Kvaser.KvrLib.Kvrlib.DeviceInfo@)"/>. A new call to <see cref="M:Kvaser.KvrLib.Kvrlib.DiscoveryStart(Kvaser.KvrLib.Kvrlib.DiscoveryHnd,System.Int32,System.Int32)"/> will discard any results not yet retrieved by <see cref="M:Kvaser.KvrLib.Kvrlib.DiscoveryGetResults(Kvaser.KvrLib.Kvrlib.DiscoveryHnd,Kvaser.KvrLib.Kvrlib.DeviceInfo@)"/>.
+            To decide if an address is a broadcast address, the ip address and subnet mask for all available network cards are considered.
+            Beside returning the devices discovered by scan, it will also return any devices previously stored with <see cref="M:Kvaser.KvrLib.Kvrlib.DiscoveryStoreDevices(Kvaser.KvrLib.Kvrlib.DeviceInfo[])"/>.
+            </summary>
+            <param name="dh">Discovery handle.</param>
+            <param name="delay_ms">Delay (in ms) in between sending discovery messages to addresses in the address list.</param>
+            <param name="timeout_ms">Stop waiting for device discovery after timeout_ms milliseconds.</param>
+            <returns><see cref="F:Kvaser.KvrLib.Kvrlib.Status.OK"/> if success, any other <see cref="T:Kvaser.KvrLib.Kvrlib.Status"/> on failure.</returns>
+        </member>
+        <member name="M:Kvaser.KvrLib.Kvrlib.DiscoveryStartEx(Kvaser.KvrLib.Kvrlib.DiscoveryHnd,System.Int32,System.Int32,System.Boolean)">
+            <summary>
+            An extension of  <see cref="M:Kvaser.KvrLib.Kvrlib.DiscoveryStart(Kvaser.KvrLib.Kvrlib.DiscoveryHnd,System.Int32,System.Int32)"/> that allows to skip devices, which
+            were previously stored by <see cref="M:Kvaser.KvrLib.Kvrlib.DiscoveryStoreDevices(Kvaser.KvrLib.Kvrlib.DeviceInfo[])"/>. If user specifies
+            parameter show_stored as "true", subsequent  <see cref="M:Kvaser.KvrLib.Kvrlib.DiscoveryGetResults(Kvaser.KvrLib.Kvrlib.DiscoveryHnd,Kvaser.KvrLib.Kvrlib.DeviceInfo@)"/>
+            calls will report only those devices that responded to the scan.
+            <para>&#160;</para>
+            A remote device with accessibility set to "private" will not reply to broadcast scan.
+            <para>&#160;</para>
+            If stored devices are ignored, information about them will be unrecoverable
+            after subsequent call to <see cref="M:Kvaser.KvrLib.Kvrlib.DiscoveryStoreDevices(Kvaser.KvrLib.Kvrlib.DeviceInfo[])"/>
+            </summary>
+            <param name="dh">Discovery handle.</param>
+            <param name="delay_ms">Delay (in ms) in between sending discovery messages to addresses in the address list.</param>
+            <param name="timeout_ms">Stop waiting for device discovery after timeout_ms milliseconds.</param>
+            <param name="add_stored">An indication whether stored devices are to be discovered.
+                        true: <see cref="M:Kvaser.KvrLib.Kvrlib.DiscoveryGetResults(Kvaser.KvrLib.Kvrlib.DiscoveryHnd,Kvaser.KvrLib.Kvrlib.DeviceInfo@)"/> will report stored devices.
+                        false: <see cref="M:Kvaser.KvrLib.Kvrlib.DiscoveryGetResults(Kvaser.KvrLib.Kvrlib.DiscoveryHnd,Kvaser.KvrLib.Kvrlib.DeviceInfo@)"/> will not find stored devices.</param>
+            <returns><see cref="F:Kvaser.KvrLib.Kvrlib.Status.OK"/> if success, any other <see cref="T:Kvaser.KvrLib.Kvrlib.Status"/> on failure.</returns>
+        </member>
+        <member name="M:Kvaser.KvrLib.Kvrlib.DiscoveryStartEx(Kvaser.KvrLib.Kvrlib.DiscoveryHnd,System.Int32,System.Int32,System.Int32)">
+            <summary>
+            An extension of  <see cref="M:Kvaser.KvrLib.Kvrlib.DiscoveryStart(Kvaser.KvrLib.Kvrlib.DiscoveryHnd,System.Int32,System.Int32)"/> that allows to skip devices, which
+            were previously stored by <see cref="M:Kvaser.KvrLib.Kvrlib.DiscoveryStoreDevices(Kvaser.KvrLib.Kvrlib.DeviceInfo[])"/>. If user specifies
+            parameter show_stored as "true", subsequent  <see cref="M:Kvaser.KvrLib.Kvrlib.DiscoveryGetResults(Kvaser.KvrLib.Kvrlib.DiscoveryHnd,Kvaser.KvrLib.Kvrlib.DeviceInfo@)"/>
+            calls will report only those devices that responded to the scan.
+            <para>&#160;</para>
+            A remote device with accessibility set to "private" will not reply to broadcast scan.
+            <para>&#160;</para>
+            If stored devices are ignored, information about them will be unrecoverable
+            after subsequent call to <see cref="M:Kvaser.KvrLib.Kvrlib.DiscoveryStoreDevices(Kvaser.KvrLib.Kvrlib.DeviceInfo[])"/>
+            </summary>
+            <param name="dh">Discovery handle.</param>
+            <param name="delay_ms">Delay (in ms) in between sending discovery messages to addresses in the address list.</param>
+            <param name="timeout_ms">Stop waiting for device discovery after timeout_ms milliseconds.</param>
+            <param name="add_stored">An indication whether stored devices are to be discovered.
+                        1: <see cref="M:Kvaser.KvrLib.Kvrlib.DiscoveryGetResults(Kvaser.KvrLib.Kvrlib.DiscoveryHnd,Kvaser.KvrLib.Kvrlib.DeviceInfo@)"/> will report stored devices.
+                        0: <see cref="M:Kvaser.KvrLib.Kvrlib.DiscoveryGetResults(Kvaser.KvrLib.Kvrlib.DiscoveryHnd,Kvaser.KvrLib.Kvrlib.DeviceInfo@)"/> will not find stored devices.</param>
+            <returns><see cref="F:Kvaser.KvrLib.Kvrlib.Status.OK"/> if success, any other <see cref="T:Kvaser.KvrLib.Kvrlib.Status"/> on failure.</returns>
+        </member>
+        <member name="M:Kvaser.KvrLib.Kvrlib.DiscoveryStoreDevices(Kvaser.KvrLib.Kvrlib.DeviceInfo[])">
+            <summary>Store a list of devices that can be discovered later.</summary>
+            <param name="device_info_list">A list of devices to remember.</param>
+            <returns><see cref="F:Kvaser.KvrLib.Kvrlib.Status.OK"/> if success, any other <see cref="T:Kvaser.KvrLib.Kvrlib.Status"/> on failure.</returns>
+        </member>
+        <member name="M:Kvaser.KvrLib.Kvrlib.GetErrorText(Kvaser.KvrLib.Kvrlib.Status,System.String@)">
+            <summary>Convert a <see cref="T:Kvaser.KvrLib.Kvrlib.Status"/> error code to a text.</summary>
+            <param name="error">The error code to convert.</param>
+            <param name="error_text">Error text as string.</param>
+            <returns><see cref="F:Kvaser.KvrLib.Kvrlib.Status.OK"/> if success, any other <see cref="T:Kvaser.KvrLib.Kvrlib.Status"/> on failure.</returns>
+        </member>
+        <member name="M:Kvaser.KvrLib.Kvrlib.GetUTF8Bytes(System.String)">
+            <summary>
+                Create a byte[] containing the utf-8 representation of string stringValue and a terminating'\0' character.
+            </summary>
+        </member>
+        <member name="M:Kvaser.KvrLib.Kvrlib.GetUTF8String(System.Byte[])">
+            <summary>
+                Convert byte[] contents to a string object using the utf-8 decoder.
+            </summary>
+        </member>
+        <member name="M:Kvaser.KvrLib.Kvrlib.GetVersion">
+            <summary>Return the version of the kvrlib DLL. The most significant byte is the major version number and the least significant byte is the minor version number.</summary>
+            <returns>Version number of kvrlib32.dll.</returns>
+        </member>
+        <member name="M:Kvaser.KvrLib.Kvrlib.HostName(System.Int32,System.Int32,System.Int32,System.String@)">
+            <summary>Read the generated Hostname.</summary>
+            <param name="ean_hi">The device EAN_high number. </param>
+            <param name="ean_lo">The device EAN_low number. </param>
+            <param name="ser_no">The device serial number. </param>
+            <param name="host_string">The device Hostname as a string. </param>
+            <returns><see cref="F:Kvaser.KvrLib.Kvrlib.Status.OK"/> if success, any other <see cref="T:Kvaser.KvrLib.Kvrlib.Status"/> on failure.</returns>
+        </member>
+        <member name="M:Kvaser.KvrLib.Kvrlib.InitializeLibrary">
+            <summary>Call this function before calling any other kvr function.</summary>
+        </member>
+        <member name="M:Kvaser.KvrLib.Kvrlib.NetworkConnectionTest(Kvaser.KvrLib.Kvrlib.ConfigHnd,System.Int32)">
+            <summary>Activate or deactivate connection test. When activated, the device will connect and start pinging itself to measure RTT.
+            Use <see cref="M:Kvaser.KvrLib.Kvrlib.NetworkGetRssiRtt(Kvaser.KvrLib.Kvrlib.ConfigHnd,System.Int32[]@,System.Int32[]@)"/> (after a while) to get the latest values.</summary>
+            <param name="ch">A configuration handle.</param>
+            <param name="active">Activate or deactivate connection test.</param>
+            <returns><see cref="F:Kvaser.KvrLib.Kvrlib.Status.OK"/> if success, any other <see cref="T:Kvaser.KvrLib.Kvrlib.Status"/> on failure.</returns>
+        </member>
+        <member name="M:Kvaser.KvrLib.Kvrlib.NetworkGenerateWepKeys(System.String,System.Byte[]@,System.Byte[]@,System.Byte[]@,System.Byte[]@,System.Byte[]@)">
+             <summary>Generates four 64-bit and one 128-bit WEP keys.
+                      All generated keys are returned as ASCII hexadecimal C strings.
+            </summary>
+             <param name="pass_phrase">The pass phrase as a string.</param>
+             <param name="key64_1">Generated 64-bit WEP key 1 (10 + 1 bytes).</param>
+             <param name="key64_2">Generated 64-bit WEP key 2 (10 + 1 bytes).</param>
+             <param name="key64_3">Generated 64-bit WEP key 3 (10 + 1 bytes).</param>
+             <param name="key64_4">Generated 64-bit WEP key 4 (10 + 1 bytes).</param>
+             <param name="key128">Generated 128-bit WEP key (26 + 1 bytes).</param>
+             <returns><see cref="F:Kvaser.KvrLib.Kvrlib.Status.OK"/> if success, any other <see cref="T:Kvaser.KvrLib.Kvrlib.Status"/> on failure.</returns>
+        </member>
+        <member name="M:Kvaser.KvrLib.Kvrlib.NetworkGenerateWpaKeys(System.String,System.String,System.Byte[]@)">
+             <summary>Generates a WPA key.
+            </summary>
+             <param name="pass_phrase">The pass phrase as a string.</param>
+             <param name="ssid">SSID as a string. Maximum length is 32 bytes. </param>
+             <param name="key">The WPA key, 256 bits as a an ASCII hexadecimal C string (64 + 1 bytes).</param>
+             <returns><see cref="F:Kvaser.KvrLib.Kvrlib.Status.OK"/> if success, any other <see cref="T:Kvaser.KvrLib.Kvrlib.Status"/> on failure.</returns>
+        </member>
+        <member name="M:Kvaser.KvrLib.Kvrlib.NetworkGetAddressInfo(Kvaser.KvrLib.Kvrlib.ConfigHnd,Kvaser.KvrLib.Kvrlib.Address@,Kvaser.KvrLib.Kvrlib.Address@,Kvaser.KvrLib.Kvrlib.Address@,Kvaser.KvrLib.Kvrlib.Address@,System.Boolean@)">
+            <summary>Get information about the network address settings.
+            For a WLAN connected device, address1, netmask and gateway are IP addresses and address2 is the MAC address. </summary>
+            <param name="ch">A configuration handle. </param>
+            <param name="address1">The first address associated with the device.</param>
+            <param name="address2">The second address associated with the device.</param>
+            <param name="netmask">The netmask for the device.</param>
+            <param name="gateway">The gateway for the device.</param>
+            <param name="dhcp">The device uses Dynamic Host Configuration Protocol (DHCP).</param>
+            <returns><see cref="F:Kvaser.KvrLib.Kvrlib.Status.OK"/> if success, any other <see cref="T:Kvaser.KvrLib.Kvrlib.Status"/> on failure.</returns>
+        </member>
+        <member name="M:Kvaser.KvrLib.Kvrlib.NetworkGetConnectionStatus(Kvaser.KvrLib.Kvrlib.ConfigHnd,Kvaser.KvrLib.Kvrlib.NetworkState@,System.Int32@,System.Int32@,System.Int32@,System.Int32@,System.Int32@)">
+             <summary>Get information about the network address settings. For a WLAN connected device, address1, netmask and gateway are IP addresses and address2 is the MAC address.
+            </summary>
+             <param name="ch">A configuration handle. </param>
+             <param name="state">Network connection state, <see cref="T:Kvaser.KvrLib.Kvrlib.NetworkState"/>. </param>
+             <param name="tx_rate">Transmit rate in kbit/s.</param>
+             <param name="rx_rate">Receive rate in kbit/s.</param>
+             <param name="channel">Channel.</param>
+             <param name="rssi">Receive Signal Strength Indicator (RSSI).</param>
+             <param name="tx_power">Transmit power level in dB.</param>
+             <returns><see cref="F:Kvaser.KvrLib.Kvrlib.Status.OK"/> if success, any other <see cref="T:Kvaser.KvrLib.Kvrlib.Status"/> on failure.</returns>
+        </member>
+        <member name="M:Kvaser.KvrLib.Kvrlib.NetworkGetHostName(Kvaser.KvrLib.Kvrlib.ConfigHnd,System.String@)">
+             <summary>Read the device Hostname.
+            </summary>
+             <param name="ch">A configuration handle. </param>
+             <param name="host_string">The device Hostname as a string. </param>
+             <returns><see cref="F:Kvaser.KvrLib.Kvrlib.Status.OK"/> if success, any other <see cref="T:Kvaser.KvrLib.Kvrlib.Status"/> on failure.</returns>
+        </member>
+        <member name="M:Kvaser.KvrLib.Kvrlib.NetworkGetRssiRtt(Kvaser.KvrLib.Kvrlib.ConfigHnd,System.Int32[]@,System.Int32[]@)">
+             <summary>Get a history of Receive Signal Strength Indicator (RSSI) and round-trip delay time (RTT) from the connection test.
+            </summary>
+             <param name="ch">A configuration handle. </param>
+             <param name="rssiHistory">Signal Strength Indicator. </param>
+             <param name="rttHistory">Round-trip delay time.</param>
+             <returns><see cref="F:Kvaser.KvrLib.Kvrlib.Status.OK"/> if success, any other <see cref="T:Kvaser.KvrLib.Kvrlib.Status"/> on failure.</returns>
+        </member>
+        <member name="M:Kvaser.KvrLib.Kvrlib.ServiceQuery(System.Int32@)">
+             <summary>Queries the status of the helper service. The helper service is installed as a part of the driver package and is normally set to automatic start.
+             <para>&#160;</para>
+             Note: This API call requires control access to the service.
+            </summary>
+             <param name="status">Win32 status code on failure.</param>
+             <returns><see cref="F:Kvaser.KvrLib.Kvrlib.Status.OK"/> if success, any other <see cref="T:Kvaser.KvrLib.Kvrlib.Status"/> on failure.</returns>
+        </member>
+        <member name="M:Kvaser.KvrLib.Kvrlib.ServiceStart(System.Int32@)">
+             <summary>Starts the helper service. The helper service is installed as a part of the driver package and is normally set to automatic start.
+             <para>&#160;</para>
+             Note: This API call requires control access to the service.
+            </summary>
+             <param name="status">Win32 status code on failure.</param>
+             <returns><see cref="F:Kvaser.KvrLib.Kvrlib.Status.OK"/> if success (meaning that the service is starting or already is running), any other <see cref="T:Kvaser.KvrLib.Kvrlib.Status"/> on failure.</returns>
+        </member>
+        <member name="M:Kvaser.KvrLib.Kvrlib.ServiceStop(System.Int32@)">
+             <summary>Stops the helper service. The helper service is installed as a part of the driver package and is normally set to automatic start.
+             <para>&#160;</para>
+             Note: This API call requires control access to the service.
+            </summary>
+             <param name="status">Win32 status code on failure.</param>
+             <returns><see cref="F:Kvaser.KvrLib.Kvrlib.Status.OK"/> if success (meaning that the service is stopping or already is stopped), any other <see cref="T:Kvaser.KvrLib.Kvrlib.Status"/> on failure.</returns>
+        </member>
+        <member name="M:Kvaser.KvrLib.Kvrlib.StringFromAddress(System.String@,Kvaser.KvrLib.Kvrlib.Address)">
+             <summary>Convert a <see cref="T:Kvaser.KvrLib.Kvrlib.Address"/> to a text string. The output format depends on the <see cref="T:Kvaser.KvrLib.Kvrlib.AddressType"/>.
+             buffer_size must be the maximum length for each type. i.e. <see cref="F:Kvaser.KvrLib.Kvrlib.AddressType.IPV4"/> must have a length of at least 16.
+            </summary>
+             <param name="address_string">The converted string as a string.</param>
+             <param name="address">The address to convert.</param>
+             <returns><see cref="F:Kvaser.KvrLib.Kvrlib.Status.OK"/> if success, any other <see cref="T:Kvaser.KvrLib.Kvrlib.Status"/> on failure.</returns>
+        </member>
+        <member name="M:Kvaser.KvrLib.Kvrlib.UnloadLibrary">
+            <summary>Unload library.</summary>
+        </member>
+        <member name="M:Kvaser.KvrLib.Kvrlib.WlanGetScanResults(Kvaser.KvrLib.Kvrlib.ConfigHnd,System.Int32@,System.Int32@,Kvaser.KvrLib.Kvrlib.Address@,Kvaser.KvrLib.Kvrlib.Bss@,System.String@,System.Int32@,System.Int32@,Kvaser.KvrLib.Kvrlib.CipherInfoElement@,Kvaser.KvrLib.Kvrlib.CipherInfoElement@)">
+             <summary>Get results from WLAN scan. Call <see cref="M:Kvaser.KvrLib.Kvrlib.WlanGetScanResults(Kvaser.KvrLib.Kvrlib.ConfigHnd,System.Int32@,System.Int32@,Kvaser.KvrLib.Kvrlib.Address@,Kvaser.KvrLib.Kvrlib.Bss@,System.String@,System.Int32@,System.Int32@,Kvaser.KvrLib.Kvrlib.CipherInfoElement@,Kvaser.KvrLib.Kvrlib.CipherInfoElement@)"/> until it returns <see cref="F:Kvaser.KvrLib.Kvrlib.Status.BLANK"/> to mark that no more information is available from this scan.
+            <para>&#160;</para>
+            To convert the security information into a more human readable form, use <see cref="M:Kvaser.KvrLib.Kvrlib.WlanGetSecurityText(System.String@,System.Int32,System.Int32,Kvaser.KvrLib.Kvrlib.CipherInfoElement,Kvaser.KvrLib.Kvrlib.CipherInfoElement)"/>.
+            </summary>
+             <param name="ch">A configuration handle. </param>
+             <param name="rssi">Receive Signal Strength Indicator (RSSI). </param>
+             <param name="channel">WLAN Channel. </param>
+             <param name="mac">Media Access Control address. </param>
+             <param name="bss_type">Basic Service Set (BSS) (see <see cref="T:Kvaser.KvrLib.Kvrlib.Bss"/>). </param>
+             <param name="ssid">Service Set Identifier(SSID) as a C string. Maximum length is 32 bytes. </param>
+             <param name="capability">The advertised capabilities of the BSS. </param>
+             <param name="type_wpa">Only type 1 (802.1X) is supported for connection. </param>
+             <param name="wpa_info">Advertised information for WPA (see <see cref="T:Kvaser.KvrLib.Kvrlib.CipherInfoElement"/>). </param>
+             <param name="rsn_info">Advertised information for RSN (see <see cref="T:Kvaser.KvrLib.Kvrlib.CipherInfoElement"/>).</param>
+             <returns><see cref="F:Kvaser.KvrLib.Kvrlib.Status.OK"/> if success, <see cref="F:Kvaser.KvrLib.Kvrlib.Status.NO_ANSWER"/> when waiting for further scan results <see cref="F:Kvaser.KvrLib.Kvrlib.Status.BLANK"/>
+             when no further scan results are available or any other <see cref="T:Kvaser.KvrLib.Kvrlib.Status"/> on failure.</returns>
+        </member>
+        <member name="M:Kvaser.KvrLib.Kvrlib.WlanGetSecurityText(System.String@,System.Int32,System.Int32,Kvaser.KvrLib.Kvrlib.CipherInfoElement,Kvaser.KvrLib.Kvrlib.CipherInfoElement)">
+             <summary>Returns a string in human readable format from the security information gathered with <see cref="M:Kvaser.KvrLib.Kvrlib.WlanGetScanResults(Kvaser.KvrLib.Kvrlib.ConfigHnd,System.Int32@,System.Int32@,Kvaser.KvrLib.Kvrlib.Address@,Kvaser.KvrLib.Kvrlib.Bss@,System.String@,System.Int32@,System.Int32@,Kvaser.KvrLib.Kvrlib.CipherInfoElement@,Kvaser.KvrLib.Kvrlib.CipherInfoElement@)"/>
+             <para>&#160;</para>
+             Example output: "WPA2: G-TKIP (PSK) P1-AES P2-TKIP WPA: G-TKIP (PSK) P1-AES P2-TKIP"
+             <para>&#160;</para>
+             The above example shows a network using Pre-Shared Key with both WPA2 and WPA enabled, for both modes,
+             a group key using TKIP is needed, and in both modes you can choose between AES(CCMP) and TKIP as the cipher for the pairwise key.
+             The length of the generated string could theoretically be up to about 180 characters.
+             If the length of the supplied security_string is too short, the result will be truncated and the function will return <see cref="F:Kvaser.KvrLib.Kvrlib.Status.PARAMETER"/>.
+            </summary>
+             <param name="security_string">A string. </param>
+             <param name="capability">The advertised capabilities of the BSS. </param>
+             <param name="type_wpa">Authentication suite type.</param>
+             <param name="wpa_info">Advertised information for WPA (see <see cref="T:Kvaser.KvrLib.Kvrlib.CipherInfoElement"/>). </param>
+             <param name="rsn_info">Advertised information for RSN (see <see cref="T:Kvaser.KvrLib.Kvrlib.CipherInfoElement"/>).</param>
+             <returns><see cref="F:Kvaser.KvrLib.Kvrlib.Status.OK"/> if success, any other <see cref="T:Kvaser.KvrLib.Kvrlib.Status"/> on failure.</returns>
+        </member>
+        <member name="M:Kvaser.KvrLib.Kvrlib.WlanStartScan(Kvaser.KvrLib.Kvrlib.ConfigHnd,System.Int32,Kvaser.KvrLib.Kvrlib.Bss,Kvaser.KvrLib.Kvrlib.RegulatoryDomain)">
+             <summary>Initiate a scan for existing WLAN networks. The result is acquired with consecutive calls to <see cref="M:Kvaser.KvrLib.Kvrlib.WlanGetScanResults(Kvaser.KvrLib.Kvrlib.ConfigHnd,System.Int32@,System.Int32@,Kvaser.KvrLib.Kvrlib.Address@,Kvaser.KvrLib.Kvrlib.Bss@,System.String@,System.Int32@,System.Int32@,Kvaser.KvrLib.Kvrlib.CipherInfoElement@,Kvaser.KvrLib.Kvrlib.CipherInfoElement@)"/>.
+             A new scan can not be initiated until all data has been retrieved from the previous one.
+             <para>&#160;</para>
+             The device should not be connected to a network when scanning.
+             This includes the implicit connection done by <see cref="M:Kvaser.KvrLib.Kvrlib.NetworkConnectionTest(Kvaser.KvrLib.Kvrlib.ConfigHnd,System.Int32)"/>.
+            </summary>
+             <param name="ch">A configuration handle. </param>
+             <param name="active">If set, performs an active scan.  </param>
+             <param name="bss_type">Basic service set (BSS) selection. <see cref="T:Kvaser.KvrLib.Kvrlib.Bss"/>. </param>
+             <param name="domain">Regulatory domain. See <see cref="T:Kvaser.KvrLib.Kvrlib.RegulatoryDomain"/>. </param>
+             <returns><see cref="F:Kvaser.KvrLib.Kvrlib.Status.OK"/> if success, <see cref="F:Kvaser.KvrLib.Kvrlib.Status.NO_ANSWER"/> when previous scan is ongoing or any other <see cref="T:Kvaser.KvrLib.Kvrlib.Status"/> on failure.</returns>
+        </member>
+        <member name="T:Kvaser.KvrLib.Kvrlib.Address">
+            <summary> Device address.</summary>
+        </member>
+        <member name="F:Kvaser.KvrLib.Kvrlib.Address.type">
+            <summary>Type of address as <see cref="T:Kvaser.KvrLib.Kvrlib.AddressType"/></summary>
+        </member>
+        <member name="F:Kvaser.KvrLib.Kvrlib.Address.address">
+            <summary>IP or MAC address. </summary>
+        </member>
+        <member name="M:Kvaser.KvrLib.Kvrlib.Address.#ctor">
+            <summary> Default constructor.</summary>
+        </member>
+        <member name="T:Kvaser.KvrLib.Kvrlib.CipherInfoElement">
+            <summary> CipherInfoElement.</summary>
+        </member>
+        <member name="F:Kvaser.KvrLib.Kvrlib.CipherInfoElement.version">
+            <summary> version.</summary>
+        </member>
+        <member name="F:Kvaser.KvrLib.Kvrlib.CipherInfoElement.capability">
+            <summary> Advertised capabilities. capability[5] Privacy flag 1: WEP 0: Open </summary>
+        </member>
+        <member name="F:Kvaser.KvrLib.Kvrlib.CipherInfoElement.group_cipher">
+            <summary> 0xff: No WPA/RSN. 0x02: TKIP 0x04: CCMP </summary>
+        </member>
+        <member name="F:Kvaser.KvrLib.Kvrlib.CipherInfoElement.list_cipher_auth">
+            <summary> 8 nybbles (In each nybble: pos 0: cipher where; 0x2: TKIP 0x4: CCMP pos 1: authentication where; 0xa: PSK 0x9: RADIUS Unused nybbles are set to 0xf.</summary>
+        </member>
+        <member name="M:Kvaser.KvrLib.Kvrlib.CipherInfoElement.#ctor">
+            <summary> Default Constructor.</summary>
+        </member>
+        <member name="T:Kvaser.KvrLib.Kvrlib.ConfigHnd">
+            <summary> A configuration handle. Created by calling <see cref="M:Kvaser.KvrLib.Kvrlib.ConfigOpen(System.Int32,Kvaser.KvrLib.Kvrlib.ConfigMode,System.String,Kvaser.KvrLib.Kvrlib.ConfigHnd@)"/> or <see cref="M:Kvaser.KvrLib.Kvrlib.ConfigOpenEx(System.Int32,Kvaser.KvrLib.Kvrlib.ConfigMode,System.String,Kvaser.KvrLib.Kvrlib.ConfigHnd@,System.Int32)"/>. </summary>
+        </member>
+        <member name="F:Kvaser.KvrLib.Kvrlib.ConfigHnd.handle">
+            <summary> Handle.</summary>
+        </member>
+        <member name="M:Kvaser.KvrLib.Kvrlib.ConfigHnd.#ctor">
+            <summary> Default constructor.</summary>
+        </member>
+        <member name="T:Kvaser.KvrLib.Kvrlib.DeviceInfo">
+            <summary> A configuration handle. Created by calling <see cref="M:Kvaser.KvrLib.Kvrlib.ConfigOpen(System.Int32,Kvaser.KvrLib.Kvrlib.ConfigMode,System.String,Kvaser.KvrLib.Kvrlib.ConfigHnd@)"/> or <see cref="M:Kvaser.KvrLib.Kvrlib.ConfigOpenEx(System.Int32,Kvaser.KvrLib.Kvrlib.ConfigMode,System.String,Kvaser.KvrLib.Kvrlib.ConfigHnd@,System.Int32)"/>. </summary>
+        </member>
+        <member name="F:Kvaser.KvrLib.Kvrlib.DeviceInfo.struct_size">
+            <summary>Size of struct, used for compatibility. </summary>
+        </member>
+        <member name="F:Kvaser.KvrLib.Kvrlib.DeviceInfo.ean_hi">
+            <summary>High part of EAN. </summary>
+        </member>
+        <member name="F:Kvaser.KvrLib.Kvrlib.DeviceInfo.ean_lo">
+            <summary>Low part of EAN. </summary>
+        </member>
+        <member name="F:Kvaser.KvrLib.Kvrlib.DeviceInfo.ser_no">
+            <summary>Serial number.</summary>
+        </member>
+        <member name="F:Kvaser.KvrLib.Kvrlib.DeviceInfo.fw_major_ver">
+            <summary>Major firmware version.</summary>
+        </member>
+        <member name="F:Kvaser.KvrLib.Kvrlib.DeviceInfo.fw_minor_ver">
+            <summary>Minor firmware version.</summary>
+        </member>
+        <member name="F:Kvaser.KvrLib.Kvrlib.DeviceInfo.fw_build_ver">
+            <summary>Firmware build version.</summary>
+        </member>
+        <member name="F:Kvaser.KvrLib.Kvrlib.DeviceInfo.name">
+            <summary>User-defined name.</summary>
+        </member>
+        <member name="F:Kvaser.KvrLib.Kvrlib.DeviceInfo.host_name">
+            <summary>DNS hostname or empty.</summary>
+        </member>
+        <member name="F:Kvaser.KvrLib.Kvrlib.DeviceInfo.usage">
+            <summary><see cref="T:Kvaser.KvrLib.Kvrlib.DeviceUsage"/> </summary>
+        </member>
+        <member name="F:Kvaser.KvrLib.Kvrlib.DeviceInfo.accessibility">
+            <summary><see cref="T:Kvaser.KvrLib.Kvrlib.Accessibility"/></summary>
+        </member>
+        <member name="F:Kvaser.KvrLib.Kvrlib.DeviceInfo.accessibility_pwd">
+            <summary>Accessibility password or empty. </summary>
+        </member>
+        <member name="F:Kvaser.KvrLib.Kvrlib.DeviceInfo.device_address">
+            <summary>Address of remote device. </summary>
+        </member>
+        <member name="F:Kvaser.KvrLib.Kvrlib.DeviceInfo.client_address">
+            <summary>Address of connected client, if any. </summary>
+        </member>
+        <member name="F:Kvaser.KvrLib.Kvrlib.DeviceInfo.base_station_id">
+            <summary>Unique ID of base station, if any. </summary>
+        </member>
+        <member name="F:Kvaser.KvrLib.Kvrlib.DeviceInfo.request_connection">
+            <summary>Activate or deactivate a request for connection to a specified device. Activation means that the device will be connected to when it appears in the future. </summary>
+        </member>
+        <member name="F:Kvaser.KvrLib.Kvrlib.DeviceInfo.availability">
+            <summary>The device availability. <see cref="T:Kvaser.KvrLib.Kvrlib.Availability"/> flags. </summary>
+        </member>
+        <member name="F:Kvaser.KvrLib.Kvrlib.DeviceInfo.encryption_key">
+            <summary>Encryption key. </summary>
+        </member>
+        <member name="M:Kvaser.KvrLib.Kvrlib.DeviceInfo.#ctor">
+            <summary> Default Constructor.</summary>
+        </member>
+        <member name="T:Kvaser.KvrLib.Kvrlib.DiscoveryHnd">
+            <summary> Handle used for discovery.</summary>
+        </member>
+        <member name="F:Kvaser.KvrLib.Kvrlib.DiscoveryHnd.handle">
+            <summary> Handle.</summary>
+        </member>
+        <member name="M:Kvaser.KvrLib.Kvrlib.DiscoveryHnd.#ctor">
+            <summary> Default Constructor.</summary>
+        </member>
+        <member name="T:Kvaser.KvrLib.Kvrlib.Accessibility">
+            <summary>Accessibility</summary>
+        </member>
+        <member name="F:Kvaser.KvrLib.Kvrlib.Accessibility.UNKNOWN">
+            <summary>Unknown (e.g., no reply from device).</summary>
+        </member>
+        <member name="F:Kvaser.KvrLib.Kvrlib.Accessibility.PUBLIC">
+            <summary>Public (visible for all, no password required to connect).</summary>
+        </member>
+        <member name="F:Kvaser.KvrLib.Kvrlib.Accessibility.PROTECTED">
+            <summary>Protected (visible for all, password needed to connect).</summary>
+        </member>
+        <member name="F:Kvaser.KvrLib.Kvrlib.Accessibility.PRIVATE">
+            <summary>Private (invisible, password needed to connect).</summary>
+        </member>
+        <member name="T:Kvaser.KvrLib.Kvrlib.AddressType">
+            <summary>Type of Address</summary>
+        </member>
+        <member name="F:Kvaser.KvrLib.Kvrlib.AddressType.UNKNOWN">
+            <summary>Unknown (e.g., no reply from device). </summary>
+        </member>
+        <member name="F:Kvaser.KvrLib.Kvrlib.AddressType.IPV4">
+            <summary>IP v.4 address. </summary>
+        </member>
+        <member name="F:Kvaser.KvrLib.Kvrlib.AddressType.IPV6">
+            <summary>IP v.6 address. </summary>
+        </member>
+        <member name="F:Kvaser.KvrLib.Kvrlib.AddressType.IPV4_PORT">
+            <summary>IP v.4 address with tcp-port.</summary>
+        </member>
+        <member name="F:Kvaser.KvrLib.Kvrlib.AddressType.MAC">
+            <summary>Ethernet MAC address. </summary>
+        </member>
+        <member name="T:Kvaser.KvrLib.Kvrlib.AddressTypeFlag">
+            <summary>AddressTypeFlags</summary>
+        </member>
+        <member name="F:Kvaser.KvrLib.Kvrlib.AddressTypeFlag.BROADCAST">
+            <summary>Broadcast addresses</summary>
+        </member>
+        <member name="F:Kvaser.KvrLib.Kvrlib.AddressTypeFlag.STORED">
+            <summary>Previously stored addresses </summary>
+        </member>
+        <member name="F:Kvaser.KvrLib.Kvrlib.AddressTypeFlag.ALL">
+            <summary>All defined below</summary>
+        </member>
+        <member name="T:Kvaser.KvrLib.Kvrlib.Availability">
+            <summary>Availability</summary>
+        </member>
+        <member name="F:Kvaser.KvrLib.Kvrlib.Availability.NONE">
+            <summary>Manually added.</summary>
+        </member>
+        <member name="F:Kvaser.KvrLib.Kvrlib.Availability.FOUND_BY_SCAN">
+            <summary>Device was found by scan.</summary>
+        </member>
+        <member name="F:Kvaser.KvrLib.Kvrlib.Availability.STORED">
+            <summary>Device was stored.</summary>
+        </member>
+        <member name="T:Kvaser.KvrLib.Kvrlib.Bss">
+            <summary>Bss</summary>
+        </member>
+        <member name="F:Kvaser.KvrLib.Kvrlib.Bss.INFRASTRUCTURE">
+            <summary>Network with AP.</summary>
+        </member>
+        <member name="F:Kvaser.KvrLib.Kvrlib.Bss.INDEPENDENT">
+            <summary>Ad-hoc network.</summary>
+        </member>
+        <member name="F:Kvaser.KvrLib.Kvrlib.Bss.ANY">
+            <summary>Any.</summary>
+        </member>
+        <member name="T:Kvaser.KvrLib.Kvrlib.ConfigMode">
+            <summary>Config modes</summary>
+        </member>
+        <member name="F:Kvaser.KvrLib.Kvrlib.ConfigMode.R">
+            <summary>Read only.</summary>
+        </member>
+        <member name="F:Kvaser.KvrLib.Kvrlib.ConfigMode.RW">
+            <summary>Read/write.</summary>
+        </member>
+        <member name="F:Kvaser.KvrLib.Kvrlib.ConfigMode.ERASE">
+            <summary>Erase and write.</summary>
+        </member>
+        <member name="T:Kvaser.KvrLib.Kvrlib.DeviceUsage">
+            <summary>DeviceUsage</summary>
+        </member>
+        <member name="F:Kvaser.KvrLib.Kvrlib.DeviceUsage.UNKNOWN">
+            <summary>Unknown (e.g., no reply from device). </summary>
+        </member>
+        <member name="F:Kvaser.KvrLib.Kvrlib.DeviceUsage.FREE">
+            <summary>Not in use. </summary>
+        </member>
+        <member name="F:Kvaser.KvrLib.Kvrlib.DeviceUsage.REMOTE">
+            <summary>Connected to a PC (as a remote device). </summary>
+        </member>
+        <member name="F:Kvaser.KvrLib.Kvrlib.DeviceUsage.USB">
+            <summary>Connected via USB cable. </summary>
+        </member>
+        <member name="F:Kvaser.KvrLib.Kvrlib.DeviceUsage.CONFIG">
+            <summary>Device is being configured via USB. </summary>
+        </member>
+        <member name="T:Kvaser.KvrLib.Kvrlib.NetworkState">
+            <summary>Network State</summary>
+        </member>
+        <member name="F:Kvaser.KvrLib.Kvrlib.NetworkState.UNKNOWN">
+            <summary>Bad state, should never be reported. </summary>
+        </member>
+        <member name="F:Kvaser.KvrLib.Kvrlib.NetworkState.INVALID">
+            <summary>Network hardware has been disabled. </summary>
+        </member>
+        <member name="F:Kvaser.KvrLib.Kvrlib.NetworkState.STARTUP">
+            <summary>Configuring network hardware. </summary>
+        </member>
+        <member name="F:Kvaser.KvrLib.Kvrlib.NetworkState.INITIALIZING">
+            <summary>Started, waiting for initialization. </summary>
+        </member>
+        <member name="F:Kvaser.KvrLib.Kvrlib.NetworkState.NOT_CONNECTED">
+            <summary>No connection (may auto-connect). </summary>
+        </member>
+        <member name="F:Kvaser.KvrLib.Kvrlib.NetworkState.CONNECTION_DELAY">
+            <summary>Delay during connection (ad-hoc). </summary>
+        </member>
+        <member name="F:Kvaser.KvrLib.Kvrlib.NetworkState.CONNECTING">
+            <summary>Waiting for connections (ad-hoc). </summary>
+        </member>
+        <member name="F:Kvaser.KvrLib.Kvrlib.NetworkState.CONNECTED">
+            <summary>Network is reached. </summary>
+        </member>
+        <member name="F:Kvaser.KvrLib.Kvrlib.NetworkState.AUTHENTICATING">
+            <summary>EAPOL handshake ongoing. </summary>
+        </member>
+        <member name="F:Kvaser.KvrLib.Kvrlib.NetworkState.AUTHENTICATION_FAILED">
+            <summary>Authentication have failed. </summary>
+        </member>
+        <member name="F:Kvaser.KvrLib.Kvrlib.NetworkState.ONLINE">
+            <summary>Authentication completed. </summary>
+        </member>
+        <member name="F:Kvaser.KvrLib.Kvrlib.NetworkState.FAILED_MIC">
+            <summary>MIC verification (EAPOL-key) failed. </summary>
+        </member>
+        <member name="T:Kvaser.KvrLib.Kvrlib.RegulatoryDomain">
+            <summary>Regulatory Domain</summary>
+        </member>
+        <member name="F:Kvaser.KvrLib.Kvrlib.RegulatoryDomain.JAPAN_TELEC">
+            <summary>TELEC</summary>
+        </member>
+        <member name="F:Kvaser.KvrLib.Kvrlib.RegulatoryDomain.EUROPE_ETSI">
+            <summary>ETSI </summary>
+        </member>
+        <member name="F:Kvaser.KvrLib.Kvrlib.RegulatoryDomain.NORTH_AMERICA_FCC">
+            <summary>FCC </summary>
+        </member>
+        <member name="F:Kvaser.KvrLib.Kvrlib.RegulatoryDomain.WORLD">
+            <summary>WORLD </summary>
+        </member>
+        <member name="F:Kvaser.KvrLib.Kvrlib.RegulatoryDomain.CHINA_MII">
+            <summary>MII </summary>
+        </member>
+        <member name="T:Kvaser.KvrLib.Kvrlib.RemoteState">
+            <summary>Remote State</summary>
+        </member>
+        <member name="F:Kvaser.KvrLib.Kvrlib.RemoteState.VOID_">
+            <summary>Marked as not in list. </summary>
+        </member>
+        <member name="F:Kvaser.KvrLib.Kvrlib.RemoteState.AVAILABLE">
+            <summary>Tries to ping known device. </summary>
+        </member>
+        <member name="F:Kvaser.KvrLib.Kvrlib.RemoteState.DISCOVERED">
+            <summary>Currently not used. </summary>
+        </member>
+        <member name="F:Kvaser.KvrLib.Kvrlib.RemoteState.STARTING">
+            <summary>Initializes for new device. </summary>
+        </member>
+        <member name="F:Kvaser.KvrLib.Kvrlib.RemoteState.STARTED">
+            <summary>Currently not used. </summary>
+        </member>
+        <member name="F:Kvaser.KvrLib.Kvrlib.RemoteState.CONNECTION_DOWN">
+            <summary>Will try and restore connection. </summary>
+        </member>
+        <member name="F:Kvaser.KvrLib.Kvrlib.RemoteState.CONNECTION_UP">
+            <summary>Device connected, heartbeat up. </summary>
+        </member>
+        <member name="F:Kvaser.KvrLib.Kvrlib.RemoteState.REDISCOVER">
+            <summary>Trying to talk to device.  </summary>
+        </member>
+        <member name="F:Kvaser.KvrLib.Kvrlib.RemoteState.UNWILLING">
+            <summary>Device turned down connection req. </summary>
+        </member>
+        <member name="F:Kvaser.KvrLib.Kvrlib.RemoteState.REDISCOVER_PENDING">
+            <summary>Will do rediscover in a moment. </summary>
+        </member>
+        <member name="F:Kvaser.KvrLib.Kvrlib.RemoteState.CLOSING">
+            <summary>Will stop communication. </summary>
+        </member>
+        <member name="F:Kvaser.KvrLib.Kvrlib.RemoteState.REMOVE_ME">
+            <summary>Device removed, it will be stopped. </summary>
+        </member>
+        <member name="F:Kvaser.KvrLib.Kvrlib.RemoteState.STANDBY">
+            <summary>Known device, but unused. </summary>
+        </member>
+        <member name="F:Kvaser.KvrLib.Kvrlib.RemoteState.CONFIG_CHANGED">
+            <summary>Same as UNWILLING. </summary>
+        </member>
+        <member name="F:Kvaser.KvrLib.Kvrlib.RemoteState.STOPPING">
+            <summary>Tries to stop device. </summary>
+        </member>
+        <member name="F:Kvaser.KvrLib.Kvrlib.RemoteState.INSTALLING">
+            <summary>Driver installation is in progress. </summary>
+        </member>
+        <member name="T:Kvaser.KvrLib.Kvrlib.Status">
+            <summary>Return type of kvrlib functions.</summary>
+        </member>
+        <member name="F:Kvaser.KvrLib.Kvrlib.Status.OK">
+            <summary>OK!</summary>
+        </member>
+        <member name="F:Kvaser.KvrLib.Kvrlib.Status.NOT_INITIALIZED">
+            <summary>kvrlib has not been initialized. </summary>
+        </member>
+        <member name="F:Kvaser.KvrLib.Kvrlib.Status.GENERIC">
+            <summary>Generic error. </summary>
+        </member>
+        <member name="F:Kvaser.KvrLib.Kvrlib.Status.CHECKSUM">
+            <summary>Checksum problem. </summary>
+        </member>
+        <member name="F:Kvaser.KvrLib.Kvrlib.Status.PARAMETER">
+            <summary>Error in supplied in parameters. </summary>
+        </member>
+        <member name="F:Kvaser.KvrLib.Kvrlib.Status.PASSWORD">
+            <summary>Supplied password was wrong. </summary>
+        </member>
+        <member name="F:Kvaser.KvrLib.Kvrlib.Status.BLANK">
+            <summary>List was not set or no more results. </summary>
+        </member>
+        <member name="F:Kvaser.KvrLib.Kvrlib.Status.NO_DEVICE">
+            <summary>Remote device is unreachable. </summary>
+        </member>
+        <member name="F:Kvaser.KvrLib.Kvrlib.Status.NO_ANSWER">
+            <summary>No answer arrived within given timeout. </summary>
+        </member>
+        <member name="F:Kvaser.KvrLib.Kvrlib.Status.NOT_IMPLEMENTED">
+            <summary>Function is not yet implemented. </summary>
+        </member>
+        <member name="F:Kvaser.KvrLib.Kvrlib.Status.PERMISSION_DENIED">
+            <summary>Permission denied. </summary>
+        </member>
+        <member name="F:Kvaser.KvrLib.Kvrlib.Status.OUT_OF_SPACE">
+            <summary>Out of space, eg. to many open handles, to small buffer. </summary>
+        </member>
+        <member name="F:Kvaser.KvrLib.Kvrlib.Status.NO_SERVICE">
+            <summary>The helper service is not running. </summary>
+        </member>
+        <member name="F:Kvaser.KvrLib.Kvrlib.Status.DUPLICATED_DEVICE">
+            <summary>There are duplicates in the device list. </summary>
+        </member>
+        <member name="F:Kvaser.KvrLib.Kvrlib.Status.XML_VALIDATION">
+            <summary>XML-file validation failed. </summary>
+        </member>
+        <member name="F:Kvaser.KvrLib.Kvrlib.Status.BUFFER_TOO_SMALL">
+            <summary>The buffer provided was not large enough to contain the requested data. </summary>
+        </member>
+        <member name="T:Kvaser.KvrLib.Kvrlib.ServiceState">
+            <summary>Service state</summary>
+        </member>
+        <member name="F:Kvaser.KvrLib.Kvrlib.ServiceState.VOID">
+            <summary>Void</summary>
+        </member>
+        <member name="F:Kvaser.KvrLib.Kvrlib.ServiceState.AVAILABLE">
+            <summary>Device available </summary>
+        </member>
+        <member name="F:Kvaser.KvrLib.Kvrlib.ServiceState.DISCOVERED">
+            <summary>Device discovered </summary>
+        </member>
+        <member name="F:Kvaser.KvrLib.Kvrlib.ServiceState.STARTING">
+            <summary>Device is starting, other devices may inhibit this device from being started at the moment (e.g. by installing). </summary>
+        </member>
+        <member name="F:Kvaser.KvrLib.Kvrlib.ServiceState.STARTED">
+            <summary>Device is started </summary>
+        </member>
+        <member name="F:Kvaser.KvrLib.Kvrlib.ServiceState.CONNECTION_DOWN">
+            <summary>Connection is currently down </summary>
+        </member>
+        <member name="F:Kvaser.KvrLib.Kvrlib.ServiceState.CONNECTION_UP">
+            <summary>Connection is currently up. The device should be showing up in Kvaser Hardware and be ready to be used from CANlib. </summary>
+        </member>
+        <member name="F:Kvaser.KvrLib.Kvrlib.ServiceState.REDISCOVER">
+            <summary>We've lost the device - rediscover it </summary>
+        </member>
+        <member name="F:Kvaser.KvrLib.Kvrlib.ServiceState.UNWILLING">
+            <summary>Unwilling, see sub state for reason </summary>
+        </member>
+        <member name="F:Kvaser.KvrLib.Kvrlib.ServiceState.REDISCOVER_PENDING">
+            <summary>Rediscover is pending </summary>
+        </member>
+        <member name="F:Kvaser.KvrLib.Kvrlib.ServiceState.CLOSING">
+            <summary>Closing device </summary>
+        </member>
+        <member name="F:Kvaser.KvrLib.Kvrlib.ServiceState.REMOVE_ME">
+            <summary>Removing the device </summary>
+        </member>
+        <member name="F:Kvaser.KvrLib.Kvrlib.ServiceState.STANDBY">
+            <summary>Standby, the service is not taking any actions against this device </summary>
+        </member>
+        <member name="F:Kvaser.KvrLib.Kvrlib.ServiceState.CONFIG_CHANGED">
+            <summary>Configuration has changed </summary>
+        </member>
+        <member name="F:Kvaser.KvrLib.Kvrlib.ServiceState.STOPPING">
+            <summary>Stopping device </summary>
+        </member>
+        <member name="F:Kvaser.KvrLib.Kvrlib.ServiceState.INSTALLING">
+            <summary>Device is currently being installed </summary>
+        </member>
+        <member name="T:Kvaser.KvrLib.Kvrlib.StartInfo">
+            <summary>Start information</summary>
+        </member>
+        <member name="F:Kvaser.KvrLib.Kvrlib.StartInfo.NONE">
+            <summary>No information available </summary>
+        </member>
+        <member name="F:Kvaser.KvrLib.Kvrlib.StartInfo.START_OK">
+            <summary>Started OK </summary>
+        </member>
+        <member name="F:Kvaser.KvrLib.Kvrlib.StartInfo.ERR_IN_USE">
+            <summary>Already connected to someone else </summary>
+        </member>
+        <member name="F:Kvaser.KvrLib.Kvrlib.StartInfo.ERR_PWD">
+            <summary>Wrong connection pwd </summary>
+        </member>
+        <member name="F:Kvaser.KvrLib.Kvrlib.StartInfo.ERR_NOTME">
+            <summary>This start is not for me </summary>
+        </member>
+        <member name="F:Kvaser.KvrLib.Kvrlib.StartInfo.ERR_CONFIGURING">
+            <summary>I'm being configured so won't start</summary>
+        </member>
+        <member name="F:Kvaser.KvrLib.Kvrlib.StartInfo.ERR_PARAM">
+            <summary>Invalid parameters in QRV (non matching versions) </summary>
+        </member>
+        <member name="F:Kvaser.KvrLib.Kvrlib.StartInfo.ERR_ENCRYPTION_PWD">
+            <summary>Wrong encryption password. </summary>
+        </member>
+    </members>
+</doc>

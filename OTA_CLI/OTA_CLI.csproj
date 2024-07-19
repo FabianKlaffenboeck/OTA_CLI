@@ -9,6 +9,7 @@
 
     <ItemGroup>
       <PackageReference Include="CommandLineParser" Version="2.9.1" />
+      <PackageReference Include="Kvaser.CanLib" Version="1.12.487" />
     </ItemGroup>
 
 </Project>

@@ -1,0 +1,727 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Kvaser.KvlcLib</name>
+    </assembly>
+    <members>
+        <member name="F:Kvaser.KvlcLib.KvlcLibDLL.MAX_STRING_SIZE">
+            <summary>Maximum size of strings.</summary>
+        </member>
+        <member name="F:Kvaser.KvlcLib.KvlcLibDLL.MAX_DATA_SIZE">
+            <summary>Maximum size of data buffers.</summary>
+        </member>
+        <member name="M:Kvaser.KvlcLib.KvlcLibDLL.#cctor">
+            <summary>
+            Static constructor, sets DLL search path to the SDK folder.
+            </summary>
+        </member>
+        <member name="T:Kvaser.KvlcLib.KvlcLibDLL.kvmLogMsgEx">
+            <summary>A CAN message.</summary>
+        </member>
+        <member name="F:Kvaser.KvlcLib.KvlcLibDLL.kvmLogMsgEx.id">
+            <summary>The message identifier.</summary>
+        </member>
+        <member name="F:Kvaser.KvlcLib.KvlcLibDLL.kvmLogMsgEx.timeStamp">
+            <summary>The timestamp in units of 1 nanosecond.</summary>
+        </member>
+        <member name="F:Kvaser.KvlcLib.KvlcLibDLL.kvmLogMsgEx.channel">
+            <summary>The device channel on which the message arrived, 0,1,... </summary>
+        </member>
+        <member name="F:Kvaser.KvlcLib.KvlcLibDLL.kvmLogMsgEx.dlc">
+            <summary>  The length of the message. </summary>
+        </member>
+        <member name="F:Kvaser.KvlcLib.KvlcLibDLL.kvmLogMsgEx.flags">
+            <summary>Message flags.</summary>
+        </member>
+        <member name="F:Kvaser.KvlcLib.KvlcLibDLL.kvmLogMsgEx.data">
+            <summary>Message data (64 bytes) </summary>
+        </member>
+        <member name="T:Kvaser.KvlcLib.KvlcLibDLL.kvmLogRtcClockEx">
+            <summary>A RTC clock message.</summary>
+        </member>
+        <member name="F:Kvaser.KvlcLib.KvlcLibDLL.kvmLogRtcClockEx.calendarTime">
+            <summary>RTC date, seconds since 1970-01-01T00:00:00+00:00 (UTC) </summary>
+        </member>
+        <member name="F:Kvaser.KvlcLib.KvlcLibDLL.kvmLogRtcClockEx.timeStamp">
+            <summary>The timestamp in units of 1 nanosecond. </summary>
+        </member>
+        <member name="T:Kvaser.KvlcLib.KvlcLibDLL.kvmLogTriggerEx">
+            <summary>A trigger message.</summary>
+        </member>
+        <member name="F:Kvaser.KvlcLib.KvlcLibDLL.kvmLogTriggerEx.type">
+            <summary>The type of trigger </summary>
+        </member>
+        <member name="F:Kvaser.KvlcLib.KvlcLibDLL.kvmLogTriggerEx.preTrigger">
+            <summary>Pretrigger time in milliseconds.</summary>
+        </member>
+        <member name="F:Kvaser.KvlcLib.KvlcLibDLL.kvmLogTriggerEx.postTrigger">
+            <summary>Posttrigger time in milliseconds.</summary>
+        </member>
+        <member name="F:Kvaser.KvlcLib.KvlcLibDLL.kvmLogTriggerEx.trigMask">
+            <summary>Bitmask with all active triggers. </summary>
+        </member>
+        <member name="F:Kvaser.KvlcLib.KvlcLibDLL.kvmLogTriggerEx.timeStamp">
+            <summary>The timestamp in units of 1 nanosecond.</summary>
+        </member>
+        <member name="T:Kvaser.KvlcLib.KvlcLibDLL.kvmLogVersionEx">
+            <summary>A version message.</summary>
+        </member>
+        <member name="F:Kvaser.KvlcLib.KvlcLibDLL.kvmLogVersionEx.lioMajor">
+            <summary>lioMajor</summary>
+        </member>
+        <member name="F:Kvaser.KvlcLib.KvlcLibDLL.kvmLogVersionEx.lioMinor">
+            <summary>lioMinor</summary>
+        </member>
+        <member name="F:Kvaser.KvlcLib.KvlcLibDLL.kvmLogVersionEx.fwMajor">
+            <summary>fwMajor</summary>
+        </member>
+        <member name="F:Kvaser.KvlcLib.KvlcLibDLL.kvmLogVersionEx.fwMinor">
+            <summary>fwMinor</summary>
+        </member>
+        <member name="F:Kvaser.KvlcLib.KvlcLibDLL.kvmLogVersionEx.fwBuild">
+            <summary>fwBuild</summary>
+        </member>
+        <member name="F:Kvaser.KvlcLib.KvlcLibDLL.kvmLogVersionEx.serialNumber">
+            <summary>serialNumber</summary>
+        </member>
+        <member name="F:Kvaser.KvlcLib.KvlcLibDLL.kvmLogVersionEx.eanHi">
+            <summary>eanHi</summary>
+        </member>
+        <member name="F:Kvaser.KvlcLib.KvlcLibDLL.kvmLogVersionEx.eanLo">
+            <summary>eanLo</summary>
+        </member>
+        <member name="T:Kvaser.KvlcLib.KvlcLibDLL.kvmLogEventEx">
+            <summary>The union of events</summary>
+        </member>
+        <member name="F:Kvaser.KvlcLib.KvlcLibDLL.kvmLogEventEx.type">
+            <summary>Event types in log </summary>
+        </member>
+        <member name="F:Kvaser.KvlcLib.KvlcLibDLL.kvmLogEventEx.msg">
+            <summary>A CAN message.</summary>
+        </member>
+        <member name="F:Kvaser.KvlcLib.KvlcLibDLL.kvmLogEventEx.rtc">
+            <summary>An RTC message.</summary>
+        </member>
+        <member name="F:Kvaser.KvlcLib.KvlcLibDLL.kvmLogEventEx.trig">
+            <summary>kvmLogTriggerEx</summary>
+        </member>
+        <member name="F:Kvaser.KvlcLib.KvlcLibDLL.kvmLogEventEx.ver">
+            <summary>A version message.</summary>
+        </member>
+        <member name="F:Kvaser.KvlcLib.KvlcLibDLL.kvmLogEventEx.raw">
+            <summary>Raw data in a array.</summary>
+        </member>
+        <member name="T:Kvaser.KvlcLib.Kvlclib">
+            <summary>The kvlclib is used for converting Kvaser Memorator log files. </summary>
+        </member>
+        <member name="M:Kvaser.KvlcLib.Kvlclib.AddDatabase(Kvaser.KvlcLib.Kvlclib.Handle,Kvaser.KvadbLib.Kvadblib.Hnd,System.Int32)">
+            <summary>Add a database handle. Output formats with the property <see cref="F:Kvaser.KvlcLib.Kvlclib.Property.PROPERTY_SIGNAL_BASED"/> will match events against all entries in the database and write signals to the output file.
+            <para>&#160;</para>
+            Note. Data conversion is faster with fewer signals and fewer active channels.
+            </summary>.
+            <param name="hnd">An open handle to a converter. </param>
+            <param name="dbHandle">A database handle created with kvadblib. </param>
+            <param name="channelMask">Bitmask with active channels.</param>
+            <returns><see cref="F:Kvaser.KvlcLib.Kvlclib.Status.OK"/> if success else Status.ERR_XXX.</returns>
+        </member>
+        <member name="M:Kvaser.KvlcLib.Kvlclib.AddDatabaseFile(Kvaser.KvlcLib.Kvlclib.Handle,System.String,System.Int32)">
+            <summary>Add a database file. Output formats with the property <see cref="F:Kvaser.KvlcLib.Kvlclib.Property.PROPERTY_SIGNAL_BASED"/> will match events against all entries in the database and write signals to the output file.
+            <para>&#160;</para>
+            Note. Data conversion is faster with fewer signals and fewer active channels.</summary>.
+            <param name="hnd">An open handle to a converter. </param>
+            <param name="filename">String containing database file name. </param>
+            <param name="channelMask">Bitmask with active channels.</param>
+            <returns><see cref="F:Kvaser.KvlcLib.Kvlclib.Status.OK"/> if success else Status.ERR_XXX.</returns>
+        </member>
+        <member name="M:Kvaser.KvlcLib.Kvlclib.AttachFile(Kvaser.KvlcLib.Kvlclib.Handle,System.String)">
+            <summary>Attach a file to be included in the output file, e.g. used to add a database or a movie to the output.
+            <para>&#160;</para>
+            Note. The output format must support the property <see cref="F:Kvaser.KvlcLib.Kvlclib.Property.PROPERTY_ATTACHMENTS"/>.</summary>.
+            <param name="hnd">An open handle to a converter. </param>
+            <param name="filename">The name of the file to be included in the output.</param>
+            <returns><see cref="F:Kvaser.KvlcLib.Kvlclib.Status.OK"/> if success else Status.ERR_XXX.</returns>
+        </member>
+        <member name="M:Kvaser.KvlcLib.Kvlclib.ConvertEvent(Kvaser.KvlcLib.Kvlclib.Handle)">
+             <summary>Convert one event from input file and write it to output file.
+            </summary>.
+             <param name="hnd">An open handle to a converter. </param>
+             <returns><see cref="F:Kvaser.KvlcLib.Kvlclib.Status.OK"/> if success else Status.ERR_XXX.</returns>
+        </member>
+        <member name="M:Kvaser.KvlcLib.Kvlclib.CreateConverter(Kvaser.KvlcLib.Kvlclib.Handle@,System.String,Kvaser.KvlcLib.Kvlclib.FileFormat)">
+            <summary>Create a new converter.
+            <para>&#160;</para>
+            Note. No more than 128 converter handles can be open at the same time. </summary>.
+            <param name="hnd">An open handle to a converter.</param>
+            <param name="filename">Output filename.</param>
+            <param name="format">Output format, use <see cref="T:Kvaser.KvlcLib.Kvlclib.FileFormat"/>.</param>
+            <returns><see cref="F:Kvaser.KvlcLib.Kvlclib.Status.OK"/> if success else Status.ERR_XXX.</returns>
+        </member>
+        <member name="M:Kvaser.KvlcLib.Kvlclib.DeleteConverter(Kvaser.KvlcLib.Kvlclib.Handle)">
+            <summary>Delete a converter and close all files.
+            </summary>
+            <param name="hnd">An open handle to a converter.</param>
+            <returns><see cref="F:Kvaser.KvlcLib.Kvlclib.Status.OK"/> if success else Status.ERR_XXX.</returns>
+        </member>
+        <member name="M:Kvaser.KvlcLib.Kvlclib.EventCount(Kvaser.KvlcLib.Kvlclib.Handle,System.Int32@)">
+            <summary>Get the estimated number of remaining events in the input file. This can be useful for displaying progress during conversion.
+            </summary>
+            <param name="hnd">An open handle to a converter.</param>
+            /// <param name="count">The estimated number of remaining events in the input file.</param>
+            <returns><see cref="F:Kvaser.KvlcLib.Kvlclib.Status.OK"/> if success else Status.ERR_XXX.</returns>
+        </member>
+        <member name="M:Kvaser.KvlcLib.Kvlclib.EventCountEx(Kvaser.KvlcLib.Kvlclib.Handle,System.Int64@)">
+            <summary>Get the estimated number of remaining events in the input file. This can be useful for displaying progress during conversion.
+            </summary>
+            <param name="hnd">An open handle to a converter.</param>
+            /// <param name="count">The estimated number of remaining events in the input file.</param>
+            <returns><see cref="F:Kvaser.KvlcLib.Kvlclib.Status.OK"/> if success else Status.ERR_XXX.</returns>
+        </member>
+        <member name="M:Kvaser.KvlcLib.Kvlclib.FeedLogEvent(Kvaser.KvlcLib.Kvlclib.Handle,Kvaser.KvmLib.Kvmlib.Log)">
+            <summary>Feed one event to the converter. Used when reading log files directly from device.
+            <para>&#160;</para>
+            Note. kvlcFeedLogEvent cannot be used along side a set input file, see <see cref="M:Kvaser.KvlcLib.Kvlclib.SetInputFile(Kvaser.KvlcLib.Kvlclib.Handle,System.String,Kvaser.KvlcLib.Kvlclib.FileFormat)"/>.
+            </summary>
+            <param name="hnd">An open handle to a converter.</param>
+            <param name="event">An event that matches the selected input format.</param>
+            <returns><see cref="F:Kvaser.KvlcLib.Kvlclib.Status.OK"/> if success, <see cref="F:Kvaser.KvlcLib.Kvlclib.Status.Fail"/> if an input file has been set, see <see cref="M:Kvaser.KvlcLib.Kvlclib.SetInputFile(Kvaser.KvlcLib.Kvlclib.Handle,System.String,Kvaser.KvlcLib.Kvlclib.FileFormat)"/>.
+            Else Status.ERR_XXX.</returns>
+        </member>
+        <member name="M:Kvaser.KvlcLib.Kvlclib.FeedNextFile(Kvaser.KvlcLib.Kvlclib.Handle)">
+            <summary>Notify the converter that next event in <see cref="M:Kvaser.KvlcLib.Kvlclib.FeedLogEvent(Kvaser.KvlcLib.Kvlclib.Handle,Kvaser.KvmLib.Kvmlib.Log)"/> will come from another file.
+            Used when reading log files directly from device.
+            E.g.use this function with <see cref="F:Kvaser.KvlcLib.Kvlclib.FileFormat.FILE_FORMAT_MEMO_LOG"/> when using KVMLIB to read events from a Kvaser Memorator connected to USB.
+            </summary>
+            <param name="hnd">An open handle to a converter.</param>
+            <returns><see cref="F:Kvaser.KvlcLib.Kvlclib.Status.OK"/> if success else Status.ERR_XXX.</returns>
+        </member>
+        <member name="M:Kvaser.KvlcLib.Kvlclib.FeedSelectFormat(Kvaser.KvlcLib.Kvlclib.Handle,Kvaser.KvlcLib.Kvlclib.FileFormat)">
+             <summary>Select feed format. Used when reading log files directly from device.
+            E.g.use this function with <see cref="F:Kvaser.KvlcLib.Kvlclib.FileFormat.FILE_FORMAT_MEMO_LOG"/> when using KVMLIB to read events from a Kvaser Memorator connected to USB.
+             </summary>
+             <param name="hnd">An open handle to a converter.</param>
+             <param name="format">Output format, use <see cref="T:Kvaser.KvlcLib.Kvlclib.FileFormat"/>.</param>
+             <returns><see cref="F:Kvaser.KvlcLib.Kvlclib.Status.OK"/> if success else Status.ERR_XXX.</returns>
+        </member>
+        <member name="M:Kvaser.KvlcLib.Kvlclib.GetDlcMismatchList(Kvaser.KvlcLib.Kvlclib.Handle,System.Int32[]@,System.Int32[]@,System.Int32[]@)">
+            <summary>Return sets of mismatching msg id and dlc.</summary>
+            <param name="hnd">An open handle to a converter.</param>
+            <param name="MsgIds">An array to hold the returned message ids </param>
+            <param name="MsgDlc">An array to hold the returned message dlc </param>
+            <param name="MsgOccurence">An array to hold the returned number of occurence of each mismatch </param>
+            <returns><see cref="F:Kvaser.KvlcLib.Kvlclib.Status.OK"/> if success else Status.ERR_XXX.</returns>
+        </member>
+        <member name="M:Kvaser.KvlcLib.Kvlclib.GetErrorText(Kvaser.KvlcLib.Kvlclib.Status,System.String@)">
+            <summary>Convert a <see cref="T:Kvaser.KvlcLib.Kvlclib.Status"/> error code to a text.
+            </summary>
+            <param name="error">The error code to convert. </param>
+            <param name="buf">Error Text.</param>
+            <returns><see cref="F:Kvaser.KvlcLib.Kvlclib.Status.OK"/> if success else Status.ERR_XXX.</returns>
+        </member>
+        <member name="M:Kvaser.KvlcLib.Kvlclib.GetFirstReaderFormat(Kvaser.KvlcLib.Kvlclib.FileFormat@)">
+            <summary>Get the first supported input format.
+            </summary>
+            <param name="format">First input format.</param>
+            <returns><see cref="F:Kvaser.KvlcLib.Kvlclib.Status.OK"/> if success else Status.ERR_XXX.</returns>
+        </member>
+        <member name="M:Kvaser.KvlcLib.Kvlclib.GetFirstWriterFormat(Kvaser.KvlcLib.Kvlclib.FileFormat@)">
+            <summary>Get the first supported output format.
+            </summary>
+            <param name="format">First output  format.</param>
+            <returns><see cref="F:Kvaser.KvlcLib.Kvlclib.Status.OK"/> if success else Status.ERR_XXX.</returns>
+        </member>
+        <member name="M:Kvaser.KvlcLib.Kvlclib.GetNextWriterFormat(Kvaser.KvlcLib.Kvlclib.FileFormat,Kvaser.KvlcLib.Kvlclib.FileFormat@)">
+            <summary>Get the next supported output format.
+            </summary>
+            <param name="currentFormat">Current output format. </param>
+            <param name="nextFormat">Next output format. Zero if no more formats are to be found.</param>
+            <returns><see cref="F:Kvaser.KvlcLib.Kvlclib.Status.OK"/> if success else Status.ERR_XXX.</returns>
+        </member>
+        <member name="M:Kvaser.KvlcLib.Kvlclib.GetNextReaderFormat(Kvaser.KvlcLib.Kvlclib.FileFormat,Kvaser.KvlcLib.Kvlclib.FileFormat@)">
+            <summary>Get the next supported input format.
+            </summary>
+            <param name="currentFormat">Current input format. </param>
+            <param name="nextFormat">Next input format. Zero if no more formats are to be found.</param>
+            <returns><see cref="F:Kvaser.KvlcLib.Kvlclib.Status.OK"/> if success else Status.ERR_XXX.</returns>
+        </member>
+        <member name="M:Kvaser.KvlcLib.Kvlclib.GetOutputFilename(Kvaser.KvlcLib.Kvlclib.Handle,System.String@)">
+             <summary>Get the filename of the current output file.
+            This function can be used in conjunction with <see cref="M:Kvaser.KvlcLib.Kvlclib.IsOutputFilenameNew(Kvaser.KvlcLib.Kvlclib.Handle,System.Int32@)"/> to report current filename when splitting output into multiple files.
+             </summary>
+             <param name="hnd">An open handle to a converter.</param>
+             <param name="filename">Output filename as string</param>
+             <returns><see cref="F:Kvaser.KvlcLib.Kvlclib.Status.OK"/> if success else Status.ERR_XXX.</returns>
+        </member>
+        <member name="M:Kvaser.KvlcLib.Kvlclib.GetProperty(Kvaser.KvlcLib.Kvlclib.Handle,Kvaser.KvlcLib.Kvlclib.Property,System.Int32@)">
+            <summary>Get a property value.</summary>
+            <param name="hnd">An open handle to a converter.</param>
+            <param name="property">Property, use <see cref="T:Kvaser.KvlcLib.Kvlclib.Property"/>. </param>
+            <param name="value">Property value.</param>
+            <returns><see cref="F:Kvaser.KvlcLib.Kvlclib.Status.OK"/> if success else Status.ERR_XXX.</returns>
+        </member>
+        <member name="M:Kvaser.KvlcLib.Kvlclib.GetProperty(Kvaser.KvlcLib.Kvlclib.Handle,Kvaser.KvlcLib.Kvlclib.Property,System.Char@)">
+            <summary>Get a property value.</summary>
+            <param name="hnd">An open handle to a converter.</param>
+            <param name="property">Property, use <see cref="T:Kvaser.KvlcLib.Kvlclib.Property"/>. </param>
+            <param name="value">Property value.</param>
+            <returns><see cref="F:Kvaser.KvlcLib.Kvlclib.Status.OK"/> if success else Status.ERR_XXX.</returns>
+        </member>
+        <member name="M:Kvaser.KvlcLib.Kvlclib.GetProperty(Kvaser.KvlcLib.Kvlclib.Handle,Kvaser.KvlcLib.Kvlclib.Property,System.Int64@)">
+            <summary>Get a property value.</summary>
+            <param name="hnd">An open handle to a converter.</param>
+            <param name="property">Property, use <see cref="T:Kvaser.KvlcLib.Kvlclib.Property"/>. </param>
+            <param name="value">Property value.</param>
+            <returns><see cref="F:Kvaser.KvlcLib.Kvlclib.Status.OK"/> if success else Status.ERR_XXX.</returns>
+        </member>
+        <member name="M:Kvaser.KvlcLib.Kvlclib.GetReaderDescription(Kvaser.KvlcLib.Kvlclib.FileFormat,System.String@)">
+            <summary>Get output converter file description.
+            </summary>
+            <param name="format">Output format.  </param>
+            <param name="str">Description</param>
+            <returns><see cref="F:Kvaser.KvlcLib.Kvlclib.Status.OK"/> if success else Status.ERR_XXX.</returns>
+        </member>
+        <member name="M:Kvaser.KvlcLib.Kvlclib.GetReaderExtension(Kvaser.KvlcLib.Kvlclib.FileFormat,System.String@)">
+            <summary>Get input converter file extension.
+            </summary>
+            <param name="format">input format.</param>
+            <param name="str">Extension</param>
+            <returns><see cref="F:Kvaser.KvlcLib.Kvlclib.Status.OK"/> if success else Status.ERR_XXX.</returns>
+        </member>
+        <member name="M:Kvaser.KvlcLib.Kvlclib.GetReaderName(Kvaser.KvlcLib.Kvlclib.FileFormat,System.String@)">
+            <summary>Get input converter name.
+            </summary>
+            <param name="format">Output format.</param>
+            <param name="str">Converter Name</param>
+            <returns><see cref="F:Kvaser.KvlcLib.Kvlclib.Status.OK"/> if success else Status.ERR_XXX.</returns>
+        </member>
+        <member name="M:Kvaser.KvlcLib.Kvlclib.GetReaderPropertyDefault(Kvaser.KvlcLib.Kvlclib.FileFormat,Kvaser.KvlcLib.Kvlclib.Property,System.Int32@)">
+            <summary>Get the default value for a reader property.</summary>
+            <param name="format">Output format, use <see cref="T:Kvaser.KvlcLib.Kvlclib.FileFormat"/>.</param>
+            <param name="property">Property, use <see cref="T:Kvaser.KvlcLib.Kvlclib.Property"/>. </param>
+            <param name="value">Property value.</param>
+            <returns><see cref="F:Kvaser.KvlcLib.Kvlclib.Status.OK"/> if success else Status.ERR_XXX.</returns>
+        </member>
+        <member name="M:Kvaser.KvlcLib.Kvlclib.GetReaderPropertyDefault(Kvaser.KvlcLib.Kvlclib.FileFormat,Kvaser.KvlcLib.Kvlclib.Property,System.Char@)">
+            <summary>Get the default value for a reader property.</summary>
+            <param name="format">Output format, use <see cref="T:Kvaser.KvlcLib.Kvlclib.FileFormat"/>.</param>
+            <param name="property">Property, use <see cref="T:Kvaser.KvlcLib.Kvlclib.Property"/>. </param>
+            <param name="value">Property value.</param>
+            <returns><see cref="F:Kvaser.KvlcLib.Kvlclib.Status.OK"/> if success else Status.ERR_XXX.</returns>
+        </member>
+        <member name="M:Kvaser.KvlcLib.Kvlclib.GetReaderPropertyDefault(Kvaser.KvlcLib.Kvlclib.FileFormat,Kvaser.KvlcLib.Kvlclib.Property,System.Int64@)">
+            <summary>Get the default value for a reader property.</summary>
+            <param name="format">Output format, use <see cref="T:Kvaser.KvlcLib.Kvlclib.FileFormat"/>.</param>
+            <param name="property">Property, use <see cref="T:Kvaser.KvlcLib.Kvlclib.Property"/>. </param>
+            <param name="value">Property value.</param>
+            <returns><see cref="F:Kvaser.KvlcLib.Kvlclib.Status.OK"/> if success else Status.ERR_XXX.</returns>
+        </member>
+        <member name="M:Kvaser.KvlcLib.Kvlclib.GetUTF8Bytes(System.String)">
+            <summary>
+                Create a byte[] containing the utf-8 representation of string stringValue and a terminating'\0' character.
+            </summary>
+        </member>
+        <member name="M:Kvaser.KvlcLib.Kvlclib.GetUTF8String(System.Byte[])">
+            <summary>
+                Convert byte[] contents to a string object using the utf-8 decoder.
+            </summary>
+        </member>
+        <member name="M:Kvaser.KvlcLib.Kvlclib.GetVersion(System.Int32@,System.Int32@,System.Int32@)">
+            <summary>Returns the version of the kvlcvlib DLL.</summary>
+            <param name="major">Major version number.</param>
+            <param name="minor">Minor version number.</param>
+            <param name="build">Build version number.</param>
+            <returns><see cref="F:Kvaser.KvlcLib.Kvlclib.Status.OK"/> if success else Status.ERR_XXX.</returns>
+        </member>
+        <member name="M:Kvaser.KvlcLib.Kvlclib.GetWriterDescription(Kvaser.KvlcLib.Kvlclib.FileFormat,System.String@)">
+            <summary>Get output converter file description.
+            </summary>
+            <param name="format">Output format.</param>
+            <param name="str">Description</param>
+            <returns><see cref="F:Kvaser.KvlcLib.Kvlclib.Status.OK"/> if success else Status.ERR_XXX.</returns>
+        </member>
+        <member name="M:Kvaser.KvlcLib.Kvlclib.GetWriterExtension(Kvaser.KvlcLib.Kvlclib.FileFormat,System.String@)">
+            <summary>Get output converter file extension.
+            </summary>
+            <param name="format">Output format.</param>
+            <param name="str"> Writer extension</param>
+            <returns><see cref="F:Kvaser.KvlcLib.Kvlclib.Status.OK"/> if success else Status.ERR_XXX.</returns>
+        </member>
+        <member name="M:Kvaser.KvlcLib.Kvlclib.GetWriterPropertyDefault(Kvaser.KvlcLib.Kvlclib.FileFormat,Kvaser.KvlcLib.Kvlclib.Property,System.Int32@)">
+            <summary>Get the default value for a writer property.</summary>
+            <param name="format">Output format, use <see cref="T:Kvaser.KvlcLib.Kvlclib.FileFormat"/>.</param>
+            <param name="property">Property, use <see cref="T:Kvaser.KvlcLib.Kvlclib.Property"/>. </param>
+            <param name="value">Property value.</param>
+            <returns><see cref="F:Kvaser.KvlcLib.Kvlclib.Status.OK"/> if success else Status.ERR_XXX.</returns>
+        </member>
+        <member name="M:Kvaser.KvlcLib.Kvlclib.GetWriterPropertyDefault(Kvaser.KvlcLib.Kvlclib.FileFormat,Kvaser.KvlcLib.Kvlclib.Property,System.Char@)">
+            <summary>Get the default value for a writer property.</summary>
+            <param name="format">Output format, use <see cref="T:Kvaser.KvlcLib.Kvlclib.FileFormat"/>.</param>
+            <param name="property">Property, use <see cref="T:Kvaser.KvlcLib.Kvlclib.Property"/>. </param>
+            <param name="value">Property value.</param>
+            <returns><see cref="F:Kvaser.KvlcLib.Kvlclib.Status.OK"/> if success else Status.ERR_XXX.</returns>
+        </member>
+        <member name="M:Kvaser.KvlcLib.Kvlclib.GetWriterPropertyDefault(Kvaser.KvlcLib.Kvlclib.FileFormat,Kvaser.KvlcLib.Kvlclib.Property,System.Int64@)">
+            <summary>Get the default value for a writer property.</summary>
+            <param name="format">Output format, use <see cref="T:Kvaser.KvlcLib.Kvlclib.FileFormat"/>.</param>
+            <param name="property">Property, use <see cref="T:Kvaser.KvlcLib.Kvlclib.Property"/>. </param>
+            <param name="value">Property value.</param>
+            <returns><see cref="F:Kvaser.KvlcLib.Kvlclib.Status.OK"/> if success else Status.ERR_XXX.</returns>
+        </member>
+        <member name="M:Kvaser.KvlcLib.Kvlclib.GetWriterName(Kvaser.KvlcLib.Kvlclib.FileFormat,System.String@)">
+            <summary>Get output converter name.
+            </summary>
+            <param name="format">Output format.</param>
+            <param name="str">Converter Name</param>
+            <returns><see cref="F:Kvaser.KvlcLib.Kvlclib.Status.OK"/> if success else Status.ERR_XXX.</returns>
+        </member>
+        <member name="M:Kvaser.KvlcLib.Kvlclib.IsDataTruncated(Kvaser.KvlcLib.Kvlclib.Handle,System.Int32@)">
+            <summary>Get truncation status.
+            Truncation occurs when the selected output converter can't write all bytes in a data frame to file.
+            This can happen if CAN FD data is extracted to a format that only supports up to 8 data bytes, e.g. <see cref="F:Kvaser.KvlcLib.Kvlclib.FileFormat.FILE_FORMAT_KME40"/>.
+            It can also happen if <see cref="F:Kvaser.KvlcLib.Kvlclib.Property.PROPERTY_LIMIT_DATA_BYTES"/> is set to limit the number of data bytes in output.
+            </summary>
+            <param name="hnd">An open handle to a converter. </param>
+            <param name="truncated">Not zero if data is truncated.</param>
+            <returns><see cref="F:Kvaser.KvlcLib.Kvlclib.Status.OK"/> if success else Status.ERR_XXX.</returns>
+        </member>
+        <member name="M:Kvaser.KvlcLib.Kvlclib.IsDlcMismatch(Kvaser.KvlcLib.Kvlclib.Handle,System.Int32@)">
+            <summary>Return dlc mismatch status (i.e. CAN id is found in db but it has mismatching dlc)</summary>
+            <param name="hnd">An open handle to a converter.</param>
+            <param name="mismatch">Not zero if a mismatch occured.</param>
+            <returns><see cref="F:Kvaser.KvlcLib.Kvlclib.Status.OK"/> if success else Status.ERR_XXX.</returns>
+        </member>
+        <member name="M:Kvaser.KvlcLib.Kvlclib.IsOutputFilenameNew(Kvaser.KvlcLib.Kvlclib.Handle,System.Int32@)">
+            <summary>Check if the converter has created a new file. It is only true once after a new file has been created. Used when splitting output into multiple files.
+            </summary>
+            <param name="hnd">An open handle to a converter. </param>
+            <param name="updated">Not zero if a new file has been created.</param>
+            <returns><see cref="F:Kvaser.KvlcLib.Kvlclib.Status.OK"/> if success else Status.ERR_XXX.</returns>
+        </member>
+        <member name="M:Kvaser.KvlcLib.Kvlclib.IsOverrunActive(Kvaser.KvlcLib.Kvlclib.Handle,System.Int32@)">
+            <summary>Get overrun status.
+            Overruns can occur during logging with a Memorator if the bus load exceeds the logging capacity.This is very unusual, but can occur if a Memorator runs complex scripts and triggers.
+            </summary>
+            <param name="hnd">An open handle to a converter. </param>
+            <param name="overrun">Not zero if an overrun occurred.</param>
+            <returns><see cref="F:Kvaser.KvlcLib.Kvlclib.Status.OK"/> if success else Status.ERR_XXX.</returns>
+        </member>
+        <member name="M:Kvaser.KvlcLib.Kvlclib.IsPropertySupported(Kvaser.KvlcLib.Kvlclib.FileFormat,Kvaser.KvlcLib.Kvlclib.Property,System.Int32@)">
+            <summary>Check if property is supported by output format.
+            </summary>
+            <param name="format">Output format, use <see cref="T:Kvaser.KvlcLib.Kvlclib.FileFormat"/>.</param>
+            <param name="property">Property, use <see cref="T:Kvaser.KvlcLib.Kvlclib.Property"/>. </param>
+            <param name="supported">Not zero if format supports property.</param>
+            <returns><see cref="F:Kvaser.KvlcLib.Kvlclib.Status.OK"/> if success else Status.ERR_XXX.</returns>
+        </member>
+        <member name="M:Kvaser.KvlcLib.Kvlclib.NextInputFile(Kvaser.KvlcLib.Kvlclib.Handle,System.String)">
+            <summary>Select next input file.
+            <para>&#160;</para>
+            Note. It is the responsibility of the caller to arrange multiple files in correct time stamp order. Overlapping time stamps are not handled.
+            </summary>
+            <param name="hnd">An open handle to a converter.</param>
+            <param name="filename">Next input filename.</param>
+            <returns><see cref="F:Kvaser.KvlcLib.Kvlclib.Status.OK"/> if success else Status.ERR_XXX.</returns>
+        </member>
+        <member name="M:Kvaser.KvlcLib.Kvlclib.ResetDataTruncated(Kvaser.KvlcLib.Kvlclib.Handle)">
+            <summary>Reset truncation status.
+            </summary>
+            <param name="hnd">An open handle to a converter.</param>
+            <returns><see cref="F:Kvaser.KvlcLib.Kvlclib.Status.OK"/> if success else Status.ERR_XXX.</returns>
+        </member>
+        <member name="M:Kvaser.KvlcLib.Kvlclib.ResetDlcMismatch(Kvaser.KvlcLib.Kvlclib.Handle)">
+            <summary>Reset dlc mismatch status</summary>
+            <param name="hnd">An open handle to a converter.</param>
+            <returns><see cref="F:Kvaser.KvlcLib.Kvlclib.Status.OK"/> if success else Status.ERR_XXX.</returns>
+        </member>
+        <member name="M:Kvaser.KvlcLib.Kvlclib.ResetOverrunActive(Kvaser.KvlcLib.Kvlclib.Handle)">
+            <summary>Reset overrun status.
+            </summary>
+            <param name="hnd">An open handle to a converter.</param>
+            <returns><see cref="F:Kvaser.KvlcLib.Kvlclib.Status.OK"/> if success else Status.ERR_XXX.</returns>
+        </member>
+        <member name="M:Kvaser.KvlcLib.Kvlclib.SetInputFile(Kvaser.KvlcLib.Kvlclib.Handle,System.String,Kvaser.KvlcLib.Kvlclib.FileFormat)">
+            <summary>Select input file.
+            </summary>
+            <param name="hnd">An open handle to a converter.</param>
+            <param name="filename">Input filename.</param>
+            <param name="format">Input format, use <see cref="T:Kvaser.KvlcLib.Kvlclib.FileFormat"/>.</param>
+            <returns><see cref="F:Kvaser.KvlcLib.Kvlclib.Status.OK"/> if success else Status.ERR_XXX.</returns>
+        </member>
+        <member name="M:Kvaser.KvlcLib.Kvlclib.SetProperty(Kvaser.KvlcLib.Kvlclib.Handle,Kvaser.KvlcLib.Kvlclib.Property,System.Int32)">
+            <summary>Set a property value.
+            </summary>
+            <param name="hnd">An open handle to a converter.</param>
+            <param name="property">Property, use <see cref="T:Kvaser.KvlcLib.Kvlclib.Property"/>. </param>
+            <param name="value">Property value.</param>
+            <returns><see cref="F:Kvaser.KvlcLib.Kvlclib.Status.OK"/> if success else Status.ERR_XXX.</returns>
+        </member>
+        <member name="M:Kvaser.KvlcLib.Kvlclib.SetProperty(Kvaser.KvlcLib.Kvlclib.Handle,Kvaser.KvlcLib.Kvlclib.Property,System.Char)">
+            <summary>Set a property value.
+            </summary>
+            <param name="hnd">An open handle to a converter.</param>
+            <param name="property">Property, use <see cref="T:Kvaser.KvlcLib.Kvlclib.Property"/>. </param>
+            <param name="value">Property value.</param>
+            <returns><see cref="F:Kvaser.KvlcLib.Kvlclib.Status.OK"/> if success else Status.ERR_XXX.</returns>
+        </member>
+        <member name="M:Kvaser.KvlcLib.Kvlclib.SetProperty(Kvaser.KvlcLib.Kvlclib.Handle,Kvaser.KvlcLib.Kvlclib.Property,System.Int64)">
+            <summary>Set a property value.
+            </summary>
+            <param name="hnd">An open handle to a converter.</param>
+            <param name="property">Property, use <see cref="T:Kvaser.KvlcLib.Kvlclib.Property"/>. </param>
+            <param name="value">Property value.</param>
+            <returns><see cref="F:Kvaser.KvlcLib.Kvlclib.Status.OK"/> if success else Status.ERR_XXX.</returns>
+        </member>
+        <member name="T:Kvaser.KvlcLib.Kvlclib.Handle">
+            <summary>
+             Handle to a converter created by <see cref="M:Kvaser.KvlcLib.Kvlclib.CreateConverter(Kvaser.KvlcLib.Kvlclib.Handle@,System.String,Kvaser.KvlcLib.Kvlclib.FileFormat)"/>
+            </summary>
+        </member>
+        <member name="F:Kvaser.KvlcLib.Kvlclib.Handle.handle">
+            <summary>Handle</summary>
+        </member>
+        <member name="T:Kvaser.KvlcLib.Kvlclib.FileFormat">
+            <summary>
+                Format used for input and output
+                /// <para>&#160;</para>
+                Note. Not all formats are valid as both output and input format.
+            </summary>
+        </member>
+        <member name="F:Kvaser.KvlcLib.Kvlclib.FileFormat.FILE_FORMAT_KME24">
+            <summary>Input and output file format. </summary>
+        </member>
+        <member name="F:Kvaser.KvlcLib.Kvlclib.FileFormat.FILE_FORMAT_KME25">
+            <summary>Input and output file format. </summary>
+        </member>
+        <member name="F:Kvaser.KvlcLib.Kvlclib.FileFormat.FILE_FORMAT_VECTOR_ASC">
+            <summary>Input and output file format. </summary>
+        </member>
+        <member name="F:Kvaser.KvlcLib.Kvlclib.FileFormat.FILE_FORMAT_CSV">
+            <summary>Output file format. </summary>
+        </member>
+        <member name="F:Kvaser.KvlcLib.Kvlclib.FileFormat.FILE_FORMAT_PLAIN_ASC">
+            <summary>Input and output file format. </summary>
+        </member>
+        <member name="F:Kvaser.KvlcLib.Kvlclib.FileFormat.FILE_FORMAT_MEMO_LOG">
+            <summary>Input (internal device logfile format). </summary>
+        </member>
+        <member name="F:Kvaser.KvlcLib.Kvlclib.FileFormat.FILE_FORMAT_KME40">
+            <summary>Input and output file format. </summary>
+        </member>
+        <member name="F:Kvaser.KvlcLib.Kvlclib.FileFormat.FILE_FORMAT_VECTOR_BLF">
+            <summary>Output file format. </summary>
+        </member>
+        <member name="F:Kvaser.KvlcLib.Kvlclib.FileFormat.FILE_FORMAT_KME50">
+            <summary>Input and output file format. </summary>
+        </member>
+        <member name="F:Kvaser.KvlcLib.Kvlclib.FileFormat.FILE_FORMAT_CSV_SIGNAL">
+            <summary>Output file format. </summary>
+        </member>
+        <member name="F:Kvaser.KvlcLib.Kvlclib.FileFormat.FILE_FORMAT_MDF">
+            <summary>Input and output file format. </summary>
+        </member>
+        <member name="F:Kvaser.KvlcLib.Kvlclib.FileFormat.FILE_FORMAT_MATLAB">
+            <summary>Output file format. </summary>
+        </member>
+        <member name="F:Kvaser.KvlcLib.Kvlclib.FileFormat.FILE_FORMAT_J1587">
+            <summary>Output file format. </summary>
+        </member>
+        <member name="F:Kvaser.KvlcLib.Kvlclib.FileFormat.FILE_FORMAT_J1587_ALT">
+            <summary>Obsolete. </summary>
+        </member>
+        <member name="F:Kvaser.KvlcLib.Kvlclib.FileFormat.FILE_FORMAT_FAMOS">
+            <summary>Output file format. </summary>
+        </member>
+        <member name="F:Kvaser.KvlcLib.Kvlclib.FileFormat.FILE_FORMAT_MDF_SIGNAL">
+            <summary>Output file format. </summary>
+        </member>
+        <member name="F:Kvaser.KvlcLib.Kvlclib.FileFormat.FILE_FORMAT_MDF_4X">
+            <summary>Output file format. </summary>
+        </member>
+        <member name="F:Kvaser.KvlcLib.Kvlclib.FileFormat.FILE_FORMAT_MDF_4X_SIGNAL">
+            <summary>Output file format. </summary>
+        </member>
+        <member name="F:Kvaser.KvlcLib.Kvlclib.FileFormat.FILE_FORMAT_VECTOR_BLF_FD">
+            <summary>Input and output file format. </summary>
+        </member>
+        <member name="F:Kvaser.KvlcLib.Kvlclib.FileFormat.FILE_FORMAT_XCP">
+            <summary>Not supported. </summary>
+        </member>
+        <member name="F:Kvaser.KvlcLib.Kvlclib.FileFormat.FILE_FORMAT_FAMOS_XCP">
+            <summary>Not supported. </summary>
+        </member>
+        <member name="F:Kvaser.KvlcLib.Kvlclib.FileFormat.FILE_FORMAT_DEBUG">
+            <summary>Reserved for debug. </summary>
+        </member>
+        <member name="T:Kvaser.KvlcLib.Kvlclib.Status">
+            <summary>
+                Status return codes
+            </summary>
+        </member>
+        <member name="F:Kvaser.KvlcLib.Kvlclib.Status.OK">
+            <summary>OK.</summary>
+        </member>
+        <member name="F:Kvaser.KvlcLib.Kvlclib.Status.Fail">
+            <summary>Generic error.</summary>
+        </member>
+        <member name="F:Kvaser.KvlcLib.Kvlclib.Status.ERR_PARAM">
+            <summary>Error in supplied parameters.</summary>
+        </member>
+        <member name="F:Kvaser.KvlcLib.Kvlclib.Status.EOF">
+            <summary>End of input file reached.</summary>
+        </member>
+        <member name="F:Kvaser.KvlcLib.Kvlclib.Status.ERR_NOT_IMPLEMENTED">
+            <summary>Not implemented.</summary>
+        </member>
+        <member name="F:Kvaser.KvlcLib.Kvlclib.Status.ERR_FILE_ERROR">
+            <summary>File I/O error.</summary>
+        </member>
+        <member name="F:Kvaser.KvlcLib.Kvlclib.Status.ERR_FILE_EXISTS">
+            <summary>Output file already exists.</summary>
+        </member>
+        <member name="F:Kvaser.KvlcLib.Kvlclib.Status.ERR_INTERNAL_ERROR">
+            <summary>Unhandled internal error.</summary>
+        </member>
+        <member name="F:Kvaser.KvlcLib.Kvlclib.Status.ERR_NULL_POINTER">
+            <summary>Unexpected null pointer.</summary>
+        </member>
+        <member name="F:Kvaser.KvlcLib.Kvlclib.Status.ERR_FILE_TOO_LARGE">
+            <summary>File size too large for specified format.</summary>
+        </member>
+        <member name="F:Kvaser.KvlcLib.Kvlclib.Status.ERR_TYPE_MISMATCH">
+            <summary>Supplied parameter has incorrect type.</summary>
+        </member>
+        <member name="F:Kvaser.KvlcLib.Kvlclib.Status.ERR_NO_FREE_HANDLES">
+            <summary>Too many open KvlcHandle hnds.</summary>
+        </member>
+        <member name="F:Kvaser.KvlcLib.Kvlclib.Status.ERR_NO_INPUT_SELECTED">
+            <summary>Missing call to kvlcSetInputFile or kvlcFeedSelectFormat.</summary>
+        </member>
+        <member name="F:Kvaser.KvlcLib.Kvlclib.Status.ERR_CONVERTING">
+            <summary>Call failed since conversion is running.</summary>
+        </member>
+        <member name="F:Kvaser.KvlcLib.Kvlclib.Status.ERR_BUFFER_SIZE">
+            <summary>The supplied buffer is too small to hold the result.</summary>
+        </member>
+        <member name="F:Kvaser.KvlcLib.Kvlclib.Status.ERR_INVALID_LOG_EVENT">
+            <summary>Event is unknown to converter.</summary>
+        </member>
+        <member name="F:Kvaser.KvlcLib.Kvlclib.Status.ERR_NO_TIME_REFERENCE">
+            <summary>Required timestamp missing.</summary>
+        </member>
+        <member name="F:Kvaser.KvlcLib.Kvlclib.Status.ERR_TIME_DECREASING">
+            <summary>Decreasing time between files.</summary>
+        </member>
+        <member name="F:Kvaser.KvlcLib.Kvlclib.Status.ERR_MIXED_ENDIANESS">
+            <summary>Event is unknown to converter.</summary>
+        </member>
+        <member name="F:Kvaser.KvlcLib.Kvlclib.Status.ERR_RESULT_TOO_BIG">
+            <summary>Result is too big for an out-parameter.</summary>
+        </member>
+        <member name="T:Kvaser.KvlcLib.Kvlclib.Property">
+            <summary>
+                Converter properties used in the output format.
+            </summary>
+        </member>
+        <member name="F:Kvaser.KvlcLib.Kvlclib.Property.PROPERTY_START_OF_MEASUREMENT">
+            <summary>(int) Use start of measurement as time reference. </summary>
+        </member>
+        <member name="F:Kvaser.KvlcLib.Kvlclib.Property.PROPERTY_FIRST_TRIGGER">
+            <summary>(int) Use first trigger as time reference. </summary>
+        </member>
+        <member name="F:Kvaser.KvlcLib.Kvlclib.Property.PROPERTY_USE_OFFSET">
+            <summary>(int) Use offset as time reference. </summary>
+        </member>
+        <member name="F:Kvaser.KvlcLib.Kvlclib.Property.PROPERTY_OFFSET">
+            <summary>(time_int64) Time reference offset. </summary>
+        </member>
+        <member name="F:Kvaser.KvlcLib.Kvlclib.Property.PROPERTY_CHANNEL_MASK">
+            <summary>(unsigned int) Bitmask of the channels that should be used during conversion. </summary>
+        </member>
+        <member name="F:Kvaser.KvlcLib.Kvlclib.Property.PROPERTY_HLP_J1939">
+            <summary>(int) Interpret events as J1939. </summary>
+        </member>
+        <member name="F:Kvaser.KvlcLib.Kvlclib.Property.PROPERTY_CALENDAR_TIME_STAMPS">
+            <summary>(int) Write calendar time stamps. </summary>
+        </member>
+        <member name="F:Kvaser.KvlcLib.Kvlclib.Property.PROPERTY_WRITE_HEADER">
+            <summary>(int) Write informational header. </summary>
+        </member>
+        <member name="F:Kvaser.KvlcLib.Kvlclib.Property.PROPERTY_SEPARATOR_CHAR">
+            <summary>(char) Use token as separator. </summary>
+        </member>
+        <member name="F:Kvaser.KvlcLib.Kvlclib.Property.PROPERTY_DECIMAL_CHAR">
+            <summary>(char) Use token as decimal separator. </summary>
+        </member>
+        <member name="F:Kvaser.KvlcLib.Kvlclib.Property.PROPERTY_ID_IN_HEX">
+            <summary>(int) Write id in hexadecimal format. </summary>
+        </member>
+        <member name="F:Kvaser.KvlcLib.Kvlclib.Property.PROPERTY_DATA_IN_HEX">
+            <summary>(int) Write data in hexadecimal format. </summary>
+        </member>
+        <member name="F:Kvaser.KvlcLib.Kvlclib.Property.PROPERTY_NUMBER_OF_TIME_DECIMALS">
+            <summary>(int) Number of time decimals (0-9). </summary>
+        </member>
+        <member name="F:Kvaser.KvlcLib.Kvlclib.Property.PROPERTY_NAME_MANGLING">
+            <summary>(int) Make signal names safe for use in Matlab. </summary>
+        </member>
+        <member name="F:Kvaser.KvlcLib.Kvlclib.Property.PROPERTY_FILL_BLANKS">
+            <summary>(int) Propagate values down to next row in csv-files. </summary>
+        </member>
+        <member name="F:Kvaser.KvlcLib.Kvlclib.Property.PROPERTY_SHOW_UNITS">
+            <summary>(int) Show units on their own row. </summary>
+        </member>
+        <member name="F:Kvaser.KvlcLib.Kvlclib.Property.PROPERTY_ISO8601_DECIMALS">
+            <summary>(int) Number of time decimals (0-9) to print in the calendar timestamps using ISO8601. </summary>
+        </member>
+        <member name="F:Kvaser.KvlcLib.Kvlclib.Property.PROPERTY_MERGE_LINES">
+            <summary>(int) Merge two lines if their signal values are equal. </summary>
+        </member>
+        <member name="F:Kvaser.KvlcLib.Kvlclib.Property.PROPERTY_RESAMPLE_COLUMN">
+            <summary>(int) Only print a line when the given column has been accessed. </summary>
+        </member>
+        <member name="F:Kvaser.KvlcLib.Kvlclib.Property.PROPERTY_VERSION">
+            <summary>(int) File format version. </summary>
+        </member>
+        <member name="F:Kvaser.KvlcLib.Kvlclib.Property.PROPERTY_SHOW_COUNTER">
+            <summary>(int) Add a counter to the output. </summary>
+        </member>
+        <member name="F:Kvaser.KvlcLib.Kvlclib.Property.PROPERTY_CROP_PRETRIGGER">
+            <summary>(int) Crop pre-triggers. </summary>
+        </member>
+        <member name="F:Kvaser.KvlcLib.Kvlclib.Property.PROPERTY_ENUM_VALUES">
+            <summary>(int) Replace integer values in signals with strings from database. </summary>
+        </member>
+        <member name="F:Kvaser.KvlcLib.Kvlclib.Property.PROPERTY_SIZE_LIMIT">
+            <summary>(unsigned int) Maximum file size in megabytes before starting a new output file. </summary>
+        </member>
+        <member name="F:Kvaser.KvlcLib.Kvlclib.Property.PROPERTY_TIME_LIMIT">
+            <summary>(unsigned int) Maximum delta time in seconds between first and last event before starting a new output file. </summary>
+        </member>
+        <member name="F:Kvaser.KvlcLib.Kvlclib.Property.PROPERTY_LIMIT_DATA_BYTES">
+            <summary>(int) Number of data bytes that a converter will write. </summary>
+        </member>
+        <member name="F:Kvaser.KvlcLib.Kvlclib.Property.PROPERTY_CREATION_DATE">
+            <summary>(time_int64) File creation date/time as seconds in standard UNIX format. Used in file headers if not zero. </summary>
+        </member>
+        <member name="F:Kvaser.KvlcLib.Kvlclib.Property.PROPERTY_OVERWRITE">
+            <summary>(int) Overwrite existing output files. </summary>
+        </member>
+        <member name="F:Kvaser.KvlcLib.Kvlclib.Property.PROPERTY_TIMEZONE">
+            <summary>(int) Timezone for absolute timestamps. </summary>
+        </member>
+        <member name="F:Kvaser.KvlcLib.Kvlclib.Property.PROPERTY_FULLY_QUALIFIED_NAMES">
+            <summary>(int) Write fully qualified names. </summary>
+        </member>
+        <member name="F:Kvaser.KvlcLib.Kvlclib.Property.PROPERTY_NUMBER_OF_DATA_DECIMALS">
+            <summary>(int) Number of data decimals (0-9). </summary>
+        </member>
+        <member name="F:Kvaser.KvlcLib.Kvlclib.Property.PROPERTY_SIGNAL_BASED">
+            <summary>Writes signals and not data frames. Used only with <see cref="M:Kvaser.KvlcLib.Kvlclib.IsPropertySupported(Kvaser.KvlcLib.Kvlclib.FileFormat,Kvaser.KvlcLib.Kvlclib.Property,System.Int32@)"/>. </summary>
+        </member>
+        <member name="F:Kvaser.KvlcLib.Kvlclib.Property.PROPERTY_SHOW_SIGNAL_SELECT">
+            <summary>Requires a database. Used only with  <see cref="M:Kvaser.KvlcLib.Kvlclib.IsPropertySupported(Kvaser.KvlcLib.Kvlclib.FileFormat,Kvaser.KvlcLib.Kvlclib.Property,System.Int32@)"/>. </summary>
+        </member>
+        <member name="F:Kvaser.KvlcLib.Kvlclib.Property.PROPERTY_ATTACHMENTS">
+            <summary>Can attach files to converted data. Use <see cref="M:Kvaser.KvlcLib.Kvlclib.AttachFile(Kvaser.KvlcLib.Kvlclib.Handle,System.String)"/> to add a file. Used only with <see cref="M:Kvaser.KvlcLib.Kvlclib.IsPropertySupported(Kvaser.KvlcLib.Kvlclib.FileFormat,Kvaser.KvlcLib.Kvlclib.Property,System.Int32@)"/>. </summary>
+        </member>
+    </members>
+</doc>
