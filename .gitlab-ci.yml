@@ -10,13 +10,13 @@ build:
   <<: *dotnet-job
   stage: build
   script:
+    - dotnet package search Kvaser
     - dotnet build
 
 test:
   <<: *dotnet-job
   stage: test
   script:
-    - dotnet package search Kvaser
     - dotnet test
 
 build-executable:
