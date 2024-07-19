@@ -1,0 +1,28 @@
+stages:
+  - build
+  - test
+  - release
+
+.dotnet-job: &dotnet-job
+  image: mcr.microsoft.com/dotnet/sdk:5.0
+
+build:
+  <<: *dotnet-job
+  stage: build
+  script:
+    - dotnet build
+
+test:
+  <<: *dotnet-job
+  stage: test
+  script:
+    - dotnet test
+
+build-executable:
+  <<: *dotnet-job
+  stage: release
+  script:
+    - dotnet publish -c Release -o ../publish MyApp/MyApp.csproj
+  artifacts:
+    paths:
+      - publish/
