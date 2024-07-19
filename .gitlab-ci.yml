@@ -10,7 +10,6 @@ build:
   <<: *dotnet-job
   stage: build
   script:
-    - nuget restore -Verbosity
     - dotnet package search Kvaser
     - dotnet build
 
