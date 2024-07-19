@@ -1,3 +1,0 @@
-module=dotnet
-version=1_12_487
-git_id=f48221df5f3b
