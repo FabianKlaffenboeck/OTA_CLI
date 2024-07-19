@@ -10,6 +10,7 @@ build:
   <<: *dotnet-job
   stage: build
   script:
+    - dotnet nuget config set NuGet.config
     - dotnet build
 
 test:
