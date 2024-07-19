@@ -22,7 +22,7 @@ build-executable:
   <<: *dotnet-job
   stage: release
   script:
-    - dotnet publish OTA_CLI/OTA_CLI.csproj -c Release -r win-x64 -o ./tmp/build-artifact /p:PublishSingleFile=true /p:PublishTrimmed=true /p:IncludeNativeLibrariesForSelfExtract=true
+    - dotnet publish OTA_CLI/OTA_CLI.csproj -c Release -r win-x64 -o ./tmp/build-artifact --self-contained /p:PublishSingleFile=true /p:PublishTrimmed=true /p:IncludeNativeLibrariesForSelfExtract=true
   artifacts:
     paths:
       - ./tmp/build-artifact
