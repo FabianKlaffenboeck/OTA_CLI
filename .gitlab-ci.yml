@@ -10,7 +10,6 @@ build:
   <<: *dotnet-job
   stage: build
   script:
-    - dotnet list OTA_CLI.sln package
     - dotnet build
 
 test:
