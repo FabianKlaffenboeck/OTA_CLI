@@ -1,0 +1,583 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Kvaser.LinLib</name>
+    </assembly>
+    <members>
+        <member name="F:Kvaser.LinLib.LinLibDLL.MAX_STRING_SIZE">
+            <summary>Maximum size of strings.</summary>
+        </member>
+        <member name="M:Kvaser.LinLib.LinLibDLL.#cctor">
+            <summary>
+            Static constructor, sets DLL search path to the SDK folder.
+            </summary>
+        </member>
+        <member name="T:Kvaser.LinLib.Linlib">
+            <summary>
+                The linlib DLL is a library for interacting with the LIN bus.
+            </summary>
+        </member>
+        <member name="M:Kvaser.LinLib.Linlib.linInitializeLibrary">
+            <summary>
+            This function initializes the LIN library and must be called before any other
+            LIN function is called. If this function isn't called, subsequent calls to
+            the other LIN functions will return <see cref="F:Kvaser.LinLib.Linlib.LinStatus.linERR_NOTINITIALIZED"/>.
+            <see cref="M:Kvaser.LinLib.Linlib.linOpenChannel(System.Int32,System.Int32)"/>
+            </summary>
+        </member>
+        <member name="M:Kvaser.LinLib.Linlib.linUnloadLibrary">
+            <summary>
+            This function de-initializes the LIN library. After this function is called
+            <see cref="M:Kvaser.LinLib.Linlib.linInitializeLibrary"/> must be called before any other
+            LIN function is called.
+            </summary>
+        </member>
+        <member name="M:Kvaser.LinLib.Linlib.linGetTransceiverData(System.Int32,System.Byte[],System.Byte[],System.Int32@)">
+             <summary>
+             Retrieves the transceiver information for a CAN channel. The application
+             typically uses this call to find out whether a particular CAN channel has a
+             LIN interface connected to it.
+             For a Kvaser LIN Leaf it retrieves the transceiver type and device information.
+            
+             This function call will open the CAN channel, but no CAN messages are transmitted on it.
+             In other words, it's risk-free to use even if no LIN interface is connected, or if
+             the channel is connected to a CAN system.
+            
+             Note: Attempts to use the channel for LIN communication will be meaningful
+             only if <see cref="M:Kvaser.LinLib.Linlib.linGetTransceiverData(System.Int32,System.Byte[],System.Byte[],System.Int32@)"/> stores <see cref="F:Kvaser.CanLib.Canlib.canTRANSCEIVER_TYPE_LIN"/> or
+             <see cref="F:Kvaser.CanLib.Canlib.canTRANSCEIVER_TYPE_CANFD_LIN"/> in ttype.
+            
+             Note A LIN interface need not be powered for this call to succeed.
+            
+             Note The information may not always be accurate. Especially after changing
+             transceiver on a running LAPcan card, you should go on-bus and off-bus again
+             to be sure the transceiver information is updated.
+             </summary>
+             <param name="channel">The number of a CAN channel for which the transceiver data will be retrieved.</param>
+             <param name="eanNo">A reference to an array of 8 bytes where the EAN number of the LIN interface will be stored.</param>
+             <param name="serNo">A reference to an array of 8 bytes where the serial number of the LIN interface will be stored.</param>
+             <param name="ttype">A reference to an integer where the transceiver type will be stored.</param>
+             <returns><see cref="F:Kvaser.LinLib.Linlib.LinStatus.linOK"/> linOK (zero) if success else linERR_xxx (negative).</returns>
+        </member>
+        <member name="M:Kvaser.LinLib.Linlib.linOpenChannel(System.Int32,System.Int32)">
+             <summary>Open a channel to a LIN interface.
+            
+             Note: The device must be powered from the LIN side.
+             </summary>
+             <param name="channel">The number of the channel. Channel numbering is hardware dependent.
+             This is the same channel number as used by canOpenChannel.</param>
+             <param name="flags">Either one of <see cref="F:Kvaser.LinLib.Linlib.LIN_MASTER"/> or <see cref="F:Kvaser.LinLib.Linlib.LIN_SLAVE"/></param>
+             <returns><see cref="F:Kvaser.LinLib.Linlib.LinStatus.linOK"/> linOK (zero) if success else linERR_xxx (negative).</returns>
+        </member>
+        <member name="M:Kvaser.LinLib.Linlib.linClose(System.Int32)">
+            <summary>Closes an open handle to a LIN channel. The handle becomes invalid and can not be used in subsequent calls to the LIN functions.</summary>
+            <param name="handle">A handle to an open LIN channel.</param>
+            <returns><see cref="F:Kvaser.LinLib.Linlib.LinStatus.linOK"/> linOK (zero) if success else linERR_xxx (negative).</returns>
+        </member>
+        <member name="M:Kvaser.LinLib.Linlib.linGetVersion(System.Int32@,System.Int32@,System.Int32@)">
+            <summary>
+            This function retrieves the LINLIB library version.
+            </summary>
+            <param name="major">A reference to where the major version number of the library is to be stored.</param>
+            <param name="minor">A reference to where the minor version number of the library is to be stored.</param>
+            <param name="built">A reference to where the build number of the library is to be stored.</param>
+            <returns><see cref="F:Kvaser.LinLib.Linlib.LinStatus.linOK"/> linOK (zero) if success else linERR_xxx (negative).</returns>
+        </member>
+        <member name="M:Kvaser.LinLib.Linlib.linGetFirmwareVersion(System.Int32,System.Byte@,System.Byte@,System.Byte@,System.Byte@,System.Byte@,System.Byte@)">
+             <summary>
+             This function retrieves the firmware version from the LIN interface.
+            
+             Note: For newer interfaces a call to this function will return <see cref="F:Kvaser.LinLib.Linlib.LinStatus.linERR_NOT_IMPLEMENTED"/>
+             Use <see cref="M:Kvaser.LinLib.Linlib.linGetChannelData(System.Int32,System.Int32,System.Byte[])"/> with <see cref="F:Kvaser.LinLib.Linlib.linCHANNELDATA_CARD_FIRMWARE_REV"/> instead.
+            
+             Note: The version numbers aren't valid until <see cref="M:Kvaser.LinLib.Linlib.linBusOn(System.Int32)"/> has been called.
+            
+             Note: The firmware in the LIN interface is divided into two parts, the boot
+             code and the application. The boot code is used only when reprogramming
+             (reflashing) the LIN interface. The application handles all LIN communication.
+            
+             Note: Version numbers are, since the precambric era, divided into a major
+             version number, a minor version number and a build number. These are usually
+             written like, for example, 3.2.12. Here the major number is 3, the minor
+             number 2 and the build number 12.
+             </summary>
+             <param name="handle">A handle to an open LIN channel.</param>
+             <param name="bootVerMajor">A reference to a byte where the major version number of the boot code is stored.</param>
+             <param name="bootVerMinor">A reference to a byte where the minor version number of the boot code is stored.</param>
+             <param name="bootVerBuild">A reference to a byte where the build number of the boot code is stored.</param>
+             <param name="appVerMajor">A reference to a byte where the major version number of the application code is stored.</param>
+             <param name="appVerMinor">A reference to a byte where the minor version number of the application code is stored.</param>
+             <param name="appVerBuild">A reference to a byte where the build number of the application is stored.</param>
+             <returns><see cref="F:Kvaser.LinLib.Linlib.LinStatus.linOK"/> linOK (zero) if success else linERR_xxx (negative).</returns>
+        </member>
+        <member name="M:Kvaser.LinLib.Linlib.linGetChannelData(System.Int32,System.Int32,System.Byte[])">
+             <summary>
+             This function can be used to retrieve certain pieces of information about a channel.
+            
+             Note: You must pass a channel number and not a channel handle.
+             </summary>
+             <param name="channel">The number of the channel you are interested in. Channel numbers are integers in the interval beginning at 0</param>
+             <param name="item">This parameter specifies what data to obtain for the specified channel. The value is one of the constants linCHANNELDATA_xxx.</param>
+             <param name="data">A reference to a byte buffer holding 8 bytes</param>
+             <returns><see cref="F:Kvaser.LinLib.Linlib.LinStatus.linOK"/> linOK (zero) if success else linERR_xxx (negative).</returns>
+        </member>
+        <member name="M:Kvaser.LinLib.Linlib.linSetBitrate(System.Int32,System.Int32)">
+             <summary>
+             This function sets the bit rate for a master, or the initial bit rate for a slave.
+            
+             Note: The handle shall be off-bus.
+            
+             Note: Supported bit rates are 1000 - 20000 bits per second.
+             </summary>
+             <param name="handle">A handle to an open LIN channel.</param>
+             <param name="bps">Bit rate in bits per second.</param>
+             <returns><see cref="F:Kvaser.LinLib.Linlib.LinStatus.linOK"/> linOK (zero) if success else linERR_xxx (negative).</returns>
+        </member>
+        <member name="M:Kvaser.LinLib.Linlib.linBusOn(System.Int32)">
+             <summary>
+             Takes the specified handle on-bus.
+            
+             Note: Settings and slave message buffers will be reset to the default if used on a channel that is already on-bus.
+             </summary>
+             <param name="handle">A handle to an open LIN channel.</param>
+             <returns><see cref="F:Kvaser.LinLib.Linlib.LinStatus.linOK"/> linOK (zero) if success else linERR_xxx (negative).</returns>
+        </member>
+        <member name="M:Kvaser.LinLib.Linlib.linBusOff(System.Int32)">
+             <summary>
+             Takes the specified handle off-bus.
+            
+             Note: Settings and slave message buffers will be reset to the default
+             </summary>
+             <param name="handle">A handle to an open LIN channel.</param>
+             <returns><see cref="F:Kvaser.LinLib.Linlib.LinStatus.linOK"/> linOK (zero) if success else linERR_xxx (negative).</returns>
+        </member>
+        <member name="M:Kvaser.LinLib.Linlib.linReadTimer(System.Int32,System.Int64@)">
+            <summary>
+            Return the current timer value (used for timestamps)
+            </summary>
+            <param name="handle">A handle to an open LIN channel.</param>
+            <param name="time">Returned timer value</param>
+            <returns><see cref="F:Kvaser.LinLib.Linlib.LinStatus.linOK"/> linOK (zero) if success else linERR_xxx (negative).</returns>
+        </member>
+        <member name="M:Kvaser.LinLib.Linlib.linWriteMessage(System.Int32,System.Int32,System.Byte[],System.Int32)">
+             <summary>
+             Write a LIN message.
+             It is advisable to wait until the message is echoed by <see cref="M:Kvaser.LinLib.Linlib.linReadMessage(System.Int32,System.Int32@,System.Byte[],System.Int32@,System.Int32@,Kvaser.LinLib.Linlib.LinMessageInfo)"/>
+             before transmitting a new message, or in case of a schedule table being used,
+             transmit the next message when the previous one is known to be complete.
+            
+             Note: Only available in master mode.
+             </summary>
+             <param name="handle">A handle to an open LIN channel.</param>
+             <param name="id">The identifier of the LIN message.</param>
+             <param name="msg">Buffer containing the data of the LIN message</param>
+             <param name="dlc">The length of the LIN message.</param>
+             <returns><see cref="F:Kvaser.LinLib.Linlib.LinStatus.linOK"/> linOK (zero) if success else linERR_xxx (negative).</returns>
+        </member>
+        <member name="M:Kvaser.LinLib.Linlib.linRequestMessage(System.Int32,System.Int32)">
+             <summary>
+             This function writes a LIN message header to the LIN bus. A slave in the
+             system is then expected to fill in the header with data.
+            
+             Note: This call is only available in master mode.
+             </summary>
+             <param name="handle">A handle to an open LIN channel.</param>
+             <param name="id">The identifier of the LIN message.</param>
+             <returns><see cref="F:Kvaser.LinLib.Linlib.LinStatus.linOK"/> linOK (zero) if success else linERR_xxx (negative).</returns>
+        </member>
+        <member name="M:Kvaser.LinLib.Linlib.linReadMessage(System.Int32,System.Int32@,System.Byte[],System.Int32@,System.Int32@,Kvaser.LinLib.Linlib.LinMessageInfo)">
+             <summary>
+             Read a message from the LIN interface. If a message is available for reception,
+             <see cref="F:Kvaser.LinLib.Linlib.LinStatus.linOK"/> is returned. This is a non-blocking call. If no message
+             is available in the LIN interface, an error code is returned.
+            
+             Note: This call will also return echoes of what the LIN interface is transmitting
+             with <see cref="M:Kvaser.LinLib.Linlib.linWriteMessage(System.Int32,System.Int32,System.Byte[],System.Int32)"/>. In other words, the LIN interface can hear itself.
+             </summary>
+             <param name="handle">A handle to an open LIN channel.</param>
+             <param name="id">A reference to an integer where the identifier of the received LIN message will be stored.</param>
+             <param name="msg">A reference to buffer where the data of the LIN message will be stored.</param>
+             <param name="dlc">A reference to an integer where the length of the received LIN message will be stored.</param>
+             <param name="flags">A combination of zero or more of the LIN_xxx flags.</param>
+             <param name="msgInfo">A reference to a <see cref="T:Kvaser.LinLib.Linlib.LinMessageInfo"/> object where data about the received LIN message will be stored.</param>
+             <returns><see cref="F:Kvaser.LinLib.Linlib.LinStatus.linOK"/> linOK (zero) if success else linERR_xxx (negative).</returns>
+        </member>
+        <member name="M:Kvaser.LinLib.Linlib.linReadMessageWait(System.Int32,System.Int32@,System.Byte[],System.Int32@,System.Int32@,Kvaser.LinLib.Linlib.LinMessageInfo,System.Int64)">
+             <summary>
+             Read a message from the LIN interface. If a message is available for reception,
+             <see cref="F:Kvaser.LinLib.Linlib.LinStatus.linOK"/> is returned. This is a blocking call. It waits until a
+             message is received in the LIN interface, or the specified timeout period elapses.
+            
+             Note: This call will also return echoes of what the LIN interface is transmitting
+             with <see cref="M:Kvaser.LinLib.Linlib.linWriteMessage(System.Int32,System.Int32,System.Byte[],System.Int32)"/>. In other words, the LIN interface can hear itself.
+             </summary>
+             <param name="handle">A handle to an open LIN channel.</param>
+             <param name="id">A reference to an integer where the identifier of the received LIN message will be stored.</param>
+             <param name="msg">A reference to buffer where the data of the LIN message will be stored.</param>
+             <param name="dlc">A reference to an integer where the length of the received LIN message will be stored.</param>
+             <param name="flags">A combination of zero or more of the LIN_xxx flags.</param>
+             <param name="msgInfo">A reference to a <see cref="T:Kvaser.LinLib.Linlib.LinMessageInfo"/> struct where data about the received LIN message will be stored.</param>
+             <param name="timeout">The maximum number of milliseconds to wait for a message to be received by the LIN interface.</param>
+             <returns><see cref="F:Kvaser.LinLib.Linlib.LinStatus.linOK"/> linOK (zero) if success else linERR_xxx (negative).</returns>
+        </member>
+        <member name="M:Kvaser.LinLib.Linlib.linUpdateMessage(System.Int32,System.Int32,System.Byte[],System.Int32)">
+             <summary>
+             This function updates a message buffer in a slave. The contents of the
+             message buffer will be used the next time the slave is polled for the
+             specified LIN message id.
+            
+             Note: The handle shall be on-bus.
+             </summary>
+             <param name="handle">A handle to an open LIN channel.</param>
+             <param name="id">The identifier of the LIN message.</param>
+             <param name="msg">A reference to buffer containing the data of the LIN message.</param>
+             <param name="dlc">The length of the LIN message.</param>
+             <returns><see cref="F:Kvaser.LinLib.Linlib.LinStatus.linOK"/> linOK (zero) if success else linERR_xxx (negative).</returns>
+        </member>
+        <member name="M:Kvaser.LinLib.Linlib.linSetupIllegalMessage(System.Int32,System.Int32,System.Int32,System.Int32)">
+             <summary>
+             Using this function, it is possible to use the LIN interface to create
+             corrupted LIN messages. You call the function once for each LIN identifier
+             that should be affected.
+            
+             To return to normal mode, either restart the LIN interface (by going off bus
+             and on the bus again) or call the function with delay and cFlags set to zero.
+            
+             Note: The handle shall be on-bus.
+             Note: Not supported by all devices.
+             </summary>
+             <param name="handle">A handle to an open LIN channel.</param>
+             <param name="id">The identifier of the LIN message.</param>
+             <param name="cFlags">One or more of the LIN_MSG_DISTURB_xxx flags.</param>
+             <param name="delay">The delay parameter will result in a delay of this many bittimes after the header and before the first data byte.</param>
+             <returns><see cref="F:Kvaser.LinLib.Linlib.LinStatus.linOK"/> linOK (zero) if success else linERR_xxx (negative).</returns>
+        </member>
+        <member name="M:Kvaser.LinLib.Linlib.linSetupLIN(System.Int32,System.Int32,System.Int32)">
+             <summary>
+             This function changes various settings on a handle that is on-bus.
+             When going on-bus, the bit rate and the flag values listed below are set to
+             the default value (either as hard-coded in the firmware, or as stored in the
+             non-volatile memory of the LIN Interface).
+            
+             With this function, you can do one or more of the following things:
+             - Select checksum according to LIN 2.0
+             - Turn variable message length off. The message length then will depend on the message ID.
+            
+             In master mode it is also possible to change the bit rate without going off bus first.
+            
+             Note: The handle shall be on-bus.
+             Note: It is supported in firmware version 2.5.1 and later.
+             Note: For LIN 2.0 compliance, you must specify both <see cref="F:Kvaser.LinLib.Linlib.LIN_ENHANCED_CHECKSUM"/> and <see cref="F:Kvaser.LinLib.Linlib.LIN_VARIABLE_DLC"/>.
+             </summary>
+             <param name = "handle">A handle to an open LIN channel.</param>
+             <param name="lFlags">One or more of the following flags: <see cref="F:Kvaser.LinLib.Linlib.LIN_ENHANCED_CHECKSUM"/>, <see cref="F:Kvaser.LinLib.Linlib.LIN_VARIABLE_DLC"/></param>
+             <param name="bps">Specifies the bit rate in bits per second. This parameter can be used only in master mode. The bit rate is set without going off bus.</param>
+             <returns><see cref="F:Kvaser.LinLib.Linlib.LinStatus.linOK"/> linOK (zero) if success else linERR_xxx (negative).</returns>
+        </member>
+        <member name="M:Kvaser.LinLib.Linlib.linWriteWakeup(System.Int32,System.Int32,System.Int32)">
+             <summary>
+             Write a wakeup frame.
+            
+             If count is zero, one single wakeup frame is transmitted. If count > 1,
+             several wakeup frames are transmitted spaced with 'interval' bittimes.
+             The LIN interface will interrupt the sequence when a LIN message or another
+             command is received. The stream of wakeups will be recived as incoming
+             messages with the LIN_RX flag bit set.
+            
+             Note: Maximum value of count is 255 (0xFF).
+             Note: Maximum value of interval is either 255 (0xFF) or 65535 (0xFFFF) depending on device.
+             </summary>
+             <param name="handle">A handle to an open LIN channel.</param>
+             <param name="count">The number of wakeup frames to send.</param>
+             <param name="interval">The time, in bit times, between the wakeup frames.</param>
+             <returns><see cref="F:Kvaser.LinLib.Linlib.LinStatus.linOK"/> linOK (zero) if success else linERR_xxx (negative).</returns>
+        </member>
+        <member name="M:Kvaser.LinLib.Linlib.linClearMessage(System.Int32,System.Int32)">
+            <summary>
+            Clear a message buffer for a LIN slave. The message buffer will not answer
+            next time it is polled.
+            </summary>
+            <param name="handle">A handle to an open LIN channel.</param>
+            <param name="id">The LIN message id for which the corresponding buffer will be cleared.</param>
+            <returns><see cref="F:Kvaser.LinLib.Linlib.LinStatus.linOK"/> linOK (zero) if success else linERR_xxx (negative).</returns>
+        </member>
+        <member name="M:Kvaser.LinLib.Linlib.linWriteSync(System.Int32,System.Int64)">
+             <summary>
+             Call this function to make sure all messages transmitted to the
+             LIN Interface has been received by it.
+            
+             When messages are transmitted to the LIN Interface, they are queued by
+             the driver before appearing on the LIN bus.
+            
+             The function returns <see cref="F:Kvaser.LinLib.Linlib.LinStatus.linOK"/> if all writes are done, <see cref="F:Kvaser.LinLib.Linlib.LinStatus.linERR_TIMEOUT"/> in
+             case of timeout or possibly some other error code.
+            
+             If the LIN Interface is in master mode and a LIN message has been
+             transmitted with <see cref="M:Kvaser.LinLib.Linlib.linWriteMessage(System.Int32,System.Int32,System.Byte[],System.Int32)"/>, this function will return when
+             the LIN Interface has received the message. If another LIN message is being
+             received or transmitted, the message will not be transmitted on the
+             LIN bus at once. And even if the LIN Interface is idle, the header of the new
+             message will just have been started when <see cref="M:Kvaser.LinLib.Linlib.linWriteSync(System.Int32,System.Int64)"/> returns.
+            
+             After calling <see cref="M:Kvaser.LinLib.Linlib.linUpdateMessage(System.Int32,System.Int32,System.Byte[],System.Int32)"/> and <see cref="M:Kvaser.LinLib.Linlib.linClearMessage(System.Int32,System.Int32)"/> for a slave,
+             this function is enough to know that the LIN Interface is updated.
+            
+             After <see cref="M:Kvaser.LinLib.Linlib.linWriteMessage(System.Int32,System.Int32,System.Byte[],System.Int32)"/>, it is advisable to wait until the message is
+             echoed by <see cref="M:Kvaser.LinLib.Linlib.linReadMessage(System.Int32,System.Int32@,System.Byte[],System.Int32@,System.Int32@,Kvaser.LinLib.Linlib.LinMessageInfo)"/> before transmitting a new message, or in
+             case of a schedule table being used, transmit the next message when
+             the previous one is known to be complete.
+            
+             When, in master mode, a message should be transmitted after a poll
+             (reception) is done, it might be necessary to call <see cref="M:Kvaser.LinLib.Linlib.linWriteMessage(System.Int32,System.Int32,System.Byte[],System.Int32)"/>
+             before the result is received via <see cref="M:Kvaser.LinLib.Linlib.linReadMessage(System.Int32,System.Int32@,System.Byte[],System.Int32@,System.Int32@,Kvaser.LinLib.Linlib.LinMessageInfo)"/> as the LIN Interface waits
+             up to the maximum frame length before knowing a received message is complete.
+             A new message to transmit will force completion if the  currently received one.
+             </summary>
+             <param name="handle">A handle to an open LIN channel.</param>
+             <param name="timeout">The maximum number of milliseconds to wait for the queued messages to be transmitted by the LIN interface.</param>
+             <returns><see cref="F:Kvaser.LinLib.Linlib.LinStatus.linOK"/> linOK (zero) if success else linERR_xxx (negative).</returns>
+        </member>
+        <member name="M:Kvaser.LinLib.Linlib.linGetCanHandle(System.Int32,System.Int32@)">
+            <summary>Return the CAN handle given an open LIN handle</summary>
+            <param name="handle">A handle to an open LIN channel.</param>
+            <param name="canHandle">A reference to an integer where the CAN handle will be stored.</param>
+            <returns><see cref="F:Kvaser.LinLib.Linlib.LinStatus.linOK"/> linOK (zero) if success else linERR_xxx (negative).</returns>
+        </member>
+        <member name="M:Kvaser.LinLib.Linlib.LINERROR(System.Int32)">
+            <summary>
+            Function for determining if a flag field contains a LIN error flag bit.
+            </summary>
+            <param name="X">Flag field to test for LIN error flags</param>
+        </member>
+        <member name="F:Kvaser.LinLib.Linlib.linINVALID_HANDLE">
+            <summary>Indicates an invalid linHandle.</summary>
+        </member>
+        <member name="T:Kvaser.LinLib.Linlib.LinStatus">
+            <summary>Status Codes
+            Generally, a return code greater than or equal to zero means success. A value less than zero means failure.</summary>
+        </member>
+        <member name="F:Kvaser.LinLib.Linlib.LinStatus.linOK">
+            <summary>OK - no error</summary>
+        </member>
+        <member name="F:Kvaser.LinLib.Linlib.LinStatus.linERR_NOMSG">
+            <summary>No messages available</summary>
+        </member>
+        <member name="F:Kvaser.LinLib.Linlib.LinStatus.linERR_NOTRUNNING">
+            <summary>Handle not on-bus.
+            Some functions requires that the handle is on-bus before being called, i.e <see cref="M:Kvaser.LinLib.Linlib.linRequestMessage(System.Int32,System.Int32)"/>.
+            Call <see cref="M:Kvaser.LinLib.Linlib.linBusOn(System.Int32)"/> to go on-bus.</summary>
+        </member>
+        <member name="F:Kvaser.LinLib.Linlib.LinStatus.linERR_RUNNING">
+            <summary>Handle not off-bus.
+            Some functions requires that the handle is off-bus before being called, i.e <see cref="M:Kvaser.LinLib.Linlib.linSetBitrate(System.Int32,System.Int32)"/>.
+            Call <see cref="M:Kvaser.LinLib.Linlib.linBusOff(System.Int32)"/> to go off-bus.</summary>
+        </member>
+        <member name="F:Kvaser.LinLib.Linlib.LinStatus.linERR_MASTERONLY">
+            <summary>Only for a master.
+            A call to a function that only a master can execute, i.e <see cref="M:Kvaser.LinLib.Linlib.linRequestMessage(System.Int32,System.Int32)"/>.</summary>
+        </member>
+        <member name="F:Kvaser.LinLib.Linlib.LinStatus.linERR_SLAVEONLY">
+            <summary>Only for a slave.
+            A call to a function that only a slave can execute, i.e <see cref="M:Kvaser.LinLib.Linlib.linUpdateMessage(System.Int32,System.Int32,System.Byte[],System.Int32)"/>.</summary>
+        </member>
+        <member name="F:Kvaser.LinLib.Linlib.LinStatus.linERR_PARAM">
+            <summary>Error in parameter</summary>
+        </member>
+        <member name="F:Kvaser.LinLib.Linlib.LinStatus.linERR_NOTFOUND">
+            <summary>Specified hardware not found. This error is reported when the LIN transceiver isn't powered up</summary>
+        </member>
+        <member name="F:Kvaser.LinLib.Linlib.LinStatus.linERR_NOMEM">
+            <summary>Out of memory</summary>
+        </member>
+        <member name="F:Kvaser.LinLib.Linlib.LinStatus.linERR_NOCHANNELS">
+            <summary>No channels avaliable</summary>
+        </member>
+        <member name="F:Kvaser.LinLib.Linlib.LinStatus.linERR_TIMEOUT">
+            <summary>Timeout occurred</summary>
+        </member>
+        <member name="F:Kvaser.LinLib.Linlib.LinStatus.linERR_NOTINITIALIZED">
+            <summary>Library not initialized</summary>
+        </member>
+        <member name="F:Kvaser.LinLib.Linlib.LinStatus.linERR_NOHANDLES">
+            <summary>Can't get handle</summary>
+        </member>
+        <member name="F:Kvaser.LinLib.Linlib.LinStatus.linERR_INVHANDLE">
+            <summary>Handle is invalid</summary>
+        </member>
+        <member name="F:Kvaser.LinLib.Linlib.LinStatus.linERR_CANERROR">
+            <summary>Internal error in the driver</summary>
+        </member>
+        <member name="F:Kvaser.LinLib.Linlib.LinStatus.linERR_ERRRESP">
+            <summary>There was an error response from the LIN interface</summary>
+        </member>
+        <member name="F:Kvaser.LinLib.Linlib.LinStatus.linERR_WRONGRESP">
+            <summary>The LIN interface response wasn't the expected one</summary>
+        </member>
+        <member name="F:Kvaser.LinLib.Linlib.LinStatus.linERR_DRIVER">
+            <summary>LIN driver type not supported</summary>
+        </member>
+        <member name="F:Kvaser.LinLib.Linlib.LinStatus.linERR_DRIVERFAILED">
+            <summary>DeviceIOControl failed; use the Win32 GetLastError API to get the real (Win32) error code.</summary>
+        </member>
+        <member name="F:Kvaser.LinLib.Linlib.LinStatus.linERR_NOCARD">
+            <summary>The card was removed or not inserted</summary>
+        </member>
+        <member name="F:Kvaser.LinLib.Linlib.LinStatus.linERR_LICENSE">
+            <summary>The license is not valid</summary>
+        </member>
+        <member name="F:Kvaser.LinLib.Linlib.LinStatus.linERR_INTERNAL">
+            <summary>Internal error in the driver</summary>
+        </member>
+        <member name="F:Kvaser.LinLib.Linlib.LinStatus.linERR_NO_ACCESS">
+            <summary>Access denied</summary>
+        </member>
+        <member name="F:Kvaser.LinLib.Linlib.LinStatus.linERR_VERSION">
+            <summary>Function not supported in this version</summary>
+        </member>
+        <member name="F:Kvaser.LinLib.Linlib.LinStatus.linERR_NO_REF_POWER">
+            <summary>Function not supported in this version</summary>
+        </member>
+        <member name="F:Kvaser.LinLib.Linlib.LinStatus.linERR_NOT_IMPLEMENTED">
+            <summary>The requested feature or function is not implemented in the device you are trying to use it on</summary>
+        </member>
+        <member name="T:Kvaser.LinLib.Linlib.LinMessageInfo">
+             <summary>
+             In certain LIN bus API calls, the following structure is used to provide more
+             information about the LIN messages.
+            
+             Note: The precision of the timing data given in us (microseconds) can be less
+             than one microsecond; for low bitrates the lowest bits might always be zero.
+            
+             Note: The min and max values listed inside [] of the message timing values
+             can be calculated from the LIN specification by using the shortest (0 bytes)
+             or longest (8 bytes) messages at the lowest or highest allowed bitrate.
+            
+             Note: The LIN interface will accept messages that are a bit out-of-bounds as well.</summary>
+        </member>
+        <member name="F:Kvaser.LinLib.Linlib.LinMessageInfo.timestamp">
+             <summary>
+             Kvaser DRV Lin timestamp - Timestamp in milliseconds of the falling edge of
+             the synch break of the message. Uses the canlib CAN timer.
+            
+             Kvaser LIN Leaf timestamp - Timestamp in milliseconds of the falling edge
+             of the synch break of the message. Uses the canlib CAN timer.
+            
+             Note: All Kvaser Leaf with Kvaser MagiSync(tm); are synchronized (also with CAN channels).
+             </summary>
+        </member>
+        <member name="F:Kvaser.LinLib.Linlib.LinMessageInfo.synchBreakLength">
+            <summary>
+            Length of the synch break in microseconds.
+            [650 .. 13000],  [400 .. 8000] for a wakeup signal.
+            </summary>
+        </member>
+        <member name="F:Kvaser.LinLib.Linlib.LinMessageInfo.frameLength">
+            <summary>
+            The total frame length in microseconds; from the synch break to the end of the crc. [2200 .. 173600]
+            </summary>
+        </member>
+        <member name="F:Kvaser.LinLib.Linlib.LinMessageInfo.bitrate">
+            <summary>
+            The bitrate of the message in bits per seconds. Range [1000 .. 20000] (plus some margin)
+            </summary>
+        </member>
+        <member name="F:Kvaser.LinLib.Linlib.LinMessageInfo.checkSum">
+            <summary>
+            The checksum as read from the LIN bus. Might not match the data in case of <see cref="F:Kvaser.LinLib.Linlib.LIN_CSUM_ERROR"/>.
+            </summary>
+        </member>
+        <member name="F:Kvaser.LinLib.Linlib.LinMessageInfo.idPar">
+            <summary>
+            The id with parity of the message as read from the LIN bus. Might be invalid in case of <see cref="F:Kvaser.LinLib.Linlib.LIN_PARITY_ERROR"/>.
+            </summary>
+        </member>
+        <member name="F:Kvaser.LinLib.Linlib.LinMessageInfo.synchEdgeTime">
+            <summary>
+            Time in microseconds of the falling edges in the synch byte relative the falling edge of the start bit.
+            Note: Not supported by all devices.
+            </summary>
+        </member>
+        <member name="F:Kvaser.LinLib.Linlib.LinMessageInfo.byteTime">
+            <summary>
+            Start time in microseconds of each data byte. In case of 8-byte messages,
+            the crc time isn't included (but can be deduced from frameLength).
+            Note: Not supported by all devices.
+            </summary>
+        </member>
+        <member name="F:Kvaser.LinLib.Linlib.LIN_TX">
+            <summary>
+            LIN message flags
+            The following flags can be returned from <see cref="M:Kvaser.LinLib.Linlib.linReadMessage(System.Int32,System.Int32@,System.Byte[],System.Int32@,System.Int32@,Kvaser.LinLib.Linlib.LinMessageInfo)"/> and <see cref="M:Kvaser.LinLib.Linlib.linReadMessageWait(System.Int32,System.Int32@,System.Byte[],System.Int32@,System.Int32@,Kvaser.LinLib.Linlib.LinMessageInfo,System.Int64)"/>.
+            </summary>
+            <summary>The message was something we transmitted on the bus</summary>
+        </member>
+        <member name="F:Kvaser.LinLib.Linlib.LIN_RX">
+            <summary>The message was something we received from the bus</summary>
+        </member>
+        <member name="F:Kvaser.LinLib.Linlib.LIN_WAKEUP_FRAME">
+            <summary>A wake up frame was received. Id/msg/dlc are undefined</summary>
+        </member>
+        <member name="F:Kvaser.LinLib.Linlib.LIN_NODATA">
+            <summary>No data, only a header</summary>
+        </member>
+        <member name="F:Kvaser.LinLib.Linlib.LIN_CSUM_ERROR">
+            <summary>Checksum error</summary>
+        </member>
+        <member name="F:Kvaser.LinLib.Linlib.LIN_PARITY_ERROR">
+            <summary>ID parity error</summary>
+        </member>
+        <member name="F:Kvaser.LinLib.Linlib.LIN_SYNCH_ERROR">
+            <summary>A synch error</summary>
+        </member>
+        <member name="F:Kvaser.LinLib.Linlib.LIN_BIT_ERROR">
+            <summary>Bit error when transmitting</summary>
+        </member>
+        <member name="F:Kvaser.LinLib.Linlib.linCHANNELDATA_CARD_FIRMWARE_REV">
+            <summary>
+            This constant is used in <see cref="M:Kvaser.LinLib.Linlib.linGetChannelData(System.Int32,System.Int32,System.Byte[])"/>, buffer
+            mentioned below refers to this functions argument.
+            buffer points to a 64-bit (8 bytes) area which receives the firmware
+            revision number on the card. This number consists of four 16-bit words:
+            the major revision, the minor revision, the release number and the build
+            number, listed in order from the most significant to the least
+            significant.
+            </summary>
+        </member>
+        <member name="F:Kvaser.LinLib.Linlib.LIN_MASTER">
+            <summary>The LIN interface will be a LIN master</summary>
+        </member>
+        <member name="F:Kvaser.LinLib.Linlib.LIN_SLAVE">
+            <summary>The LIN interface will be a LIN slave</summary>
+        </member>
+        <member name="F:Kvaser.LinLib.Linlib.LIN_MSG_DISTURB_CSUM">
+            <summary>The checksum of transmitted messages will be inverted (and consequently illegal.)</summary>
+        </member>
+        <member name="F:Kvaser.LinLib.Linlib.LIN_MSG_DISTURB_PARITY">
+            <summary>Two parity bits will be inverted - Use only in master mode</summary>
+        </member>
+        <member name="F:Kvaser.LinLib.Linlib.LIN_MSG_USE_STANDARD_PARITY">
+            <summary>Use standard (1.x) parity for the specified msg</summary>
+        </member>
+        <member name="F:Kvaser.LinLib.Linlib.LIN_MSG_USE_ENHANCED_PARITY">
+            <summary>Use enhanced (2.x) parity for the specified msg</summary>
+        </member>
+        <member name="F:Kvaser.LinLib.Linlib.LIN_ENHANCED_CHECKSUM">
+             <summary>
+             When specified, the LIN interface will use the "enhanced" checksum according
+             to LIN 2.0. Note that (as per the LIN 2.0 spec) the enhanced checksum is not
+             used on the diagnostic frames even if the <see cref="F:Kvaser.LinLib.Linlib.LIN_ENHANCED_CHECKSUM"/> setting
+             is in effect.
+            
+             The default value is OFF.
+             </summary>
+        </member>
+        <member name="F:Kvaser.LinLib.Linlib.LIN_VARIABLE_DLC">
+             <summary>
+             When specified, turns variable message length on, so the the message length
+             will depend on the message ID.
+            
+             The default value is ON.
+             </summary>
+        </member>
+    </members>
+</doc>
