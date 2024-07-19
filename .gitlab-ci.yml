@@ -10,6 +10,9 @@ build:
   <<: *dotnet-job
   stage: build
   script:
+    - cd builds/fklab/updateserver/ota_cli/Canlib/dotnet
+    - ls
+    - cd
     - dotnet package search Kvaser
     - dotnet build
 
