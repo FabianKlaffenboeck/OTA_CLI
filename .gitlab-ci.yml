@@ -16,6 +16,7 @@ test:
   <<: *dotnet-job
   stage: test
   script:
+    - dotnet package search Kvaser
     - dotnet test
 
 build-executable:
