@@ -13,36 +13,30 @@ class Program
 
             if (o.Scan)
             {
-                ScanHandler(progInterface);
+                Console.WriteLine("Scanning started, please wait...");
+                foreach (var device in progInterface.StartScan())
+                {
+                    Console.WriteLine(device);
+                }
+
                 return;
             }
 
-            UploadHandler(o.Binary, o.TargetDevice, progInterface);
+
+            Updater updater;
+
+            if (o.OnlineMode)
+            {
+                updater = new OnlineUpdater(progInterface);
+            }
+            else
+            {
+                updater = new FileUpdater(progInterface, o.Binary);
+            }
+
+            updater.Update(o.TargetDevice);
+            updater.Verify();
         });
         Console.WriteLine("Program End");
-    }
-
-    private static void ScanHandler(ProgInterface progInterface)
-    {
-        Console.WriteLine("Scanning started, please wait...");
-        var devices = progInterface.StartScan();
-
-        foreach (var device in devices)
-        {
-            Console.WriteLine(device);
-        }
-    }
-
-    private static void UploadHandler(string pathToBin, int targetDeviceId, ProgInterface progInterface)
-    {
-        if (!File.Exists(pathToBin))
-        {
-            Console.WriteLine("File does not exist or path is not valid!");
-            return;
-        }
-
-        var fileBytes = File.ReadAllBytes(pathToBin);
-
-        progInterface.Upload(fileBytes, targetDeviceId);
     }
 }

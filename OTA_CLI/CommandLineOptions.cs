@@ -12,6 +12,10 @@ public class CommandLineOptions
         HelpText = "Perform a scan on the connected interface for targets.", Default = false)]
     public bool Scan { get; set; }
 
+    [Option(shortName: 'o', longName: "online", Required = true,
+        HelpText = "Perform automatic update via the OTA Server.", Default = false)]
+    public bool OnlineMode { get; set; }
+
     [Option(shortName: 'd', longName: "device", Required = false,
         HelpText =
             "If more devices are available on one interface (e.g. one can Bus with multiple targets) then the device id has to be specified.")]
