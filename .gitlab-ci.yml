@@ -11,6 +11,7 @@ build:
   stage: build
   script:
     - dotnet nuget list source
+    - dotnet package search Kvaser
     - dotnet build
 
 test:
