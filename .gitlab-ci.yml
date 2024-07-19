@@ -22,7 +22,7 @@ build-executable:
   <<: *dotnet-job
   stage: release
   script:
-    - dotnet publish -c Release -o ../publish MyApp/MyApp.csproj
+    - dotnet publish -c Release -o ../publish OTA_CLI/OTA_CLI.csproj
   artifacts:
     paths:
       - publish/
