@@ -25,4 +25,4 @@ build-executable:
     - dotnet publish -c Release -o ../publish OTA_CLI/OTA_CLI.csproj
   artifacts:
     paths:
-      - publish/
+      - ../publish/
