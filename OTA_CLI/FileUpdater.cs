@@ -1,3 +1,5 @@
+using System;
+
 namespace OTA_CLI;
 
 public class FileUpdater : Updater
