@@ -39,9 +39,8 @@ build:
   before_script:
     - echo $(pwd)
     - ls
+    - dotnet restore --verbosity detailed
   script:
-    - dotnet publish OTA_CLI/OTA_CLI.csproj -c Release -r win-x64 -o ./tmp/build-artifact --self-contained /p:PublishSingleFile=true /p:PublishTrimmed=true /p:IncludeNativeLibrariesForSelfExtract=true
-    - echo $(pwd)
     - dotnet build
 
 
