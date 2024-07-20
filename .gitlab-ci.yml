@@ -39,7 +39,7 @@ build:
   before_script:
     - echo $(pwd)
     - ls
-    - dotnet restore --verbosity detailed
+    - dotnet restore --source nuget.config --verbosity detailed
   script:
     - dotnet build
 
