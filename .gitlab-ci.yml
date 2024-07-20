@@ -34,11 +34,13 @@ stages:
   - build
 
 build:
-  image: mcr.microsoft.com/dotnet-nightly/sdk:8.0
+  image: mcr.microsoft.com/dotnet/sdk:8.0
   stage: build
   before_script:
     - echo $(pwd)
+    - ls
   script:
+    - dotnet publish OTA_CLI/OTA_CLI.csproj -c Release -r win-x64 -o ./tmp/build-artifact --self-contained /p:PublishSingleFile=true /p:PublishTrimmed=true /p:IncludeNativeLibrariesForSelfExtract=true
     - echo $(pwd)
     - dotnet build
 
