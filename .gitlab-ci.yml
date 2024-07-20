@@ -39,8 +39,7 @@ build:
   before_script:
     - echo $(pwd)
     - ls
-    - dotnet restore --source ./Canlib/dotnet --verbosity detailed
   script:
-    - dotnet build
+    - dotnet restore --source ./Canlib/dotnet --verbosity detailed
 
 
