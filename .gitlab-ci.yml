@@ -1,45 +1,31 @@
-#stages:
-#  - build
-#  - test
-#  - release
-#
-#.dotnet-job: &dotnet-job
-#  image: mcr.microsoft.com/dotnet/sdk:8.0
-#
-#build:
-#  <<: *dotnet-job
-#  stage: build
-#  script:
-#    - dotnet build
-#
-#test:
-#  <<: *dotnet-job
-#  stage: test
-#  script:
-#    - dotnet test
-#
-#build-executable:
-#  <<: *dotnet-job
-#  stage: release
-##  only:
-##    - master
-##    - main
-#  script:
-#    - dotnet publish OTA_CLI/OTA_CLI.csproj -c Release -r win-x64 -o ./tmp/build-artifact --self-contained /p:PublishSingleFile=true /p:PublishTrimmed=true /p:IncludeNativeLibrariesForSelfExtract=true
-#  artifacts:
-#    paths:
-#      - ./tmp/build-artifact
-
 stages:
   - build
+  - test
+  - release
+
+.dotnet-job: &dotnet-job
+  image: mcr.microsoft.com/dotnet/sdk:8.0
 
 build:
-  image: mcr.microsoft.com/dotnet/sdk:8.0
+  <<: *dotnet-job
   stage: build
-  before_script:
-    - echo $(pwd)
-    - ls
   script:
-    - dotnet restore --source ./Canlib/dotnet --verbosity detailed
+    - dotnet build
 
+test:
+  <<: *dotnet-job
+  stage: test
+  script:
+    - dotnet test
 
+build-executable:
+  <<: *dotnet-job
+  stage: release
+#  only:
+#    - master
+#    - main
+  script:
+    - dotnet publish OTA_CLI/OTA_CLI.csproj -c Release -r win-x64 -o ./tmp/build-artifact --self-contained /p:PublishSingleFile=true /p:PublishTrimmed=true /p:IncludeNativeLibrariesForSelfExtract=true
+  artifacts:
+    paths:
+      - ./tmp/build-artifact
