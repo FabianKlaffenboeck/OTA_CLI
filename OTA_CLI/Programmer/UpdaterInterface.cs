@@ -1,6 +1,6 @@
 namespace OTA_CLI;
 
-public interface Updater
+public interface UpdaterInterface
 {
     public bool Update(int targetDeviceId);
     public bool Verify();

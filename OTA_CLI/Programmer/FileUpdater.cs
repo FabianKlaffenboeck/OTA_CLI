@@ -1,10 +1,11 @@
 using System;
+using OTA_CLI.CAN_Bus;
 
 namespace OTA_CLI;
 
-public class FileUpdater : Updater
+public class FileUpdater : UpdaterInterface
 {
-    public FileUpdater(ProgInterface progInterface, string objBinary)
+    public FileUpdater(KvaserInterface kvaserInterface, string objBinary)
     {
     }
 

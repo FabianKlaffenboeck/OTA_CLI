@@ -1,10 +1,11 @@
 using System;
+using OTA_CLI.CAN_Bus;
 
 namespace OTA_CLI;
 
-public class OnlineUpdater : Updater
+public class OnlineUpdater : UpdaterInterface
 {
-    public OnlineUpdater(ProgInterface progInterface)
+    public OnlineUpdater(KvaserInterface kvaserInterface)
     {
     }
 

@@ -5,14 +5,14 @@ namespace OTA_CLI;
 public class CommandLineOptions
 {
     [Option(shortName: 'i', longName: "interface", Required = true,
-        HelpText = "The interface for connecting to the target device.", Default = "")]
-    public string Interface { get; set; }
+        HelpText = "The interface for connecting to the target device.", Default = -1)]
+    public int Interface { get; set; }
 
     [Option(shortName: 's', longName: "scann", Required = false,
         HelpText = "Perform a scan on the connected interface for targets.", Default = false)]
     public bool Scan { get; set; }
 
-    [Option(shortName: 'o', longName: "online", Required = true,
+    [Option(shortName: 'o', longName: "online", Required = false,
         HelpText = "Perform automatic update via the OTA Server.", Default = false)]
     public bool OnlineMode { get; set; }
 
