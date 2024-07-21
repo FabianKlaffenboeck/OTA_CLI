@@ -10,12 +10,9 @@ class Program
 {
     static void Main(string[] args)
     {
-        Canlib.canInitializeLibrary();
-
-
-        CommandLine.Parser.Default.ParseArguments<CommandLineOptions>(args).WithParsed<CommandLineOptions>(o =>
+        Parser.Default.ParseArguments<CommandLineOptions>(args).WithParsed<CommandLineOptions>(o =>
         {
-            var kvaserInterface = new KvaserInterface(o.Interface);
+            var kvaserInterface = new KvaserInterface(o.Interface, Canlib.canBITRATE_250K);
 
             if (!kvaserInterface.init())
             {
@@ -36,23 +33,23 @@ class Program
                 {
                     Console.WriteLine(device);
                 }
+
                 return;
             }
 
 
-            UpdaterInterface updaterInterface;
-
-            if (o.OnlineMode)
-            {
-                updaterInterface = new OnlineUpdater(kvaserInterface);
-            }
-            else
-            {
-                updaterInterface = new FileUpdater(kvaserInterface, o.Binary);
-            }
-
-            updaterInterface.Update(o.TargetDevice);
-            updaterInterface.Verify();
+            // UpdaterInterface updaterInterface;
+            // if (o.OnlineMode)
+            // {
+            //     updaterInterface = new OnlineUpdater(kvaserInterface);
+            // }
+            // else
+            // {
+            //     updaterInterface = new FileUpdater(kvaserInterface, o.Binary);
+            // }
+            //
+            // updaterInterface.Update(o.TargetDevice);
+            // updaterInterface.Verify();
         });
         Console.WriteLine("Program End");
     }
