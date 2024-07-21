@@ -9,7 +9,6 @@ public class FileUpdater : UpdaterInterface
     {
     }
 
-
     public bool Update(int targetDeviceId)
     {
         throw new NotImplementedException();

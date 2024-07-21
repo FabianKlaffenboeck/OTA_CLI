@@ -22,10 +22,10 @@ class Program
                 {
                     Console.WriteLine("Found channel: {0} {1}", kInterface.Item1, kInterface.Item2);
                 }
+                return;
             }
 
-
-            // scanning for available devices on the can
+            // scanning for available targetDevices on the can
             if (o.Scan)
             {
                 Console.WriteLine("Scanning started, please wait...");
