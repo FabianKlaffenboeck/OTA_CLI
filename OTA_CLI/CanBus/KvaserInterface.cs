@@ -8,9 +8,10 @@ public class KvaserInterface
     private int _chanelId;
     private int _baudRate;
     private int _handle;
-    
+
     private static int _canTimeout = 1000;
-    
+
+    // index and name
     public List<Tuple<int, string>> Interfaces
     {
         get => _interfaces;
@@ -57,20 +58,43 @@ public class KvaserInterface
 
         status = Canlib.canBusOn(_handle);
         CheckForError(status, "canBusOn");
+
         
+        ReviverLoop();
         return true;
     }
 
+    /*
+     * write can message and wait for it to be send
+     */
     private void WriteMsg(CanMsg msg)
     {
         Canlib.canStatus status;
-        
-        status = Canlib.canWrite(_handle, msg.Id, msg.Data, msg.Dlc, msg.Flag);
+
+        status = Canlib.canWrite(_handle, msg.Id, msg.Data, msg.Dlc, msg.Flags);
         CheckForError(status, "canWrite");
-        
+
         // Maybe remove later because this is blocking
         status = Canlib.canWriteSync(_handle, _canTimeout);
         CheckForError(status, "canWriteSync");
+    }
+
+    private void ReviverLoop()
+    {
+        while (true)
+        {
+            byte[] data = new byte[8];
+            int id;
+            int dlc;
+            int flags;
+            long timestamp;
+            Canlib.canStatus status;
+            status = Canlib.canReadWait(_handle, out id, data, out dlc, out flags, out timestamp, 100);
+            if (status == Canlib.canStatus.canOK)
+            {
+                Console.WriteLine(new CanMsg(id, dlc, data, flags, timestamp));
+            }
+        }
     }
 
     /*
