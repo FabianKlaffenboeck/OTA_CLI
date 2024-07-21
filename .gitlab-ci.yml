@@ -29,4 +29,3 @@ build-executable:
   artifacts:
     paths:
       - ./tmp/build-artifact
-  
