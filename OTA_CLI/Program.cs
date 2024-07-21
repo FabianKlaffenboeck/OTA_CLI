@@ -22,6 +22,7 @@ class Program
                 {
                     Console.WriteLine("Found channel: {0} {1}", kInterface.Item1, kInterface.Item2);
                 }
+
                 return;
             }
 
@@ -50,11 +51,12 @@ class Program
             //
             // updaterInterface.Update(o.TargetDevice);
             // updaterInterface.Verify();
+
+            Console.WriteLine("waiting for key");
+            Console.ReadKey();
+            kvaserInterface.stop();
         });
-        
-        
-        Console.WriteLine("waiting for key");
-        Console.ReadKey();
+
         Console.WriteLine("Program End");
     }
 }

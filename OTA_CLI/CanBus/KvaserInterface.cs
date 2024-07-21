@@ -4,6 +4,8 @@ namespace OTA_CLI.CAN_Bus;
 
 public class KvaserInterface
 {
+    CancellationTokenSource cts = new CancellationTokenSource();
+
     private List<Tuple<int, string>> _interfaces = [];
     private int _chanelId;
     private int _baudRate;
@@ -22,17 +24,6 @@ public class KvaserInterface
     {
         _chanelId = chanelId;
         _baudRate = baudRate;
-    }
-
-
-    public void Deconstruct()
-    {
-        Canlib.canStatus status;
-        status = Canlib.canBusOff(_handle);
-        CheckForError(status, "canBusOff");
-
-        status = Canlib.canClose(_handle);
-        CheckForError(status, "canClose");
     }
 
     /*
@@ -59,13 +50,26 @@ public class KvaserInterface
         status = Canlib.canBusOn(_handle);
         CheckForError(status, "canBusOn");
 
-        
-        ReviverLoop();
+        // start the reader thread
+        new Thread(() => ReviverLoop(cts.Token)).Start();
+
         return true;
     }
 
+    public void stop()
+    {
+        Canlib.canStatus status;
+        status = Canlib.canBusOff(_handle);
+        CheckForError(status, "canBusOff");
+
+        status = Canlib.canClose(_handle);
+        CheckForError(status, "canClose");
+
+        cts.Cancel();
+    }
+
     /*
-     * write can message and wait for it to be send
+     * write can message and wait for it to be sent
      */
     private void WriteMsg(CanMsg msg)
     {
@@ -79,10 +83,16 @@ public class KvaserInterface
         CheckForError(status, "canWriteSync");
     }
 
-    private void ReviverLoop()
+    private void ReviverLoop(CancellationToken token)
     {
         while (true)
         {
+            // Check for cancellation request
+            if (token.IsCancellationRequested)
+            {
+                break;
+            }
+
             byte[] data = new byte[8];
             int id;
             int dlc;
