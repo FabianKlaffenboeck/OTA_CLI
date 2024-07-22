@@ -3,10 +3,14 @@ namespace OTA_CLI.CAN_Bus;
 public class CanMsg
 {
     private int _id = 0;
-    private int _dlc = 0;
+    private int _dlc = 8;
     private int _flags = 0;
     private byte[] _data = new byte[8];
     private long _timestamp = 0;
+
+    public CanMsg()
+    {
+    }
 
     public CanMsg(int id, int dlc, byte[] data, int flags, long timestamp)
     {

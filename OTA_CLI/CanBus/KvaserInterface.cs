@@ -83,6 +83,17 @@ public class KvaserInterface
         CheckForError(status, "canWriteSync");
     }
 
+    /*
+     * write can message and wait for it to be sent
+     */
+    private void WriteCmdMsg(CommandPacket cmd)
+    {
+        WriteMsg(cmd.MappedMsg);
+    }
+
+    /*
+     * continuously receive new messages
+     */
     private void ReviverLoop(CancellationToken token)
     {
         while (true)
@@ -103,6 +114,10 @@ public class KvaserInterface
             if (status == Canlib.canStatus.canOK)
             {
                 Console.WriteLine(new CanMsg(id, dlc, data, flags, timestamp));
+                if (id == 0x7d2)
+                {
+                    var tmp = new ResponsePacket(new CanMsg(id, dlc, data, flags, timestamp));
+                }
             }
         }
     }

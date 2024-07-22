@@ -13,7 +13,7 @@ class Program
         Parser.Default.ParseArguments<CommandLineOptions>(args).WithParsed<CommandLineOptions>(o =>
         {
             var kvaserInterface = new KvaserInterface(o.Interface, Canlib.canBITRATE_250K);
-
+        
             if (!kvaserInterface.init())
             {
                 Console.WriteLine("sorry, bit the selected device is not available");
@@ -22,10 +22,10 @@ class Program
                 {
                     Console.WriteLine("Found channel: {0} {1}", kInterface.Item1, kInterface.Item2);
                 }
-
+        
                 return;
             }
-
+        
             // scanning for available targetDevices on the can
             if (o.Scan)
             {
@@ -34,11 +34,11 @@ class Program
                 {
                     Console.WriteLine(device);
                 }
-
+        
                 return;
             }
-
-
+        
+        
             // UpdaterInterface updaterInterface;
             // if (o.OnlineMode)
             // {
@@ -51,12 +51,12 @@ class Program
             //
             // updaterInterface.Update(o.TargetDevice);
             // updaterInterface.Verify();
-
+        
             Console.WriteLine("waiting for key");
             Console.ReadKey();
             kvaserInterface.stop();
         });
-
+        
         Console.WriteLine("Program End");
     }
 }
