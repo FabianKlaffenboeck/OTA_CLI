@@ -1,3 +1,5 @@
+using System.Collections;
+using System.Collections.Concurrent;
 using Kvaser.CanLib;
 
 namespace OTA_CLI.CAN_Bus;
@@ -11,7 +13,10 @@ public class KvaserInterface
     private int _baudRate;
     private int _handle;
 
-    private static int _canTimeout = 1000;
+    ConcurrentQueue<ResponsePacket>
+        _revivedResponseMsgs = new ConcurrentQueue<ResponsePacket>(); // stores all incoming responses 
+
+    private static int _canTimeout = 1000; // in ms
 
     // index and name
     public List<Tuple<int, string>> Interfaces
@@ -53,6 +58,8 @@ public class KvaserInterface
         // start the reader thread
         new Thread(() => ReviverLoop(cts.Token)).Start();
 
+        var tmp = WriteCmdMsgRsp(new CommandPacket(0x01, 0xff, 0xff, 0xff, [0,1,1,1]));
+        
         return true;
     }
 
@@ -84,11 +91,34 @@ public class KvaserInterface
     }
 
     /*
-     * write can message and wait for it to be sent
+     * write command and wait for it to be sent
      */
     private void WriteCmdMsg(CommandPacket cmd)
     {
         WriteMsg(cmd.MappedMsg);
+    }
+
+    /*
+     * write command and wait for it to be sent and then wait for the corresponding response
+     */
+    private ResponsePacket WriteCmdMsgRsp(CommandPacket cmd)
+    {
+        ResponsePacket response = null;
+        WriteMsg(cmd.MappedMsg);
+
+        bool waitingForResponse = true;
+
+        // TODO add timeout
+        while (waitingForResponse)
+        {
+            if (_revivedResponseMsgs.TryDequeue(out var result) && (result.Cmd == cmd.Cmd))
+            {
+                response = result;
+                waitingForResponse = false;
+            }
+        }
+
+        return response;
     }
 
     /*
@@ -113,10 +143,10 @@ public class KvaserInterface
             status = Canlib.canReadWait(_handle, out id, data, out dlc, out flags, out timestamp, 100);
             if (status == Canlib.canStatus.canOK)
             {
-                Console.WriteLine(new CanMsg(id, dlc, data, flags, timestamp));
+                // if Response msg is detested
                 if (id == 0x7d2)
                 {
-                    var tmp = new ResponsePacket(new CanMsg(id, dlc, data, flags, timestamp));
+                    _revivedResponseMsgs.Enqueue(new ResponsePacket(new CanMsg(id, dlc, data, flags, timestamp)));
                 }
             }
         }
