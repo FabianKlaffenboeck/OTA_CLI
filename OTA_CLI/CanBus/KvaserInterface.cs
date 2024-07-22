@@ -57,8 +57,6 @@ public class KvaserInterface
 
         // start the reader thread
         new Thread(() => ReviverLoop(cts.Token)).Start();
-
-        var tmp = WriteCmdMsgRsp(new CommandPacket(0x01, 0xff, 0xff, 0xff, [0,1,1,1]));
         
         return true;
     }
