@@ -36,6 +36,7 @@ test:
     - build
   coverage: '/TOTAL_COVERAGE=(\d+.\d+)/'
   script:
+    - dotnet tool install -g dotnet-reportgenerator-globaltool
     - dotnet test *.sln --collect:"XPlat Code Coverage" --logger "junit;MethodFormat=Class;FailureBodyFormat=Verbose"
     - reportgenerator -reports:"**/coverage.cobertura.xml" -targetdir:"." -reporttypes:"cobertura"
     - COVERAGE_VALUE=$(grep -oPm 1 'line-rate="\K([0-9.]+)' "./Cobertura.xml")
