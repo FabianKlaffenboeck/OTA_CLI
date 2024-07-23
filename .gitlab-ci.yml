@@ -17,6 +17,7 @@ test:
   stage: test
   script:
     - dotnet test
+  coverage: '/Total\s*\|\s*(\d+(?:\.\d+)?)/'
 
 build-executable:
   <<: *dotnet-job
