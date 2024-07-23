@@ -15,9 +15,20 @@ build:
 test:
   <<: *dotnet-job
   stage: test
+  variables:
+    CONFIGURATION: "Debug"
+    COVERAGE_FLAG: "XPlat Code Coverage"
+    LOGGER_FLAG: "junit;LogFilePath=$CI_PROJECT_DIR/junit/junit-test-result.xml;MethodFormat=Class;FailureBodyFormat=Verbose"
   script:
-    - dotnet test
-  coverage: '/Total\s*\|\s*(\d+(?:\.\d+)?)/'
+    - 'dotnet test DotNetSolution 
+        --collect:"XPlat Code Coverage"
+        --results-directory cobertura'
+  artifacts:
+    reports:
+      coverage_report:
+        coverage_format: cobertura
+        path: cobertura/*/coverage.cobertura.xml
+
 
 build-executable:
   <<: *dotnet-job
