@@ -11,23 +11,6 @@ build:
   stage: build
   script:
     - dotnet build
-#
-#test:
-#  <<: *dotnet-job
-#  stage: test
-#  variables:
-#    CONFIGURATION: "Debug"
-#    COVERAGE_FLAG: "XPlat Code Coverage"
-#    LOGGER_FLAG: "junit;LogFilePath=$CI_PROJECT_DIR/junit/junit-test-result.xml;MethodFormat=Class;FailureBodyFormat=Verbose"
-#  script:
-#    - 'dotnet test 
-#        --collect:"XPlat Code Coverage"
-#        --results-directory cobertura'
-#  artifacts:
-#    reports:
-#      coverage_report:
-#        coverage_format: cobertura
-#        path: cobertura/*/coverage.cobertura.xml
 
 test_job:
   <<: *dotnet-job
@@ -59,36 +42,6 @@ test_job:
   dependencies:
     - build
   coverage: /total_coverage=(\d+.?\d?)/
-
-
-#test_job:
-#  <<: *dotnet-job
-#  stage: test
-#  script:
-#    - dotnet test --results-directory $CI_PROJECT_DIR/cobertura --collect:"XPlat Code Coverage" --test-adapter-path:. --logger:"junit;LogFilePath=..\artifacts\{assembly}-test.xml;MethodFormat=Class;FailureBodyFormat=Verbose"
-#    - cp $CI_PROJECT_DIR/cobertura/*/coverage.cobertura.xml $CI_PROJECT_DIR/cobertura/coverage.cobertura.xml
-#    - dotnet tool install -g dotnet-reportgenerator-globaltool
-#    - dotnet tool install -g CodeCoverageExtractor
-#    - /root/.dotnet/tools/reportgenerator -reports:"$CI_PROJECT_DIR/cobertura/coverage.cobertura.xml" -targetdir:"coveragereport" -reporttypes:"Html"
-#    - /root/.dotnet/tools/codecoverageextractor $CI_PROJECT_DIR/cobertura/coverage.cobertura.xml
-#    - tar -cvf coveragereport.tar coveragereport/
-#  artifacts:
-#    when: always
-#    expire_in: 1 week
-#    paths:
-#      - ./**/*test.xml
-#      - $CI_PROJECT_DIR/cobertura/coverage.cobertura.xml
-#      - coveragereport.tar
-#    reports:
-#      junit:
-#        - ./**/*test.xml
-#      coverage_report:
-#        coverage_format: cobertura
-#        path: $CI_PROJECT_DIR/cobertura/coverage.cobertura.xml
-#  dependencies:
-#    - build_job
-#  coverage: /total_coverage=(\d+.?\d?)/
-
 
 build-executable:
   <<: *dotnet-job
