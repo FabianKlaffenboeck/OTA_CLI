@@ -29,32 +29,37 @@ build:
 #        coverage_format: cobertura
 #        path: cobertura/*/coverage.cobertura.xml
 
-test:
-  <<: *dotnet-job
+test_job:
   stage: test
-  needs:
-    - build
-  coverage: '/TOTAL_COVERAGE=(\d+.\d+)/'
+  only:
+    - pushes
   script:
-    - dotnet test *.sln --collect:"XPlat Code Coverage" --logger "junit;MethodFormat=Class;FailureBodyFormat=Verbose"
+    - dotnet test --results-directory $CI_PROJECT_DIR/cobertura --collect:"XPlat Code Coverage" --test-adapter-path:. --logger:"junit;LogFilePath=..\artifacts\{assembly}-test.xml;MethodFormat=Class;FailureBodyFormat=Verbose"
+    - cp $CI_PROJECT_DIR/cobertura/*/coverage.cobertura.xml $CI_PROJECT_DIR/cobertura/coverage.cobertura.xml
     - dotnet tool install -g dotnet-reportgenerator-globaltool
-    - reportgenerator -reports:"**/coverage.cobertura.xml" -targetdir:"." -reporttypes:"cobertura"
-    - COVERAGE_VALUE=$(grep -oPm 1 'line-rate="\K([0-9.]+)' "./Cobertura.xml")
-    - COVERAGE=$(echo "scale=2; $COVERAGE_VALUE * 100" | bc)
-    - 'echo "TOTAL_COVERAGE=$COVERAGE%"'
+    - dotnet tool install -g CodeCoverageExtractor
+    - /root/.dotnet/tools/reportgenerator -reports:"$CI_PROJECT_DIR/cobertura/coverage.cobertura.xml" -targetdir:"coveragereport" -reporttypes:"Html"
+    - /root/.dotnet/tools/codecoverageextractor $CI_PROJECT_DIR/cobertura/coverage.cobertura.xml
+    - tar -cvf coveragereport.tar coveragereport/
   artifacts:
     when: always
-    expire_in: 1 day
+    expire_in: 1 week
     paths:
-      - ./**/TestResults.xml
-      - ./Cobertura.xml
+      - ./**/*test.xml
+      - $CI_PROJECT_DIR/cobertura/coverage.cobertura.xml
+      - coveragereport.tar
     reports:
       junit:
-        - ./**/TestResults.xml
+        - ./**/*test.xml
       coverage_report:
         coverage_format: cobertura
-        path: ./Cobertura.xml
-
+        path: $CI_PROJECT_DIR/cobertura/coverage.cobertura.xml
+  
+  dependencies:
+    - build
+  coverage: /total_coverage=(\d+.?\d?)/
+  
+  
 #test_job:
 #  <<: *dotnet-job
 #  stage: test
