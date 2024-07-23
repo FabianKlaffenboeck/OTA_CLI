@@ -30,6 +30,7 @@ build:
 #        path: cobertura/*/coverage.cobertura.xml
 
 test_job:
+  <<: *dotnet-job
   stage: test
   only:
     - pushes
@@ -58,8 +59,8 @@ test_job:
   dependencies:
     - build
   coverage: /total_coverage=(\d+.?\d?)/
-  
-  
+
+
 #test_job:
 #  <<: *dotnet-job
 #  stage: test
