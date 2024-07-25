@@ -13,6 +13,7 @@ public class CommandPacket
     public CommandPacket()
     {
         _mappedMsg.Id = 0x7d1;
+        RecompileMsg();
     }
 
     public CommandPacket(CanMsg msg)
@@ -28,6 +29,7 @@ public class CommandPacket
         {
             _data[dataBytePointer++] = msg.Data[i];
         }
+        RecompileMsg();
     }
 
     public CommandPacket(byte cmd, byte crc, byte size, byte targetId, byte[] data)
@@ -38,6 +40,7 @@ public class CommandPacket
         _size = size;
         _targetId = targetId;
         _data = data;
+        RecompileMsg();
     }
 
     public byte Cmd

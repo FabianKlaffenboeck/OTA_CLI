@@ -13,11 +13,12 @@ public class ResponsePacket
     public ResponsePacket()
     {
         _mappedMsg.Id = 0x7d2;
+        RecompileMsg();
     }
 
     public ResponsePacket(CanMsg msg)
     {
-        _mappedMsg.Id = 0x7d1;
+        _mappedMsg.Id = 0x7d2;
         _cmd = msg.Data[0];
         _crc = (byte)(msg.Data[1] & 0b00011111);
         _size = (byte)((msg.Data[1] >> 5) & 0b00000111);
@@ -28,16 +29,18 @@ public class ResponsePacket
         {
             _data[dataBytePointer++] = msg.Data[i];
         }
+        RecompileMsg();
     }
 
     public ResponsePacket(byte cmd, byte crc, byte size, byte senderId, byte[] data)
     {
-        _mappedMsg.Id = 0x7d1;
+        _mappedMsg.Id = 0x7d2;
         _cmd = cmd;
         _crc = crc;
         _size = size;
         _senderId = senderId;
         _data = data;
+        RecompileMsg();
     }
 
     public byte Cmd

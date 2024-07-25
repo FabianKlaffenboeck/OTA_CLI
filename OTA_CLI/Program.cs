@@ -51,7 +51,8 @@ class Program
             //
             // updaterInterface.Update(o.TargetDevice);
             // updaterInterface.Verify();
-        
+            
+            
             Console.WriteLine("waiting for key");
             Console.ReadKey();
             kvaserInterface.stop();
