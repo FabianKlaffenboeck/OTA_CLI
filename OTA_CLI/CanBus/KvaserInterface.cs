@@ -6,7 +6,7 @@ namespace OTA_CLI.CAN_Bus;
 
 public class KvaserInterface
 {
-    CancellationTokenSource cts = new CancellationTokenSource();
+    readonly CancellationTokenSource _cts = new CancellationTokenSource();
 
     private List<Tuple<int, string>> _interfaces = [];
     private int _chanelId;
@@ -34,7 +34,7 @@ public class KvaserInterface
     /*
      * initializes a can device
      */
-    public bool init()
+    public bool Init()
     {
         Canlib.canInitializeLibrary();
         ListChannels();
@@ -56,12 +56,12 @@ public class KvaserInterface
         CheckForError(status, "canBusOn");
 
         // start the reader thread
-        new Thread(() => ReviverLoop(cts.Token)).Start();
-        
+        new Thread(() => ReviverLoop(_cts.Token)).Start();
+
         return true;
     }
 
-    public void stop()
+    public void Stop()
     {
         Canlib.canStatus status;
         status = Canlib.canBusOff(_handle);
@@ -70,7 +70,7 @@ public class KvaserInterface
         status = Canlib.canClose(_handle);
         CheckForError(status, "canClose");
 
-        cts.Cancel();
+        _cts.Cancel();
     }
 
     /*
@@ -89,31 +89,21 @@ public class KvaserInterface
     }
 
     /*
-     * write command and wait for it to be sent
-     */
-    private void WriteCmdMsg(CommandPacket cmd)
-    {
-        WriteMsg(cmd.MappedMsg);
-    }
-
-    /*
      * write command and wait for it to be sent and then wait for the corresponding response
      */
-    private ResponsePacket WriteCmdMsgRsp(CommandPacket cmd)
+    public ResponsePacket? WriteCmdMsgRsp(CommandPacket cmd)
     {
-        ResponsePacket response = null;
+        ResponsePacket? response = null;
         WriteMsg(cmd.MappedMsg);
 
-        bool waitingForResponse = true;
+        var waitingForResponse = true;
 
         // TODO add timeout
         while (waitingForResponse)
         {
-            if (_revivedResponseMsgs.TryDequeue(out var result) && (result.Cmd == cmd.Cmd))
-            {
-                response = result;
-                waitingForResponse = false;
-            }
+            if (!_revivedResponseMsgs.TryDequeue(out var result) || (result.Cmd != cmd.Cmd)) continue;
+            response = result;
+            waitingForResponse = false;
         }
 
         return response;
@@ -132,20 +122,18 @@ public class KvaserInterface
                 break;
             }
 
-            byte[] data = new byte[8];
+            var data = new byte[8];
             int id;
             int dlc;
             int flags;
             long timestamp;
             Canlib.canStatus status;
             status = Canlib.canReadWait(_handle, out id, data, out dlc, out flags, out timestamp, 100);
-            if (status == Canlib.canStatus.canOK)
+            if (status != Canlib.canStatus.canOK) continue;
+            // if Response msg is detested
+            if (id == 0x7d2)
             {
-                // if Response msg is detested
-                if (id == 0x7d2)
-                {
-                    _revivedResponseMsgs.Enqueue(new ResponsePacket(new CanMsg(id, dlc, data, flags, timestamp)));
-                }
+                _revivedResponseMsgs.Enqueue(new ResponsePacket(new CanMsg(id, dlc, data, flags, timestamp)));
             }
         }
     }
@@ -163,7 +151,7 @@ public class KvaserInterface
             return;
         }
 
-        for (int i = 0; i < number_of_channels; i++)
+        for (var i = 0; i < number_of_channels; i++)
         {
             stat = Canlib.canGetChannelData(i, Canlib.canCHANNELDATA_DEVDESCR_ASCII, out object device_name);
             if (CheckForError(stat, "canGetChannelData"))
@@ -181,25 +169,19 @@ public class KvaserInterface
      */
     private bool CheckForError(Canlib.canStatus stat, string cmd)
     {
-        if (stat != Canlib.canStatus.canOK)
-        {
-            Canlib.canGetErrorText(stat, out string buf);
-            Console.WriteLine("[{0}] {1}: failed, stat={2}", cmd, buf, (int)stat);
-            return true;
-        }
-
-        return false;
+        if (stat == Canlib.canStatus.canOK) return false;
+        Canlib.canGetErrorText(stat, out string buf);
+        Console.WriteLine("[{0}] {1}: failed, stat={2}", cmd, buf, (int)stat);
+        return true;
     }
 
 
     /*
      * scans for target devices
      */
-    public List<TargetDevice> StartScan()
+    public List<TargetDevice> ScanForDevices()
     {
         List<TargetDevice> devices = [];
-
-        devices.Add(new TargetDevice(1, "", false));
 
         return devices;
     }

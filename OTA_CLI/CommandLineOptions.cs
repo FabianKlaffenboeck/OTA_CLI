@@ -26,7 +26,7 @@ public class CommandLineOptions
     [Option(shortName: 'd', longName: "device", Required = false,
         HelpText =
             "If more devices are available on one interface (e.g. one can Bus with multiple targets) then the device id has to be specified.")]
-    public int TargetDevice { get; set; }
+    public byte TargetDevice { get; set; }
 
     // if not in online mode, with binary should be flashed
     [Option(shortName: 'b', longName: "binary", Required = false, HelpText = "Binary to flash.", Default = "")]

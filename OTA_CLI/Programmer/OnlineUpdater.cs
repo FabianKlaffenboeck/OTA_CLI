@@ -5,17 +5,20 @@ namespace OTA_CLI;
 
 public class OnlineUpdater : UpdaterInterface
 {
+    private KvaserInterface _kvaserInterface;
+    
     public OnlineUpdater(KvaserInterface kvaserInterface)
     {
+        _kvaserInterface = kvaserInterface;
     }
 
-    public bool Update(int targetDeviceId)
+    public bool Update(byte targetDeviceId)
     {
-        throw new NotImplementedException();
+        return true;
     }
 
     public bool Verify()
     {
-        throw new NotImplementedException();
+        return true;
     }
 }

@@ -29,17 +29,18 @@ public class CommandPacket
         {
             _data[dataBytePointer++] = msg.Data[i];
         }
+
         RecompileMsg();
     }
 
     public CommandPacket(byte cmd, byte crc, byte size, byte targetId, byte[] data)
     {
         _mappedMsg.Id = 0x7d1;
-        _cmd = cmd;
-        _crc = crc;
-        _size = size;
-        _targetId = targetId;
-        _data = data;
+        Cmd = cmd;
+        Crc = crc;
+        Size = size;
+        TargetId = targetId;
+        Data = data;
         RecompileMsg();
     }
 
@@ -93,7 +94,11 @@ public class CommandPacket
                 throw new ArgumentNullException(nameof(value));
             }
 
-            _data = value ?? throw new ArgumentNullException(nameof(value));
+            for (var i = 0; i < value.Length; i++)
+            {
+                _data[i] = value[i];
+            }
+
             RecompileMsg();
         }
     }
