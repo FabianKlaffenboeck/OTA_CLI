@@ -12,9 +12,9 @@ public class KvaserInterface
     private int _chanelId;
     private int _baudRate;
     private int _handle;
-
+    
     ConcurrentQueue<ResponsePacket>
-        _revivedResponseMsgs = new ConcurrentQueue<ResponsePacket>(); // stores all incoming responses 
+    _revivedResponseMsgs = new ConcurrentQueue<ResponsePacket>(); // stores all incoming responses 
 
     private static int _canTimeout = 1000; // in ms
 
@@ -101,7 +101,8 @@ public class KvaserInterface
         // TODO add timeout
         while (waitingForResponse)
         {
-            if (!_revivedResponseMsgs.TryDequeue(out var result) || (result.Cmd != cmd.Cmd)) continue;
+            if (!_revivedResponseMsgs.TryDequeue(out var result)) continue;
+            if (result.Cmd != cmd.Cmd) continue;
             response = result;
             waitingForResponse = false;
         }
@@ -128,8 +129,9 @@ public class KvaserInterface
             int flags;
             long timestamp;
             Canlib.canStatus status;
-            status = Canlib.canReadWait(_handle, out id, data, out dlc, out flags, out timestamp, 100);
+            status = Canlib.canRead(_handle, out id, data, out dlc, out flags, out timestamp);
             if (status != Canlib.canStatus.canOK) continue;
+
             // if Response msg is detested
             if (id == 0x7d2)
             {

@@ -15,10 +15,10 @@ public class FileUpdater : UpdaterInterface
 
     public bool Update(byte targetDeviceId)
     {
-        var chunkedArray = FileToByteArray(_filePath).ToList().Chunk(4).ToList();
+        var dataBytes = FileToByteArray(_filePath).ToList();
+        var chunkedArray = dataBytes.Chunk(4).ToList();
 
-        byte[] lentBytes = BitConverter.GetBytes(chunkedArray.Count);
-        Array.Reverse(lentBytes);
+        byte[] lentBytes = BitConverter.GetBytes(dataBytes.Count);
 
         // FIXME something went wrong
         if (lentBytes.Length > 4)
@@ -30,12 +30,15 @@ public class FileUpdater : UpdaterInterface
             _kvaserInterface.WriteCmdMsgRsp(new CommandPacket(Commands.FLASH_BEGIN, 0, 4, targetDeviceId, lentBytes));
 
         byte msc = 0;
+        int i = 0;
         foreach (var bytese in chunkedArray)
         {
+            Console.WriteLine((i * 100) / chunkedArray.Count);
             var rspWrt = _kvaserInterface.WriteCmdMsgRsp(new CommandPacket(Commands.FLASH_DATA, 0, (byte)bytese.Length,
                 targetDeviceId, [msc, bytese[0], bytese[1], bytese[2], bytese[3]]));
 
             msc = (byte)(msc == 255 ? 0 : msc + 1);
+            ++i;
         }
 
         var rspEnd =
