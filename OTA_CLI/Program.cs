@@ -18,7 +18,7 @@ class Program
             return;
         }
 
-        var kvaserInterface = new KvaserInterface(options.Interface, Canlib.canBITRATE_250K);
+        var kvaserInterface = new KvaserInterface(options.Interface, Canlib.canBITRATE_500K);
 
         if (!kvaserInterface.Init())
         {
@@ -56,6 +56,7 @@ class Program
         }
 
         updater.Update(options.TargetDevice);
+        Console.WriteLine("upload complete");
         updater.Verify();
 
 

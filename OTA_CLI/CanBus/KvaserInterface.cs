@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Concurrent;
 using Kvaser.CanLib;
 
@@ -6,16 +5,15 @@ namespace OTA_CLI.CAN_Bus;
 
 public class KvaserInterface
 {
-    readonly CancellationTokenSource _cts = new CancellationTokenSource();
+    private readonly CancellationTokenSource _cts = new CancellationTokenSource();
+
+    private ResponsePacket? _responsePacket;
 
     private List<Tuple<int, string>> _interfaces = [];
     private int _chanelId;
     private int _baudRate;
     private int _handle;
     
-    ConcurrentQueue<ResponsePacket>
-    _revivedResponseMsgs = new ConcurrentQueue<ResponsePacket>(); // stores all incoming responses 
-
     private static int _canTimeout = 1000; // in ms
 
     // index and name
@@ -96,17 +94,14 @@ public class KvaserInterface
         ResponsePacket? response = null;
         WriteMsg(cmd.MappedMsg);
 
-        var waitingForResponse = true;
 
         // TODO add timeout
-        while (waitingForResponse)
+        while (_responsePacket == null)
         {
-            if (!_revivedResponseMsgs.TryDequeue(out var result)) continue;
-            if (result.Cmd != cmd.Cmd) continue;
-            response = result;
-            waitingForResponse = false;
+            response = _responsePacket;
         }
 
+        _responsePacket = null;
         return response;
     }
 
@@ -135,7 +130,7 @@ public class KvaserInterface
             // if Response msg is detested
             if (id == 0x7d2)
             {
-                _revivedResponseMsgs.Enqueue(new ResponsePacket(new CanMsg(id, dlc, data, flags, timestamp)));
+                _responsePacket = new ResponsePacket(new CanMsg(id, dlc, data, flags, timestamp));
             }
         }
     }
@@ -147,21 +142,21 @@ public class KvaserInterface
     {
         Canlib.canStatus stat;
 
-        stat = Canlib.canGetNumberOfChannels(out int number_of_channels);
+        stat = Canlib.canGetNumberOfChannels(out int numberOfChannels);
         if (CheckForError(stat, "canGetNumberOfChannels"))
         {
             return;
         }
 
-        for (var i = 0; i < number_of_channels; i++)
+        for (var i = 0; i < numberOfChannels; i++)
         {
-            stat = Canlib.canGetChannelData(i, Canlib.canCHANNELDATA_DEVDESCR_ASCII, out object device_name);
+            stat = Canlib.canGetChannelData(i, Canlib.canCHANNELDATA_DEVDESCR_ASCII, out object deviceName);
             if (CheckForError(stat, "canGetChannelData"))
             {
                 return;
             }
 
-            _interfaces.Add(new Tuple<int, string>(i, device_name.ToString()));
+            _interfaces.Add(new Tuple<int, string>(i, deviceName.ToString()));
         }
     }
 
