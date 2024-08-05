@@ -1,7 +1,6 @@
-﻿using System;
-using System.Text;
-using CommandLine;
+﻿using CommandLine;
 using Kvaser.CanLib;
+using OTA_CLI.CAN_Bus;
 
 namespace OTA_CLI;
 
@@ -9,77 +8,62 @@ class Program
 {
     static void Main(string[] args)
     {
+        CommandLineOptions? options = null;
 
-        Canlib.canInitializeLibrary();
-        ListChannels();
-        
-        // CommandLine.Parser.Default.ParseArguments<CommandLineOptions>(args).WithParsed<CommandLineOptions>(o =>
-        // {
-        //     var progInterface = new ProgInterface(o.Interface);
-        //
-        //     if (o.Scan)
-        //     {
-        //         Console.WriteLine("Scanning started, please wait...");
-        //         foreach (var device in progInterface.StartScan())
-        //         {
-        //             Console.WriteLine(device);
-        //         }
-        //
-        //         return;
-        //     }
-        //
-        //
-        //     Updater updater;
-        //
-        //     if (o.OnlineMode)
-        //     {
-        //         updater = new OnlineUpdater(progInterface);
-        //     }
-        //     else
-        //     {
-        //         updater = new FileUpdater(progInterface, o.Binary);
-        //     }
-        //
-        //     updater.Update(o.TargetDevice);
-        //     updater.Verify();
-        // });
+        Parser.Default.ParseArguments<CommandLineOptions>(args).WithParsed(o => { options = o; });
+
+        if (options == null)
+        {
+            Console.WriteLine("Sorry bit something went wrong");
+            return;
+        }
+
+        var kvaserInterface = new KvaserInterface(options.Interface, Canlib.canBITRATE_500K);
+
+        if (!kvaserInterface.Init())
+        {
+            Console.WriteLine("sorry, but the selected device is not available");
+            Console.WriteLine("available devices are:");
+            foreach (var kInterface in kvaserInterface.Interfaces)
+            {
+                Console.WriteLine("Found channel: {0} {1}", kInterface.Item1, kInterface.Item2);
+            }
+
+            return;
+        }
+
+        // scanning for available targetDevices on the can
+        if (options.Scan)
+        {
+            Console.WriteLine("Scanning started, please wait...");
+            foreach (var device in kvaserInterface.ScanForDevices())
+            {
+                Console.WriteLine(device);
+            }
+
+            return;
+        }
+
+
+        UpdaterInterface updater;
+        if (options.OnlineMode)
+        {
+            updater = new OnlineUpdater(kvaserInterface);
+        }
+        else
+        {
+            updater = new FileUpdater(kvaserInterface, options.Binary);
+        }
+
+        updater.Update(options.TargetDevice);
+        Console.WriteLine("upload complete");
+        updater.Verify();
+
+
+        Console.WriteLine("waiting for key");
+        Console.ReadKey();
+        kvaserInterface.Stop();
+
         Console.WriteLine("Program End");
     }
-    
-    
-    // When called CheckForError will check for and print any error.
-    // Return true if an error has occured.
-    static public bool CheckForError(string cmd, Canlib.canStatus stat)
-    {
-        if (stat != Canlib.canStatus.canOK)
-        {
-            Canlib.canGetErrorText(stat, out string buf);
-            Console.WriteLine("[{0}] {1}: failed, stat={2}", cmd, buf, (int)stat);
-            return true;
-        }
-        return false;
-    }
-    
-    // ListChannels prints a list of all connected CAN interfaces.
-    static public void ListChannels()
-    {
-        Canlib.canStatus stat;
-        // Get number channels
-        stat = Canlib.canGetNumberOfChannels(out int number_of_channels);
-        if (CheckForError("canGetNumberOfChannels", stat))
-            return;
-        Console.WriteLine("Found {0} channels", number_of_channels);
-        // Loop and print all channels
-        for (int i = 0; i < number_of_channels; i++)
-        {
-            stat = Canlib.canGetChannelData(i, Canlib.canCHANNELDATA_DEVDESCR_ASCII, out object device_name);
-            if (CheckForError("canGetChannelData", stat))
-                return;
-            stat = Canlib.canGetChannelData(i, Canlib.canCHANNELDATA_CHAN_NO_ON_CARD, out object device_channel);
-            if (CheckForError("canGetChannelData", stat))
-                return;
-            Console.WriteLine("Found channel: {0} {1} {2}", i, device_name, ((UInt32)device_channel + 1));
-        }
-    }
-    
 }

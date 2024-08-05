@@ -6,6 +6,13 @@ public class TargetDevice
     private string? currentVersion;
     private bool? newVersionAvailable;
 
+    public TargetDevice(int? id, string? currentVersion, bool? newVersionAvailable)
+    {
+        this.id = id;
+        this.currentVersion = currentVersion;
+        this.newVersionAvailable = newVersionAvailable;
+    }
+
     public int? Id
     {
         get => id;
